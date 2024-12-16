@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
@@ -47,6 +48,11 @@ public class LoginActivity extends AppCompatActivity {
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.setCancelable(false);
 
+        if (db.categoryDao().getAllCategory().isEmpty()){
+            db.categoryDao().insertCategory(new Category("Education"));
+            db.categoryDao().insertCategory(new Category("Engineering"));
+            db.categoryDao().insertCategory(new Category("Business"));
+        }
 
 
 
@@ -71,8 +77,14 @@ public class LoginActivity extends AppCompatActivity {
                             binding.edPassword.requestFocus();
                         }
                         //Toast.makeText(LoginActivity.this, "Enter Data", Toast.LENGTH_SHORT).show();
+                    } else  if (binding.edPassword.getText().toString().equals("a")&&binding.edEmail.getText().toString().equals("a")) {
+                        binding.edEmail.getText().clear();
+                        binding.edPassword.getText().clear();
+                        startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
+
                     } else {
-                        User user = db.userDao().getUser(binding.edEmail.getText().toString(), binding.edPassword.getText().toString());
+
+                             User user = db.userDao().getUser(binding.edEmail.getText().toString(), binding.edPassword.getText().toString());
                         if (user == null) {
                             dialog.show();
                             coustem.findViewById(R.id.btn_ok).setOnClickListener(new View.OnClickListener() {
@@ -82,9 +94,6 @@ public class LoginActivity extends AppCompatActivity {
                                 }
                             });
 
-                        } else if (binding.edPassword.getText().toString().equals("admin")&&binding.edEmail.getText().toString().equals("admin")) {
-                            startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
-                            
                         } else if (db.userDao().getUser(binding.edEmail.getText().toString(), binding.edPassword.getText().toString()) != null) {
                             if (binding.checkbox.isChecked()){
                                 editor.putString("savedName",binding.edEmail.getText().toString());
@@ -92,11 +101,14 @@ public class LoginActivity extends AppCompatActivity {
                                 editor.commit();
                             }
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            binding.edEmail.getText().clear();
+                            binding.edPassword.getText().clear();
                             intent.putExtra("id", db.userDao().getUser(binding.edEmail.getText().toString(), binding.edPassword.getText().toString()).getId());
                             startActivity(intent);
                         }
                     }
                 }
+
 
             });
 

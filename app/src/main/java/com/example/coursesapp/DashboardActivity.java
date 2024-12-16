@@ -1,5 +1,6 @@
 package com.example.coursesapp;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
@@ -34,7 +36,7 @@ public class DashboardActivity extends AppCompatActivity {
         });
         db=Appdatabase.getDatabase(this);
 
-        View coustem= LayoutInflater.from(DashboardActivity.this).inflate(R.layout.log,null);
+        View coustem= LayoutInflater.from(DashboardActivity.this).inflate(R.layout.log2,null);
         AlertDialog.Builder bulder=new AlertDialog.Builder(this);
         bulder.setView(coustem);
         EditText ed_category_name=coustem.findViewById(R.id.ed_category_name);
@@ -46,15 +48,31 @@ public class DashboardActivity extends AppCompatActivity {
         AlertDialog dialog=bulder.create();
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.setCancelable(false);
-        dialog.show();
 
+        binding.btnAddcategory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.show();
+
+            }
+        });
         btn_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (ed_category_name.getText().toString().isEmpty()){
+                    Toast.makeText(DashboardActivity.this, "Enter Category Name", Toast.LENGTH_SHORT).show();
+                }else {
+                    db.categoryDao().insertCategory(new Category(ed_category_name.getText().toString()));
+                    ed_category_name.getText().clear();
+                    dialog.hide();
+                }
+            }
+        });
 
-                db.categoryDao().insertCategory(new Category(ed_category_name.getText().toString()));
-                dialog.hide();
-
+        binding.btnShowAllcategory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(DashboardActivity.this,ShowAllCategoriesActivity.class));
             }
         });
 
