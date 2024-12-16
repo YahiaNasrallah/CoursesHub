@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".LoginActivity">
+
+    <TextView
+        android:text="CourseHub"
+        android:layout_marginTop="50dp"
+        android:layout_gravity="center"
+        android:textColor="#1f319d"
+        android:textSize="35sp"
+        android:fontFamily="@font/wsregular"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:text="Login to your Account"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="80dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:id="@+id/ed_email"
+        android:layout_width="350dp"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+        android:paddingStart="20dp"
+        android:paddingEnd="10dp"
+        android:textStyle="bold"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/edittext"
+        android:layout_height="60dp"/>
+    <EditText
+        android:id="@+id/ed_password"
+        android:layout_width="350dp"
+        android:hint="Password"
+        android:paddingStart="20dp"
+        android:textStyle="bold"
+        android:inputType="textPassword"
+        android:paddingEnd="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        android:background="@drawable/edittext"
+        android:layout_height="60dp"/>
+
+
+        <CheckBox
+            android:id="@+id/checkbox"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:text="Remember Me"
+            android:layout_gravity="center"
+
+            android:layout_marginTop="10dp"
+            />
+
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_signin"
+        android:layout_width="350dp"
+        android:layout_height="65dp"
+        android:layout_gravity="center"
+        android:backgroundTint="#1f319d"
+        android:layout_marginTop="50dp"
+        android:text="Sign In"
+        android:textSize="18sp"
+        app:cornerRadius="15dp"
+        />
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="50dp"
+        android:layout_marginTop="20dp"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:text="Dont have an account?"/>
+        <TextView
+            android:id="@+id/btn_signup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#1f319d"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginStart="10dp"
+            android:text="ٍِSign up"/>
+    </LinearLayout>
+
+
+</LinearLayout>

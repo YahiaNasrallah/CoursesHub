@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".SignUpActivity">
+
+    <ImageView
+        android:id="@+id/btn_back"
+        android:layout_width="35dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_height="35dp"
+        android:src="@drawable/baseline_arrow_upward_24"/>
+    <TextView
+        android:text="CourseHub"
+        android:layout_marginTop="30dp"
+        android:layout_gravity="center"
+        android:textColor="#1f319d"
+        android:textSize="35sp"
+        android:fontFamily="@font/wsregular"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:text="Create Your Account"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="50dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <EditText
+        android:id="@+id/ed_username"
+        android:inputType="textPersonName"
+        android:layout_width="350dp"
+        android:hint="Username"
+        android:paddingEnd="10dp"
+        android:paddingStart="20dp"
+        android:textStyle="bold"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/edittext"
+        android:layout_height="60dp"/>
+
+    <EditText
+        android:id="@+id/ed_email"
+        android:layout_width="350dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:inputType="textEmailAddress"
+        android:paddingEnd="10dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/edittext"
+        android:hint="Email"
+        android:paddingStart="20dp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/ed_password"
+        android:layout_width="350dp"
+        android:hint="Password"
+        android:inputType="textVisiblePassword"
+        android:paddingStart="20dp"
+        android:paddingEnd="10dp"
+        android:textStyle="bold"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        android:background="@drawable/edittext"
+        android:layout_height="60dp"/>
+    <EditText
+        android:id="@+id/ed_repassword"
+        android:layout_width="350dp"
+        android:hint="RePassword"
+        android:inputType="textVisiblePassword"
+        android:paddingEnd="10dp"
+        android:paddingStart="20dp"
+        android:textStyle="bold"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        android:background="@drawable/edittext"
+        android:layout_height="60dp"/>
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_signup"
+        android:layout_width="350dp"
+        android:layout_height="65dp"
+        android:layout_gravity="center"
+        android:backgroundTint="#1f319d"
+        android:layout_marginTop="50dp"
+        android:text="Sign Up"
+        android:textSize="18sp"
+        app:cornerRadius="15dp"
+        />
+
+
+</LinearLayout>

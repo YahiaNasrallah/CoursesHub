@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:elevation="10dp"
+    android:id="@+id/lin_item"
+    app:cardCornerRadius="20dp"
+    android:layout_marginHorizontal="20dp"
+    android:layout_marginVertical="20dp"
+    android:layout_height="wrap_content">
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginVertical="20dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_namecourse_item"
+            android:layout_width="wrap_content"
+            android:text="CourseName"
+            android:textStyle="bold"
+            android:textSize="24sp"
+            android:textColor="@color/my"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/tv_instructorname_item"
+            android:layout_width="wrap_content"
+            android:text="InstructorName"
+            android:layout_gravity="center"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:layout_marginTop="10dp"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/tv_description_item"
+            android:layout_width="wrap_content"
+            android:text="Description"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content"/>
+
+
+
+
+
+
+    </LinearLayout>
+
+
+
+
+
+
+
+</androidx.cardview.widget.CardView>
