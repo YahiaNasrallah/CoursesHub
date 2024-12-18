@@ -13,16 +13,19 @@
         android:theme="@style/Theme.CoursesApp"
         tools:targetApi="31">
         <activity
-            android:name=".AddEditCorseActivity"
-            android:windowSoftInputMode="adjustPan"
+            android:name=".AddLectureActivity"
             android:exported="false" />
+        <activity
+            android:name=".AddEditCorseActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ShowAllCoursesActivity"
             android:exported="false" />
         <activity
             android:name=".DashboardActivity"
-            android:windowSoftInputMode="adjustPan"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".SignUpActivity"
             android:exported="false" />

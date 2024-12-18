@@ -13,6 +13,6 @@ public interface LectureDao {
     void insertLecture(Lecture lecture);
 
     @Query("SELECT * FROM Lecture where CourseID=:courseid")
-    List<Lecture> getAllLecturesByCourseID(String courseid);
+    List<Lecture> getAllLecturesByCourseID(long courseid);
 
 }

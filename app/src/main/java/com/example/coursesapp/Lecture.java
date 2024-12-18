@@ -11,6 +11,8 @@ public class Lecture {
     @PrimaryKey(autoGenerate = true)
     private long id;
     @NonNull
+    private String LectureName;
+    @NonNull
     private int LectureNumber;
     @NonNull
     private String LectureLink;
@@ -24,7 +26,8 @@ public class Lecture {
 
     }
 
-    public Lecture(int lectureNumber, @NonNull String lectureLink, @NonNull String description, long courseID) {
+    public Lecture(String lectureName,int lectureNumber, @NonNull String lectureLink, @NonNull String description, long courseID) {
+        LectureName = lectureName;
         LectureNumber = lectureNumber;
         LectureLink = lectureLink;
         Description = description;
@@ -71,5 +74,12 @@ public class Lecture {
 
     public void setCourseID(long courseID) {
         CourseID = courseID;
+    }
+    @NonNull
+    public String getLectureName() {
+        return LectureName;
+    }
+    public void setLectureName(@NonNull String lectureName) {
+        LectureName = lectureName;
     }
 }

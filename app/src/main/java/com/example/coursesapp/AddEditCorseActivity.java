@@ -150,6 +150,7 @@ public class AddEditCorseActivity extends AppCompatActivity {
                         course.setPrice(binding.edPrice.getText().toString());
                         course.setTitle(binding.edTitle.getText().toString());
                         course.setLectureNumber(LecNum);
+
                         course.setDetails(binding.edDetails.getText().toString());
                         course.setNumberOfStudents(0);
                         course.setCategoryID(db.categoryDao().getCategoryByTitle(Category).getId());

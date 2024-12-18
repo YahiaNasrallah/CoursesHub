@@ -20,7 +20,6 @@ public class Course {
     private String InstructorName;
     @NonNull
     private String Price;
-    @NonNull
     private int NumberOfStudents;
     @NonNull
     private String Hours;
