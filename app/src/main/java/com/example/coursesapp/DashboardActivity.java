@@ -62,9 +62,13 @@ public class DashboardActivity extends AppCompatActivity {
                 if (ed_category_name.getText().toString().isEmpty()){
                     Toast.makeText(DashboardActivity.this, "Enter Category Name", Toast.LENGTH_SHORT).show();
                 }else {
+                    if(db.categoryDao().getCategoryByName(ed_category_name.getText().toString())){
+                        Toast.makeText(DashboardActivity.this, "Category Already Exist", Toast.LENGTH_SHORT).show();
+                    }else {
                     db.categoryDao().insertCategory(new Category(ed_category_name.getText().toString()));
                     ed_category_name.getText().clear();
                     dialog.hide();
+                }
                 }
             }
         });

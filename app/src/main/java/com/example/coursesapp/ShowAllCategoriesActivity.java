@@ -45,8 +45,6 @@ public class ShowAllCategoriesActivity extends AppCompatActivity {
             return insets;
         });
 
-
-
         db=Appdatabase.getDatabase(this);
 
         GetAdapter(db.categoryDao().getAllCategory());

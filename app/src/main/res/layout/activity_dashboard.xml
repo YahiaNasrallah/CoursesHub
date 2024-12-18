@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#EDECEC"
+    android:background="@drawable/dashbackgroud"
     tools:context=".DashboardActivity">
 
     <TextView
@@ -24,7 +24,7 @@
         android:text="Dashboard"
         android:layout_gravity="center"
         android:textSize="30sp"
-        android:textColor="#64B5F6"
+        android:textColor="@color/white"
         android:fontFamily="@font/wsregular"
         android:layout_marginTop="20dp"
         android:layout_height="wrap_content"/>
@@ -60,10 +60,24 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_addCourse"
         android:layout_width="350dp"
-        app:cornerRadius="15dp"
-        android:backgroundTint="#64B5F6"
-        android:layout_gravity="center"
         android:layout_marginTop="20dp"
-        android:text="Add Course"
+        app:cornerRadius="15dp"
+        android:backgroundTint="@color/white"
+        android:textColor="@color/black"
+        android:layout_gravity="center"
+        android:text="Add Courses"
         android:layout_height="60dp"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_ShowAllCourses"
+        android:layout_width="350dp"
+        app:cornerRadius="15dp"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="@color/white"
+        android:textColor="@color/black"
+        android:layout_gravity="center"
+        android:text="Show All Courses"
+        android:layout_height="60dp"/>
+
+
 </LinearLayout>

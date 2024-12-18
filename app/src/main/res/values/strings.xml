@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">CoursesApp</string>
-</resources>
+        <string-array name="spinner_items">
+            <item>1 Lecture</item>
+            <item>2 Lecture</item>
+            <item>3 Lecture</item>
+            <item>4 Lecture</item>
+            <item>5 Lecture</item>
+            <item>6 Lecture</item>
+        </string-array>
+    </resources>
+

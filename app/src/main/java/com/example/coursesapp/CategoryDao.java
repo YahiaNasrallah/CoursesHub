@@ -20,6 +20,9 @@ public interface CategoryDao {
     @Query("SELECT * FROM Category WHERE id = :id")
     Category getCategoryById(long id);
 
+    @Query("SELECT * FROM Category WHERE CategoryName = :name")
+    boolean getCategoryByName(String name);
+
     @Update
     void updateCategory(Category category);
 
