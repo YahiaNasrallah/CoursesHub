@@ -8,5 +8,11 @@
             <item>5 Lecture</item>
             <item>6 Lecture</item>
         </string-array>
+    <string-array name="spinner_items_categories">
+        <item>Education</item>
+        <item>Engineering</item>
+        <item>Business</item>
+        <item>Other</item>
+    </string-array>
     </resources>
 

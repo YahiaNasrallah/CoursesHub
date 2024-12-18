@@ -52,6 +52,7 @@ public class LoginActivity extends AppCompatActivity {
             db.categoryDao().insertCategory(new Category("Education"));
             db.categoryDao().insertCategory(new Category("Engineering"));
             db.categoryDao().insertCategory(new Category("Business"));
+            db.categoryDao().insertCategory(new Category("Other"));
         }
 
 
