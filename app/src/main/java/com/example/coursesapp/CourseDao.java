@@ -1,6 +1,7 @@
 package com.example.coursesapp;
 
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
@@ -27,6 +28,9 @@ public interface CourseDao {
 
     @Update
     void updateCourse(Course course);
+
+    @Delete
+    void deleteCourse(Course course);
 
 
 }

@@ -59,6 +59,13 @@ public class CourseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             }
         });
 
+        myviewHolder.binding.getRoot().setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                clickHandle.onLongItemClick(position);
+                return false;
+            }
+        });
 
 
 
@@ -85,6 +92,7 @@ public class CourseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     //اصدار امر عند الضغط على عنصر ولكن من main
     public interface ClickHandle{
         void onItemClick(int position);
+        void onLongItemClick(int position);
 
     }
 
