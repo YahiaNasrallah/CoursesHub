@@ -19,6 +19,8 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.coursesapp.databinding.ActivityDashboardBinding;
 
+import java.util.Locale;
+
 public class DashboardActivity extends AppCompatActivity {
 
     ActivityDashboardBinding binding;
@@ -47,7 +49,7 @@ public class DashboardActivity extends AppCompatActivity {
 
         AlertDialog dialog=bulder.create();
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.setCancelable(false);
+        dialog.setCancelable(true);
 
         binding.btnAddcategory.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,7 +64,7 @@ public class DashboardActivity extends AppCompatActivity {
                 if (ed_category_name.getText().toString().isEmpty()){
                     Toast.makeText(DashboardActivity.this, "Enter Category Name", Toast.LENGTH_SHORT).show();
                 }else {
-                    if(db.categoryDao().getCategoryByName(ed_category_name.getText().toString())){
+                    if(db.categoryDao().getCategoryByName(ed_category_name.getText().toString().toLowerCase(Locale.ROOT).toLowerCase())){
                         Toast.makeText(DashboardActivity.this, "Category Already Exist", Toast.LENGTH_SHORT).show();
                     }else {
                     db.categoryDao().insertCategory(new Category(ed_category_name.getText().toString()));
@@ -76,10 +78,26 @@ public class DashboardActivity extends AppCompatActivity {
         binding.btnShowAllcategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(DashboardActivity.this,ShowAllCategoriesActivity.class));
+                Intent intent=new Intent(DashboardActivity.this, ShowAllCategoriesCoursesActivity.class);
+                intent.putExtra("c","category");
+                startActivity(intent);
             }
         });
 
+        binding.btnAddCourse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(DashboardActivity.this, AddCorseActivity.class));
+            }
+        });
+        binding.btnShowAllCourses.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(DashboardActivity.this, ShowAllCategoriesCoursesActivity.class);
+                intent.putExtra("c","course");
+                startActivity(intent);
+            }
+        });
 
 
 

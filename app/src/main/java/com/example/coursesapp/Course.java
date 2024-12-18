@@ -21,7 +21,7 @@ public class Course {
     @NonNull
     private String Price;
     @NonNull
-    private String NumberOfStudents;
+    private int NumberOfStudents;
     @NonNull
     private String Hours;
     @NonNull
@@ -40,7 +40,7 @@ public class Course {
         this.InstructorName = instructorName;
         this.CategoryID=categoryID;
     }
-    public Course(@NonNull String title, @NonNull String description, @NonNull String instructorName, @NonNull String price, @NonNull String numberOfStudents, @NonNull String hours, @NonNull String details,@NonNull int lectureNumber, @NonNull long categoryID) {
+    public Course(@NonNull String title, @NonNull String description, @NonNull String instructorName, @NonNull String price, @NonNull int numberOfStudents, @NonNull String hours, @NonNull String details,@NonNull int lectureNumber, @NonNull long categoryID) {
         this.Title = title;
         this.Description = description;
         this.InstructorName = instructorName;
@@ -106,11 +106,11 @@ public class Course {
     }
 
     @NonNull
-    public String getNumberOfStudents() {
+    public int getNumberOfStudents() {
         return NumberOfStudents;
     }
 
-    public void setNumberOfStudents(@NonNull String numberOfStudents) {
+    public void setNumberOfStudents(@NonNull int numberOfStudents) {
         NumberOfStudents = numberOfStudents;
     }
 

@@ -25,12 +25,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.coursesapp.databinding.ActivityShowAllCategoriesBinding;
 
 import java.util.List;
+import java.util.Objects;
 
-public class ShowAllCategoriesActivity extends AppCompatActivity {
+public class ShowAllCategoriesCoursesActivity extends AppCompatActivity {
 
     Appdatabase db;
     ActivityShowAllCategoriesBinding binding;
     CategoryAdapter adapter;
+    CourseAdapter adapter2;
     long id;
 
     @Override
@@ -47,7 +49,19 @@ public class ShowAllCategoriesActivity extends AppCompatActivity {
 
         db=Appdatabase.getDatabase(this);
 
-        GetAdapter(db.categoryDao().getAllCategory());
+
+        if (Objects.equals(getIntent().getStringExtra("c"), "category")){
+            GetAdapterCategory(db.categoryDao().getAllCategory());
+
+
+
+        } else if (Objects.equals(getIntent().getStringExtra("c"), "course")) {
+            Toast.makeText(this, String.valueOf(db.courseDao().getAllCourses().size()), Toast.LENGTH_SHORT).show();
+            GetAdapterCourse(db.courseDao().getAllCourses());
+
+        }
+
+
 
         binding.backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,10 +69,6 @@ public class ShowAllCategoriesActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-
-
-
     }
 
     @Override
@@ -81,12 +91,12 @@ public class ShowAllCategoriesActivity extends AppCompatActivity {
                 Category category = db.categoryDao().getCategoryById(id);
                 db.categoryDao().deleteCategory(category);
                 adapter.notifyDataSetChanged();
-                GetAdapter(db.categoryDao().getAllCategory());
+                GetAdapterCategory(db.categoryDao().getAllCategory());
             }
 
 
         }else if (item.getItemId()==R.id.menu_edit) {
-            View coustem = LayoutInflater.from(ShowAllCategoriesActivity.this).inflate(R.layout.log2, null);
+            View coustem = LayoutInflater.from(ShowAllCategoriesCoursesActivity.this).inflate(R.layout.log2, null);
             AlertDialog.Builder bulder = new AlertDialog.Builder(this);
             bulder.setView(coustem);
             EditText ed_category_name = coustem.findViewById(R.id.ed_category_name);
@@ -109,7 +119,7 @@ public class ShowAllCategoriesActivity extends AppCompatActivity {
                     public void onClick(View v) {
 
                         if (ed_category_name.getText().toString().isEmpty()) {
-                         Toast.makeText(ShowAllCategoriesActivity.this, "Enter Category Name", Toast.LENGTH_SHORT).show();
+                         Toast.makeText(ShowAllCategoriesCoursesActivity.this, "Enter Category Name", Toast.LENGTH_SHORT).show();
                         }else {
                             Category category = db.categoryDao().getCategoryById(id);
                             category.setCategoryName(ed_category_name.getText().toString());
@@ -117,7 +127,7 @@ public class ShowAllCategoriesActivity extends AppCompatActivity {
                             ed_category_name.getText().clear();
                             dialog.hide();
                             adapter.notifyDataSetChanged();
-                            GetAdapter(db.categoryDao().getAllCategory());
+                            GetAdapterCategory(db.categoryDao().getAllCategory());
                         }
                     }
                 });
@@ -127,7 +137,22 @@ public class ShowAllCategoriesActivity extends AppCompatActivity {
 
     }
 
-    void GetAdapter(List<Category> categoryList){
+    void GetAdapterCourse(List<Course> courseList) {
+
+        adapter2=new CourseAdapter(this, courseList, new CourseAdapter.ClickHandle() {
+            @Override
+            public void onItemClick(int position) {
+
+            }
+
+        });
+
+                binding.recyclerview.setAdapter(adapter2);
+        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);
+        binding.recyclerview.setLayoutManager(linearLayoutManager);
+
+    }
+    void GetAdapterCategory(List<Category> categoryList){
         adapter=new CategoryAdapter(this, categoryList, new CourseAdapter.ClickHandle() {
             @Override
             public void onItemClick(int position) {
