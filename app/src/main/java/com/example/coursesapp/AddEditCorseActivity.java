@@ -204,8 +204,11 @@ public class AddEditCorseActivity extends AppCompatActivity {
                         adapter = new LectureAdapter(AddEditCorseActivity.this, lectureList, new LectureAdapter.ClickHandle() {
                             @Override
                             public void onItemClick(int position) {
-                                Toast.makeText(AddEditCorseActivity.this, "Clicked position: " + position, Toast.LENGTH_SHORT).show();
-                            }
+                                Intent intent=new Intent(AddEditCorseActivity.this, AddLectureActivity.class);
+                                intent.putExtra("zz","edit");
+                                intent.putExtra("d1",String.valueOf(db.lectureDao().getAllLecturesByCourseID(Long.parseLong(Objects.requireNonNull(getIntent().getStringExtra("id")))).get(pos).getId()));
+                                intent.putExtra("d2",pos);
+                                startActivity(intent);                            }
 
                             @Override
                             public void onLongItemClick(int position) {
@@ -397,4 +400,29 @@ public class AddEditCorseActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+
+        db=Appdatabase.getDatabase(getApplicationContext());
+
+        adapter = new LectureAdapter(getApplicationContext(),db.lectureDao().getAllLecturesByCourseID(
+                Long.parseLong(Objects.requireNonNull(getIntent().getStringExtra("id")))) , new LectureAdapter.ClickHandle() {
+            @Override
+            public void onItemClick(int position) {
+                Toast.makeText(AddEditCorseActivity.this, "Clicked position: " + position, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onLongItemClick(int position) {
+                pos = position;
+                registerForContextMenu(binding.recycleLectures);
+            }
+        });
+        binding.recycleLectures.setAdapter(adapter); // ربط RecyclerView مع الـ Adapter
+        binding.recycleLectures.setLayoutManager(new LinearLayoutManager(AddEditCorseActivity.this));
+
+
+        super.onResume();
+
+    }
 }

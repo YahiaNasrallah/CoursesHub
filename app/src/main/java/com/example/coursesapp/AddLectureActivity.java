@@ -361,10 +361,9 @@ public class AddLectureActivity extends AppCompatActivity {
                                 }
                             }
 
-                            if (lectureExists) {
-                                Toast.makeText(AddLectureActivity.this, "Lecture Already Exists", Toast.LENGTH_SHORT).show();
-                            } else {
+
                                 Lecture lecture = new Lecture();
+                                lecture.setId(db.lectureDao().getLectureByID(Long.parseLong(Objects.requireNonNull(getIntent().getStringExtra("d1")))).getId());
                                 lecture.setCourseID(db.courseDao().getCourseByTitle(selectedCourse).getId());
                                 lecture.setLectureNumber(selectedLectureint);
                                 lecture.setLectureName(binding.edLectureName.getText().toString());
@@ -375,7 +374,6 @@ public class AddLectureActivity extends AppCompatActivity {
                                 db.lectureDao().updateLecture(lecture);
                                 Toast.makeText(AddLectureActivity.this, "Lecture Updated", Toast.LENGTH_SHORT).show();
                                 finish();
-                            }
 
                         }
 
