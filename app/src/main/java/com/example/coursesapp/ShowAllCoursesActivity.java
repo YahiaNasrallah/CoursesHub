@@ -17,7 +17,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.example.coursesapp.databinding.ActivityShowAllCategoriesBinding;
+import com.example.coursesapp.databinding.ActivityShowAllCoursesBinding;
 
 import java.util.List;
 import java.util.Objects;
@@ -25,7 +25,7 @@ import java.util.Objects;
 public class ShowAllCoursesActivity extends AppCompatActivity {
 
     Appdatabase db;
-    ActivityShowAllCategoriesBinding binding;
+    ActivityShowAllCoursesBinding binding;
     CourseAdapter adapter;
     int pos;
     long id;
@@ -34,7 +34,7 @@ public class ShowAllCoursesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        binding = ActivityShowAllCategoriesBinding.inflate(getLayoutInflater());
+        binding = ActivityShowAllCoursesBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -103,7 +103,46 @@ public class ShowAllCoursesActivity extends AppCompatActivity {
                     .setTitle("تأكيد العملية")
                     .setMessage("هل أنت متأكد أنك تريد المتابعة؟")
                     .setPositiveButton("نعم", (dialog, which) -> {
-                        db.courseDao().deleteCourse(db.courseDao().getAllCourses().get(pos));
+
+                        if (db.lectureDao().getLectureByID(db.courseDao().getAllCourses().get(pos).getId())!=null) {
+                            db.courseDao().deleteCourse(db.courseDao().getAllCourses().get(pos));
+                            adapter.notifyItemRemoved(pos);
+                            GetAdapterCourse(db.courseDao().getAllCourses());
+                        } else {
+
+
+
+                            new AlertDialog.Builder(this)
+                                    .setTitle("تأكيد العملية")
+                                    .setMessage("هل تريد حذف الدورة و المحاضرات؟")
+                                    .setPositiveButton("نعم", (dialog2, which2) -> {
+
+                                        db=Appdatabase.getDatabase(getApplicationContext());
+
+                                        long courseId = db.courseDao().getAllCourses().get(pos).getId();
+
+// حذف المحاضرات المرتبطة بالدورة
+                                        db.lectureDao().deleteLecturesByCourseID(courseId);
+
+// حذف الدورة
+                                        db.courseDao().deleteCourse(db.courseDao().getAllCourses().get(pos));
+
+                                        adapter.notifyItemRemoved(pos);
+                                        GetAdapterCourse(db.courseDao().getAllCourses());
+
+
+
+
+                                        GetAdapterCourse(db.courseDao().getAllCourses());
+                                    })
+                                    .setNegativeButton("لا", (dialog2, which2) -> {
+                                        dialog.dismiss();
+                                        Toast.makeText(this, "تم الإلغاء", Toast.LENGTH_SHORT).show();
+                                    }).show();
+
+
+                        }
+
                         adapter.notifyItemRemoved(pos);
 
                         GetAdapterCourse(db.courseDao().getAllCourses());
@@ -112,6 +151,7 @@ public class ShowAllCoursesActivity extends AppCompatActivity {
                         dialog.dismiss();
                         Toast.makeText(this, "تم الإلغاء", Toast.LENGTH_SHORT).show();
                     })
+
                     .show();
 
 
@@ -126,4 +166,9 @@ public class ShowAllCoursesActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        GetAdapterCourse(db.courseDao().getAllCourses());
+        super.onResume();
+    }
 }

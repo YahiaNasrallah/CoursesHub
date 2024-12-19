@@ -2,6 +2,7 @@ package com.example.coursesapp;
 
 import static java.security.AccessController.getContext;
 
+import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -15,11 +16,13 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.coursesapp.databinding.ActivityAddCorseBinding;
@@ -36,6 +39,9 @@ public class AddEditCorseActivity extends AppCompatActivity {
     String LectureNum;
     ArrayList<User> TempDeletedUser;
     int LecNum;
+    int pos;
+    boolean flag=false;
+    LectureAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -172,6 +178,50 @@ public class AddEditCorseActivity extends AppCompatActivity {
 
         else if (Objects.equals(getIntent().getStringExtra("zz"), "edit")) {
 
+
+
+
+            binding.lectursBtn.setVisibility(View.VISIBLE);
+            binding.lectursBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    if (!flag){
+                        binding.recycleLectures.setVisibility(View.GONE);
+                        binding.linAdd.setVisibility(View.VISIBLE);
+                        flag=true;
+                    }else {
+                        binding.recycleLectures.setVisibility(View.VISIBLE);
+                        binding.linAdd.setVisibility(View.GONE);
+                        flag=false;
+                    }
+
+                    List<Lecture> lectureList = db.lectureDao().getAllLecturesByCourseID(
+                            Long.parseLong(Objects.requireNonNull(getIntent().getStringExtra("id"))));
+
+
+                        // إعداد Adapter وإرفاقه بـ RecyclerView
+                        adapter = new LectureAdapter(AddEditCorseActivity.this, lectureList, new LectureAdapter.ClickHandle() {
+                            @Override
+                            public void onItemClick(int position) {
+                                Toast.makeText(AddEditCorseActivity.this, "Clicked position: " + position, Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onLongItemClick(int position) {
+                                 pos = position;
+                                registerForContextMenu(binding.recycleLectures);
+
+                            }
+                        });
+
+                        binding.recycleLectures.setAdapter(adapter); // ربط RecyclerView مع الـ Adapter
+                        binding.recycleLectures.setLayoutManager(new LinearLayoutManager(AddEditCorseActivity.this));
+
+                }
+            });
+
+
             Course course = db.courseDao().getCoursesByID(Long.parseLong(Objects.requireNonNull(getIntent().getStringExtra("id"))));
             binding.edTitle.setText(course.getTitle());
             binding.edDetails.setText(course.getDetails());
@@ -289,6 +339,61 @@ public class AddEditCorseActivity extends AppCompatActivity {
             });
         }
 
+
+    }
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflatur=getMenuInflater();
+        inflatur.inflate(R.menu.menu1,menu);
+
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+
+        if (item.getItemId()==R.id.menu_delete){
+
+            new AlertDialog.Builder(this)
+                    .setTitle("تأكيد العملية")
+                    .setMessage("هل أنت متأكد أنك تريد المتابعة؟")
+                    .setPositiveButton("نعم", (dialog, which) -> {
+                        Lecture lecture=db.lectureDao().getAllLecturesByCourseID(Long.parseLong(Objects.requireNonNull(getIntent().getStringExtra("id")))).get(pos);
+                        db.lectureDao().deleteLecture(lecture);
+                        adapter.notifyDataSetChanged();
+                        adapter = new LectureAdapter(AddEditCorseActivity.this,db.lectureDao().getAllLecturesByCourseID(
+                                Long.parseLong(Objects.requireNonNull(getIntent().getStringExtra("id")))) , new LectureAdapter.ClickHandle() {
+                            @Override
+                            public void onItemClick(int position) {
+                                Toast.makeText(AddEditCorseActivity.this, "Clicked position: " + position, Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onLongItemClick(int position) {
+                                pos = position;
+                                registerForContextMenu(binding.recycleLectures);
+                            }
+                        });
+                        binding.recycleLectures.setAdapter(adapter); // ربط RecyclerView مع الـ Adapter
+                        binding.recycleLectures.setLayoutManager(new LinearLayoutManager(AddEditCorseActivity.this));
+
+                        Toast.makeText(this, "Lecture Deleted", Toast.LENGTH_SHORT).show();
+
+                    })
+                    .setNegativeButton("لا", (dialog, which) -> {
+                        dialog.dismiss();
+
+                    })
+                    .show();
+
+        } else if (item.getItemId()==R.id.menu_edit) {
+            Intent intent=new Intent(AddEditCorseActivity.this, AddLectureActivity.class);
+            intent.putExtra("zz","edit");
+            intent.putExtra("d1",String.valueOf(db.lectureDao().getAllLecturesByCourseID(Long.parseLong(Objects.requireNonNull(getIntent().getStringExtra("id")))).get(pos).getId()));
+            intent.putExtra("d2",pos);
+            startActivity(intent);
+        }
+        return super.onContextItemSelected(item);
 
     }
 
