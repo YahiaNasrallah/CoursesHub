@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 
 @Entity(
         foreignKeys = {
-                @ForeignKey(entity = Category.class, parentColumns = {"id"}, childColumns = {"CourseID"}),
+                @ForeignKey(entity = Course.class, parentColumns = {"id"}, childColumns = {"CourseID"}),
                 @ForeignKey(entity = User.class, parentColumns = {"id"}, childColumns = {"UserID"})
         }
 )

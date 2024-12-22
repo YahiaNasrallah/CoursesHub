@@ -1,6 +1,7 @@
 package com.example.coursesapp;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -72,6 +73,9 @@ public class EducationFragment extends Fragment {
         adapter = new CourseAdapter(getContext(), db.courseDao().getCoursesByCategory(db.categoryDao().getCategoryByTitle("Education").getId()), new CourseAdapter.ClickHandle() {
             @Override
             public void onItemClick(int position) {
+                Intent intent = new Intent(getContext(), CourseDetailsActivity.class);
+                intent.putExtra("course_id",db.courseDao().getCoursesByCategory(db.categoryDao().getCategoryByTitle("Education").getId()).get(position).getId());
+                startActivity(intent);
 
             }
 

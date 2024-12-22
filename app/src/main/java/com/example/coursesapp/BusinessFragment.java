@@ -1,5 +1,6 @@
 package com.example.coursesapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -68,7 +69,9 @@ public class BusinessFragment extends Fragment {
         adapter = new CourseAdapter(getContext(), db.courseDao().getCoursesByCategory(db.categoryDao().getCategoryByTitle("Business").getId()), new CourseAdapter.ClickHandle() {
             @Override
             public void onItemClick(int position) {
-
+                Intent intent = new Intent(getContext(), CourseDetailsActivity.class);
+                intent.putExtra("course_id",db.courseDao().getCoursesByCategory(db.categoryDao().getCategoryByTitle("Business").getId()).get(position).getId());
+                startActivity(intent);
             }
 
             @Override

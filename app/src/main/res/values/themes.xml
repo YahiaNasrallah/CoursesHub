@@ -2,9 +2,10 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.CoursesApp" parent="Theme.Material3.Light.NoActionBar">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
 
     </style>
+
 
     <style name="Theme.CoursesApp" parent="Base.Theme.CoursesApp" />
 </resources>
