@@ -102,10 +102,12 @@ public class LoginActivity extends AppCompatActivity {
                                 editor.commit();
                             }
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+
+                            long id=db.userDao().getUser(binding.edEmail.getText().toString(), binding.edPassword.getText().toString()).getId();
+                            intent.putExtra("id", id);
+                            startActivity(intent);
                             binding.edEmail.getText().clear();
                             binding.edPassword.getText().clear();
-                            intent.putExtra("id", db.userDao().getUser(binding.edEmail.getText().toString(), binding.edPassword.getText().toString()).getId());
-                            startActivity(intent);
                         }
                     }
                 }

@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.example.coursesapp.databinding.ActivityMainBinding;
 
@@ -108,6 +109,15 @@ public class MainActivity extends AppCompatActivity {
 //
 //
 
+
+
+        binding.tabLayout.setupWithViewPager(binding.pager);
+        vpadapter adapter=new vpadapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        adapter.addFragment(new EducationFragment(),"Education");
+        adapter.addFragment(new EngineeringFragment(),"Engineering");
+        adapter.addFragment(new BusinessFragment(),"Business");
+        adapter.addFragment(new OthersFragment(),"Others");
+        binding.pager.setAdapter(adapter);
 
 
 

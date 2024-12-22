@@ -43,6 +43,7 @@ public class AddEditCorseActivity extends AppCompatActivity {
     boolean flag=false;
     LectureAdapter adapter;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -405,22 +406,26 @@ public class AddEditCorseActivity extends AppCompatActivity {
 
         db=Appdatabase.getDatabase(getApplicationContext());
 
-        adapter = new LectureAdapter(getApplicationContext(),db.lectureDao().getAllLecturesByCourseID(
-                Long.parseLong(Objects.requireNonNull(getIntent().getStringExtra("id")))) , new LectureAdapter.ClickHandle() {
-            @Override
-            public void onItemClick(int position) {
-                Toast.makeText(AddEditCorseActivity.this, "Clicked position: " + position, Toast.LENGTH_SHORT).show();
-            }
+       if (Objects.equals(getIntent().getStringExtra("zz"), "edit")){
 
-            @Override
-            public void onLongItemClick(int position) {
-                pos = position;
-                registerForContextMenu(binding.recycleLectures);
-            }
-        });
-        binding.recycleLectures.setAdapter(adapter); // ربط RecyclerView مع الـ Adapter
-        binding.recycleLectures.setLayoutManager(new LinearLayoutManager(AddEditCorseActivity.this));
+           adapter = new LectureAdapter(getApplicationContext()
+                   ,db.lectureDao().getAllLecturesByCourseID( Long.parseLong(Objects.requireNonNull(getIntent().getStringExtra("id")))), new LectureAdapter.ClickHandle() {
+               @Override
+               public void onItemClick(int position) {
+                   Toast.makeText(AddEditCorseActivity.this, "Clicked position: " + position, Toast.LENGTH_SHORT).show();
+               }
 
+               @Override
+               public void onLongItemClick(int position) {
+                   pos = position;
+                   registerForContextMenu(binding.recycleLectures);
+               }
+           });
+           binding.recycleLectures.setAdapter(adapter); // ربط RecyclerView مع الـ Adapter
+           binding.recycleLectures.setLayoutManager(new LinearLayoutManager(AddEditCorseActivity.this));
+
+
+       }
 
         super.onResume();
 
