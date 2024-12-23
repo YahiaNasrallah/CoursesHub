@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 
 public class EngineeringFragment extends Fragment {
@@ -54,7 +55,6 @@ public class EngineeringFragment extends Fragment {
         db=Appdatabase.getDatabase(getContext());
         RecyclerView recyclerView = view.findViewById(R.id.recyclefrag2);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
 
         // Set adapter
         adapter = new CourseAdapter(getContext(), db.courseDao().getCoursesByCategory(db.categoryDao().getCategoryByTitle("Engineering").getId()), new CourseAdapter.ClickHandle() {

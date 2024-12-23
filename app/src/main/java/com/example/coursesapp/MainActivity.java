@@ -10,6 +10,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import com.example.coursesapp.databinding.ActivityMainBinding;
 
@@ -108,21 +109,47 @@ public class MainActivity extends AppCompatActivity {
 //
 //
 //
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        binding.pagerMain.setAdapter(adapter);
 
+        // التحكم في BottomNavigationView لتغيير الـ ViewPager
+        binding.navbottom.setOnItemSelectedListener(item -> {
+            if (item.getItemId()==R.id.nav_home_item){
+                binding.pagerMain.setCurrentItem(0);
 
+            }else if (item.getItemId()==R.id.nav_mycourses_item){
+                binding.pagerMain.setCurrentItem(1);
 
-        binding.tabLayout.setupWithViewPager(binding.pager);
-        vpadapter adapter=new vpadapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-        adapter.addFragment(new EducationFragment(),"Education");
-        adapter.addFragment(new EngineeringFragment(),"Engineering");
-        adapter.addFragment(new BusinessFragment(),"Business");
-        adapter.addFragment(new OthersFragment(),"Others");
-        binding.pager.setAdapter(adapter);
+            }else if (item.getItemId()==R.id.nav_profile_item){
+                binding.pagerMain.setCurrentItem(2);
 
+            }
 
+            return true;
+        });
 
+        // التحكم في ViewPager لتغيير العناصر في BottomNavigation
+        binding.pagerMain.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
 
+            @Override
+            public void onPageSelected(int position) {
+                switch (position) {
+                    case 0:
+                        binding.navbottom.setSelectedItemId(R.id.nav_home_item);
+                        break;
+                    case 1:
+                        binding.navbottom.setSelectedItemId(R.id.nav_mycourses_item);
+                        break;
+                    case 2:
+                        binding.navbottom.setSelectedItemId(R.id.nav_profile_item);
+                        break;
+                }
+            }
 
+            @Override
+            public void onPageScrollStateChanged(int state) {}
+        });
     }
 }
-

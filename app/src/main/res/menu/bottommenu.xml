@@ -6,12 +6,12 @@
         android:icon="@drawable/home_icon"/>
 
 
-    <item android:id="@+id/nav_product_item"
+    <item android:id="@+id/nav_mycourses_item"
         android:title="My Courses"
         android:icon="@drawable/folder_icon"/>
 
 
-    <item android:id="@+id/nav_setting_item"
+    <item android:id="@+id/nav_profile_item"
         android:title="Profile"
         android:icon="@drawable/person_icon"/>
 </menu>
