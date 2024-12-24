@@ -3,4 +3,5 @@
     <solid android:color="@color/my" /> <!-- يمكنك تحديد اللون هنا -->
     <stroke android:color="@color/white" android:width="2dp"/>
     <corners android:radius="20dp"/> <!-- الحواف الدائرية هنا -->
+
 </shape>

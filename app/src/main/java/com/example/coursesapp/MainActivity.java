@@ -2,17 +2,22 @@ package com.example.coursesapp;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.coursesapp.databinding.ActivityMainBinding;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.List;
 
@@ -39,9 +44,32 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        db=Appdatabase.getDatabase(this);
-        preferences= getApplicationContext().getSharedPreferences("MyPrefe", Context.MODE_PRIVATE);
-        editor=preferences.edit();
+        db = Appdatabase.getDatabase(this);
+        preferences = getApplicationContext().getSharedPreferences("MyPrefe", Context.MODE_PRIVATE);
+        editor = preferences.edit();
+
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+        ViewCompat.setOnApplyWindowInsetsListener(binding.navbottom, new androidx.core.view.OnApplyWindowInsetsListener() {
+            @NonNull
+            @Override
+            public WindowInsetsCompat onApplyWindowInsets(@NonNull View v, @NonNull WindowInsetsCompat insets) {
+                // إلغاء الحشوة الإضافية من النظام
+                return insets.replaceSystemWindowInsets(
+                        insets.getSystemWindowInsetLeft(),
+                        insets.getSystemWindowInsetTop(),
+                        insets.getSystemWindowInsetRight(),
+                        0 // حشوة سفلية صفرية
+                );
+            }
+        });
+
+        BottomNavigationView bottomNavigationView = findViewById(R.id.navbottom);
+        bottomNavigationView.setItemRippleColor(ColorStateList.valueOf(getColor(R.color.black)));
+
+
+        bottomNavigationView.setItemRippleColor(null);
+
+
 
 //        if (db.categoryDao().getAllCategory().isEmpty()){
 //            db.categoryDao().insertCategory(new Category("Education"));
