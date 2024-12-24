@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
@@ -17,6 +18,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.coursesapp.databinding.ActivityLoginBinding;
+
+import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -40,6 +43,9 @@ public class LoginActivity extends AppCompatActivity {
         db = Appdatabase.getDatabase(this);
         preferences = getSharedPreferences("MyPrefe", MODE_PRIVATE);
         editor = preferences.edit();
+
+
+
 
         View coustem= LayoutInflater.from(LoginActivity.this).inflate(R.layout.log,null);
         AlertDialog.Builder bulder=new AlertDialog.Builder(this);
@@ -100,10 +106,14 @@ public class LoginActivity extends AppCompatActivity {
                                 editor.putString("savedName",binding.edEmail.getText().toString());
                                 editor.putString("savedPAssword",binding.edPassword.getText().toString());
                                 editor.commit();
+
                             }
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
 
                             long id=db.userDao().getUser(binding.edEmail.getText().toString(), binding.edPassword.getText().toString()).getId();
+                            editor.putLong("savedid",user.getId());
+                            editor.commit();
+
                             intent.putExtra("id", id);
                             startActivity(intent);
                             binding.edEmail.getText().clear();

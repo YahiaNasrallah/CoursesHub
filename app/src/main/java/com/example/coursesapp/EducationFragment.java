@@ -34,7 +34,7 @@ public class EducationFragment extends Fragment {
     private String mParam2;
     Appdatabase db;
     CourseAdapter adapter;
-
+    View forres;
     public EducationFragment() {
     }
 
@@ -88,6 +88,7 @@ public class EducationFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
                 recyclerView.setAdapter(adapter);
 
+                forres=view;
 
 
 

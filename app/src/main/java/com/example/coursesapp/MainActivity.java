@@ -137,6 +137,8 @@ public class MainActivity extends AppCompatActivity {
 //
 //
 //
+        binding.pagerMain.setOffscreenPageLimit(3); // حافظ على 3 صفحات في الذاكرة
+
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         binding.pagerMain.setAdapter(adapter);
 

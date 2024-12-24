@@ -17,9 +17,23 @@
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            app:cardElevation="10dp"
             app:cardCornerRadius="15dp"
             >
+            <androidx.cardview.widget.CardView
+                android:id="@+id/back_btn"
+                android:layout_width="40dp"
+                android:layout_marginTop="10dp"
+                app:cardCornerRadius="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_height="40dp">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="1dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/baseline_arrow_back_24"/>
+            </androidx.cardview.widget.CardView>
+
 
             <ImageView
                 android:id="@+id/course_image"
@@ -37,17 +51,7 @@
 
 
         <!-- عنوان الكورس -->
-        <TextView
-            android:id="@+id/tv_course_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Course Title"
-            android:textColor="@color/black"
-            android:layout_marginTop="10dp"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:padding="10dp" />
+
 
         <!-- بطاقة معلومات الكورس -->
         <androidx.cardview.widget.CardView
@@ -55,7 +59,8 @@
             android:layout_height="wrap_content"
             android:layout_marginVertical="10dp"
             app:cardCornerRadius="15dp"
-            app:cardElevation="8dp">
+            app:cardElevation="5dp">
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -63,7 +68,16 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="15dp">
-
+                <TextView
+                    android:id="@+id/tv_course_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Course Title"
+                    android:textColor="@color/black"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:padding="10dp" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -72,6 +86,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textStyle="bold"
                         android:text="Instructor: "
                         android:textColor="@color/my"
                         android:textSize="16sp"
@@ -95,6 +110,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Description: "
+                        android:textStyle="bold"
                         android:textColor="@color/black"
                         android:textSize="14sp"/>
                     <TextView
@@ -115,6 +131,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Price: "
+                        android:textStyle="bold"
                         android:textColor="@color/black"
                         android:textSize="14sp"/>
                     <TextView
@@ -135,6 +152,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Duration: "
+                        android:textStyle="bold"
                         android:textColor="@color/black"
                         android:textSize="14sp"
                         />
@@ -157,6 +175,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Lectures: "
+                        android:textStyle="bold"
                         android:textColor="@color/black"
                         android:textSize="14sp" />
                     <TextView
@@ -167,44 +186,65 @@
                         android:textColor="@color/black"
                         android:textSize="14sp" />
                 </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Number Of Students: "
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+                    <TextView
+                        android:id="@+id/tv_course_num_stuent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" 0"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+                </LinearLayout>
 
 
 
 
 
+                <!-- تفاصيل الكورس -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Details"
+                    android:textColor="@color/my"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="10dp" />
+
+                <TextView
+                    android:id="@+id/tv_course_details"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="This section contains the full details of the course."
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:layout_marginTop="8dp"
+                    android:lineSpacingExtra="4dp" />
 
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
 
-        <!-- تفاصيل الكورس -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Details"
-            android:textColor="@color/my"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_marginTop="10dp" />
 
-        <TextView
-            android:id="@+id/tv_course_details"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="This section contains the full details of the course."
-            android:textColor="@color/black"
-            android:textSize="14sp"
-            android:layout_marginTop="8dp"
-            android:lineSpacingExtra="4dp" />
 
         <!-- زر العودة -->
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_back"
+            android:id="@+id/btn_signtocourse"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:text="Back to Courses"
+            android:text="Sign The Courses"
             android:layout_marginTop="20dp"
-            android:backgroundTint="@color/my"
+            android:backgroundTint="@color/black"
             android:textColor="@color/white"
             app:cornerRadius="15dp" />
 

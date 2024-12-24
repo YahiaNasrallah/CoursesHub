@@ -3,6 +3,7 @@ package com.example.coursesapp;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import java.util.List;
 
@@ -13,5 +14,14 @@ public interface MyCoursesDao {
     void insertMyCourse(MyCourses myCourses);
 
     @Query("SELECT * FROM MyCourses where UserID=:userid")
-    List<MyCourses> getAllMyCourses(String userid);
+    List<MyCourses> getAllMyCourses(long userid);
+
+    @Query("SELECT * FROM MyCourses where UserID=:userid and Completed=:cmompleted")
+    List<MyCourses> getAllMyCourses(long userid, boolean cmompleted);
+
+    @Query("SELECT * FROM MyCourses where CourseID=:courseid")
+    MyCourses getMyCourseByCourseID(long courseid);
+
+    @Update
+    void updateMyCourse(MyCourses myCourses);
 }

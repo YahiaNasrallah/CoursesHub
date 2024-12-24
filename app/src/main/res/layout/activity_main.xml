@@ -25,10 +25,7 @@
         android:layout_height="70dp"
 
         app:itemIconSize="20dp"
-        app:itemIconTint="@drawable/bottom_nav_icon_tint"
         app:itemTextColor="@drawable/bottom_nav_text_color"
-        app:colorAccent="@null"
-        android:background="@color/my"
         android:padding="0dp"
         android:layout_margin="0dp"
         app:itemRippleColor="@null"
@@ -36,8 +33,9 @@
         app:itemTextAppearanceActive="@style/TextAppearance.App.BottomNavigation"
         app:itemTextAppearanceInactive="@style/TextAppearance.App.BottomNavigation"
         android:layout_marginBottom="0dp"
+        app:backgroundTint="@color/black"
 
-
+        android:backgroundTint="@color/black"
         android:fitsSystemWindows="true"
         app:labelVisibilityMode="selected"
         app:layout_constraintBottom_toBottomOf="parent"

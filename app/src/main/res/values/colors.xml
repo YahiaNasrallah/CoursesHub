@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <color name="new_primary">@color/black</color> <!-- لون أساسي جديد -->
+    <color name="new_secondary">@color/black</color> <!-- لون ثانوي جديد -->
+    <color name="new_on_primary">@color/black</color> <!-- لون النص فوق الأساسي -->
+
+
+
+
+
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="my">#1f319d</color>

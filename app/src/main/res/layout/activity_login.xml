@@ -14,7 +14,7 @@
         android:layout_gravity="center"
         android:textColor="#1f319d"
         android:textSize="35sp"
-        android:fontFamily="@font/wsregular"
+        android:fontFamily="@font/futuraround"
         android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>

@@ -49,7 +49,7 @@ public class LectureAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         myviewHolder.binding.tvDescrptionItem.setText(lectureList.get(position).getDescription());
         myviewHolder.binding.lecNameItem.setText(lectureList.get(position).getLectureName());
         myviewHolder.binding.lecNumItem.setText(String.valueOf(lectureList.get(position).getLectureNumber()));
-        myviewHolder.binding.lecNameCourseItem.setText(db.courseDao().getCoursesByID(lectureList.get(position).getCourseID()).getTitle());
+      //  myviewHolder.binding.lecNameCourseItem.setText(db.courseDao().getCoursesByID(lectureList.get(position).getCourseID()).getTitle());
       //  myviewHolder.binding.gameImag.setImageResource(gamelist.get(position).getImage());
 
 
