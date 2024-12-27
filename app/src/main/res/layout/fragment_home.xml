@@ -1,28 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
+    android:orientation="vertical"
+    android:background="#CCE9E9"
     tools:context=".HomeFragment">
+
+
+
 
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:background="#00000000"
+        android:layout_height="wrap_content"
+        android:background="#CCE9E9"
         android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+       >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:fontFamily="@font/futuraround"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="50dp"
             android:text="Wlecome To New"
             android:textSize="20sp" />
 
@@ -30,74 +32,87 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Course Hub"
-            android:textSize="24sp"
+            android:textSize="32sp"
             android:fontFamily="@font/futuraround"
             android:textColor="@color/black"
             android:layout_marginStart="20dp"
             android:textStyle="bold" />
 
         <LinearLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:background="@drawable/search_background"
-            android:elevation="4dp"
             android:padding="8dp"
 
             android:layout_margin="16dp">
 
             <!-- مربع النص -->
-            <EditText
-                android:id="@+id/search_edit_text"
-                android:layout_width="0dp"
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/searchView"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="Enter your Keyword"
-                android:background="@android:color/transparent"
-                android:padding="12dp"
-                android:textColor="@android:color/black"
-                android:textColorHint="#CCCCCC"
-                android:inputType="text"
-                android:textSize="16sp"/>
+                android:queryHint="بحث..." />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/searchResultsList"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:visibility="gone"
+                android:background="#FFFFFF"
+                android:divider="#CCCCCC"
+                android:dividerHeight="1dp"
+                android:elevation="4dp" />
 
-            <!-- زر البحث -->
-            <ImageButton
-                android:id="@+id/search_button"
-                android:layout_width="48dp"
-                android:layout_height="match_parent"
-                android:background="@drawable/search_button_background"
-                android:src="@drawable/search_24dp_e8eaed_fill0_wght400_grad0_opsz24"
-                android:contentDescription="Search Button"
-                />
         </LinearLayout>
 
     </LinearLayout>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-    android:layout_marginTop="200dp"
-        app:cardCornerRadius="30dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/backgroundfrag"
+        android:backgroundTint="@color/color_active"
 
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintTop_toTopOf="parent">
+        android:orientation="vertical">
 
         <LinearLayout
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:elevation="10dp"
+
             android:orientation="vertical">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="Course For You"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="20dp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:layout_height="wrap_content"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:id="@+id/recycle_foryou"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="20dp"
+                android:layout_height="280dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="Course By Category"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="20dp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:layout_height="wrap_content"/>
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tab_layout"
                 android:theme="@style/Base.Theme.CoursesApp"
                 app:tabIconTint="@color/black"
+                android:layout_marginTop="10dp"
                 app:tabRippleColor="@color/black"
                 app:tabSelectedTextColor="@color/black"
                 app:tabTextColor="@color/black"
@@ -134,15 +149,21 @@
                 android:backgroundTint="@color/white"
                 android:background="@color/white"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="480dp"
+                android:layout_marginStart="20dp"
                 android:importantForAccessibility="yes"
                 />
 
         </LinearLayout>
-
-    </androidx.cardview.widget.CardView>
-
+</ScrollView>
 
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+
+
+</LinearLayout>

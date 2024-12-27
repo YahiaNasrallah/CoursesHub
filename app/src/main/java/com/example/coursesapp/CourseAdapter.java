@@ -46,8 +46,8 @@ public class CourseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         MyviewHolder myviewHolder= (MyviewHolder) holder;
 
         myviewHolder.binding.tvNamecourseItem.setText(courseList.get(position).getTitle());
-        myviewHolder.binding.tvDescriptionItem.setText(courseList.get(position).getDescription());
-        myviewHolder.binding.tvInstructornameItem.setText(courseList.get(position).getInstructorName());
+        //myviewHolder.binding.tvDescriptionItem.setText(courseList.get(position).getDescription());
+      //  myviewHolder.binding.tvInstructornameItem.setText(courseList.get(position).getInstructorName());
 
 
         myviewHolder.binding.getRoot().setOnClickListener(new View.OnClickListener() {
@@ -69,6 +69,10 @@ public class CourseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
 
 
+    }
+    public void updateList(List<Course> filteredList) {
+        this.courseList = filteredList;
+        notifyDataSetChanged();
     }
 
     @Override
