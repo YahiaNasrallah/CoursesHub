@@ -28,6 +28,8 @@ public class CourseDetailsFragment extends Fragment {
     private String mParam2;
     long courseid;
     long userid;
+    Appdatabase db;
+    boolean flag;
 
     public CourseDetailsFragment() {
         // Required empty public constructor
@@ -86,33 +88,44 @@ public class CourseDetailsFragment extends Fragment {
             binding.tvCourseDetails.setText(course.getDetails());
 
 
-            binding.btnSignToCourse.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+            if (!flag){
+                binding.btnSignToCourse.setVisibility(View.GONE);
+            }else {
+                binding.btnSignToCourse.setVisibility(View.VISIBLE);
+                binding.btnSignToCourse.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
 
-                    boolean bb = true;
+                        boolean bb = true;
 
-                    for (int i = 0; i < db.myCoursesDao().getAllMyCourses(userid).size(); i++) {
-                        if (db.myCoursesDao().getAllMyCourses(userid).get(i).getCourseID() == course.getId() && db.myCoursesDao().getAllMyCourses(userid).get(i).getUserID() == user.getId()) {
-                            Toast.makeText(getContext(), "You are already sign this course", Toast.LENGTH_SHORT).show();
-                            bb = false;
+                        for (int i = 0; i < db.myCoursesDao().getAllMyCourses(userid).size(); i++) {
+                            if (db.myCoursesDao().getAllMyCourses(userid).get(i).getCourseID() == course.getId() && db.myCoursesDao().getAllMyCourses(userid).get(i).getUserID() == user.getId()) {
+                                Toast.makeText(getContext(), "You are already sign this course", Toast.LENGTH_SHORT).show();
+                                bb = false;
+                            }
+
+                        }
+                        if (bb) {
+                            MyCourses myCourses = new MyCourses();
+                            myCourses.setCourseID(course.getId());
+                            myCourses.setUserID(user.getId());
+                            myCourses.setProgress(0);
+                            myCourses.setCompleted(false);
+                            Course course1=db.courseDao().getCoursesByID(courseid);
+                            course1.setNumberOfStudents(course1.getNumberOfStudents()+1);
+                            db.courseDao().updateCourse(course1);
+                            db.myCoursesDao().insertMyCourse(myCourses);
+                            Toast.makeText(getContext(), "تم التسجيل بنجاح", Toast.LENGTH_SHORT).show();
+                            requireActivity().finish(); // إنهاء الـ Activity من داخل الـ Fragment
+
                         }
 
                     }
-                    if (bb) {
-                        MyCourses myCourses = new MyCourses();
-                        myCourses.setCourseID(course.getId());
-                        myCourses.setUserID(user.getId());
-                        myCourses.setProgress(0);
-                        myCourses.setCompleted(false);
-                        db.myCoursesDao().insertMyCourse(myCourses);
-                        Toast.makeText(getContext(), "تم التسجيل بنجاح", Toast.LENGTH_SHORT).show();
-                        requireActivity().finish(); // إنهاء الـ Activity من داخل الـ Fragment
+                });
 
-                    }
+            }
 
-                }
-            });
+
 
         }
 
@@ -121,9 +134,11 @@ public class CourseDetailsFragment extends Fragment {
         return binding.getRoot();
     }
 
-    public void updateData(long courseid,long userid) {
+    public void updateData(long courseid,long userid,boolean flag) {
         this.courseid = courseid;
         this.userid = userid;
+        this.flag=flag;
+
 
 
     }

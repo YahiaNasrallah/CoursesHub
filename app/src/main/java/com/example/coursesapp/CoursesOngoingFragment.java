@@ -104,22 +104,22 @@ public class CoursesOngoingFragment extends Fragment {
 
     @Override
     public void onResume() {
-        adapter=new MycoursesAdapter(getContext(), db.myCoursesDao().getAllMyCourses(savedid,false), new MycoursesAdapter.ClickHandle() {
-            @Override
-            public void onItemClick(int position) {
-                Intent intent = new Intent(getContext(), CourseUserINActivity.class);
-                intent.putExtra("course_id",db.myCoursesDao().getAllMyCourses(savedid).get(position).getCourseID());
-                startActivity(intent);
-
-
-            }
-        });
-
-        recyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setHasFixedSize(true);
+//        adapter=new MycoursesAdapter(getContext(), db.myCoursesDao().getAllMyCourses(savedid,false), new MycoursesAdapter.ClickHandle() {
+//            @Override
+//            public void onItemClick(int position) {
+//                Intent intent = new Intent(getContext(), CourseUserINActivity.class);
+//                intent.putExtra("course_id",db.myCoursesDao().getAllMyCourses(savedid,false).get(position).getCourseID());
+//                startActivity(intent);
+//
+//
+//            }
+//        });
+//
+//        recyclerView.setAdapter(adapter);
+//        adapter.notifyDataSetChanged();
+//        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+//        recyclerView.setLayoutManager(layoutManager);
+//        recyclerView.setHasFixedSize(true);
 
         super.onResume();
     }

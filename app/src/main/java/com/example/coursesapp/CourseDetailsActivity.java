@@ -103,8 +103,13 @@ public class CourseDetailsActivity extends AppCompatActivity {
 //        });
 //
 
+        binding.tvCoursename.setText(db.courseDao().getCoursesByID(course.getId()).getTitle());
+        binding.tvDescrition.setText(db.courseDao().getCoursesByID(course.getId()).getDescription());
+        binding.tvAuthor.setText(db.courseDao().getCoursesByID(course.getId()).getInstructorName());
+        binding.tvLecturesnumber.setText(String.valueOf(db.courseDao().getCoursesByID(course.getId()).getLectureNumber()));
 
-         TabLayout tabLayout = findViewById(R.id.tab_layout_courses);
+
+        TabLayout tabLayout = findViewById(R.id.tab_layout_courses);
          ViewPager viewPager = findViewById(R.id.pagerdetails);
 
         // إنشاء الـ Adapter وإضافة الفراجمنتات
@@ -135,7 +140,7 @@ public class CourseDetailsActivity extends AppCompatActivity {
 
         CourseDetailsFragment fragment = (CourseDetailsFragment) adapter.getFragmentAt(0);
         if (fragment != null) {
-            fragment.updateData(course.getId(),user.getId());
+            fragment.updateData(course.getId(),user.getId(),true);
         }
 
 
@@ -145,10 +150,6 @@ public class CourseDetailsActivity extends AppCompatActivity {
 
 
 
-        binding.tvCoursename.setText(db.courseDao().getCoursesByID(course.getId()).getTitle());
-        binding.tvDescrition.setText(db.courseDao().getCoursesByID(course.getId()).getDescription());
-        binding.tvAuthor.setText(db.courseDao().getCoursesByID(course.getId()).getInstructorName());
-        binding.tvLecturesnumber.setText(String.valueOf(db.courseDao().getCoursesByID(course.getId()).getLectureNumber()));
 
 
     }

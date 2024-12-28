@@ -148,4 +148,6 @@ public class Course {
     public void setLectureNumber(int lectureNumber) {
         LectureNumber = lectureNumber;
     }
+
+
 }

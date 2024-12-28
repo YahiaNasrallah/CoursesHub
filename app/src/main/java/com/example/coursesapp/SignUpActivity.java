@@ -43,9 +43,14 @@ public class SignUpActivity extends AppCompatActivity {
                     }else if (!binding.edPassword.getText().toString().equals(binding.edRepassword.getText().toString())){
                         Toast.makeText(SignUpActivity.this, "Password Not The Same", Toast.LENGTH_SHORT).show();
                     }else {
-                        db.userDao().insertUser(new User(binding.edUsername.getText().toString(),binding.edEmail.getText().toString(),binding.edPassword.getText().toString()));
-                        Toast.makeText(SignUpActivity.this, "User Added", Toast.LENGTH_SHORT).show();
-                        finish();
+                        if (db.userDao().getUserByEmail(binding.edEmail.getText().toString())!=null){
+                            Toast.makeText(SignUpActivity.this, "Email Used Try Another", Toast.LENGTH_SHORT).show();
+                        }else {
+                            db.userDao().insertUser(new User(binding.edUsername.getText().toString(),binding.edEmail.getText().toString(),binding.edPassword.getText().toString()));
+                            Toast.makeText(SignUpActivity.this, "User Added", Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+
                     }
             }
         });

@@ -6,6 +6,8 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
+import java.util.ArrayList;
+
 @Entity(
         foreignKeys = {
                 @ForeignKey(entity = Category.class, parentColumns = {"id"}, childColumns = {"CourseID"}),
@@ -29,7 +31,10 @@ public class MyCourses {
     @NonNull
     private long UserID;
 
+    private ArrayList<Long> completedLectures; // قائمة المحاضرات المكتملة
+
     public MyCourses(){
+        completedLectures = new ArrayList<>();
 
     }
 
@@ -38,6 +43,8 @@ public class MyCourses {
         Completed = completed;
         CourseID = courseID;
         UserID = userID;
+        completedLectures = new ArrayList<>();
+
     }
 
     public int getProgress() {
@@ -78,5 +85,13 @@ public class MyCourses {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public ArrayList<Long> getCompletedLectures() {
+        return completedLectures;
+    }
+
+    public void setCompletedLectures(ArrayList<Long> completedLectures) {
+        this.completedLectures = completedLectures;
     }
 }

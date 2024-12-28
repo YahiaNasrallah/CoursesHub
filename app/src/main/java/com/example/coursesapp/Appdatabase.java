@@ -5,9 +5,11 @@ import android.content.Context;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.TypeConverters;
 
 @Database(entities = {User.class, Category.class, Course.class, Lecture.class, MyCourses.class, BookMarks.class, Notification.class},
-        version = 21,exportSchema = false)
+        version = 24,exportSchema = false)
+@TypeConverters({Converters.class})
 public abstract class Appdatabase extends RoomDatabase {
     public abstract UserDao userDao();
     public abstract CategoryDao categoryDao();

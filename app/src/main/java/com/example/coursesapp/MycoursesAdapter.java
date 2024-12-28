@@ -55,6 +55,7 @@ public class MycoursesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
 
 
+
         myviewHolder.binding.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

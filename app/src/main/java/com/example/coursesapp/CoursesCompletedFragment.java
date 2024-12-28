@@ -10,10 +10,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import com.example.coursesapp.databinding.FragmentCoursesCompletedBinding;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,6 +39,7 @@ public class CoursesCompletedFragment extends Fragment {
     User user;
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
+    private RecyclerView recyclerView;
 
     public CoursesCompletedFragment() {
         // Required empty public constructor
@@ -63,6 +67,7 @@ public class CoursesCompletedFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         db=Appdatabase.getDatabase(getContext());
+
 
         preferences = requireContext().getSharedPreferences("MyPrefe", MODE_PRIVATE);
         editor = preferences.edit();
@@ -110,5 +115,28 @@ public class CoursesCompletedFragment extends Fragment {
 
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+
+        if (recyclerView != null) {
+            // إعداد الـ Adapter
+            adapter = new MycoursesAdapter(getContext(), db.myCoursesDao().getAllMyCourses(savedid, true), new MycoursesAdapter.ClickHandle() {
+                @Override
+                public void onItemClick(int position) {
+                    Intent intent = new Intent(getContext(), CourseUserINActivity.class);
+                    intent.putExtra("course_id", db.myCoursesDao().getAllMyCourses(savedid, true).get(position).getCourseID());
+                    startActivity(intent);
+                }
+            });
+
+            recyclerView.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
+        } else {
+            Log.e("CoursesCompletedFragment", "RecyclerView is null in onResume");
+        }
+
+        super.onResume();
     }
 }
