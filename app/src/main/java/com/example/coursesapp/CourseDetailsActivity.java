@@ -1,28 +1,15 @@
 package com.example.coursesapp;
 
-import static java.security.AccessController.getContext;
-
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.coursesapp.databinding.ActivityCourseDetailsBinding;
 import com.google.android.material.tabs.TabLayout;
-
-import java.util.Objects;
 
 public class CourseDetailsActivity extends AppCompatActivity {
 
@@ -122,7 +109,7 @@ public class CourseDetailsActivity extends AppCompatActivity {
 
         // إنشاء الـ Adapter وإضافة الفراجمنتات
         vpadapter adapter = new vpadapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-        adapter.addFragment(new DetailsCourseFragment(), "Details");
+        adapter.addFragment(new CourseDetailsFragment(), "Details");
         adapter.addFragment(new LecturesFragment(), "Lectures");
 
         viewPager.setAdapter(adapter);
@@ -131,17 +118,32 @@ public class CourseDetailsActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
 
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
 
-        Bundle bundle = new Bundle();
-        bundle.putString("id", String.valueOf(course.getId()));
 
-        DetailsCourseFragment fragment = new DetailsCourseFragment();
-        fragment.setArguments(bundle);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
 
-        fragmentManager.beginTransaction()
-                .replace(R.id.pagerdetails, fragment)
-                .commit();
+            @Override
+            public void onPageSelected(int position) {
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {}
+        });
+
+
+        CourseDetailsFragment fragment = (CourseDetailsFragment) adapter.getFragmentAt(0);
+        if (fragment != null) {
+            fragment.updateData(course.getId(),user.getId());
+        }
+
+
+
+
+
+
+
 
         binding.tvCoursename.setText(db.courseDao().getCoursesByID(course.getId()).getTitle());
         binding.tvDescrition.setText(db.courseDao().getCoursesByID(course.getId()).getDescription());
@@ -150,4 +152,5 @@ public class CourseDetailsActivity extends AppCompatActivity {
 
 
     }
+
 }

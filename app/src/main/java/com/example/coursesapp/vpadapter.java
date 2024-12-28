@@ -37,4 +37,8 @@ public class vpadapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         return fragmentTitleArrayList.get(position);
     }
+    public Fragment getFragmentAt(int position) {
+        return fragmentArrayList.get(position);
+    }
+
 }
