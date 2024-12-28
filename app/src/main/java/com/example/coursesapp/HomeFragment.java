@@ -89,7 +89,6 @@ public class HomeFragment extends Fragment {
         RecyclerView recyclerViewForyou = view.findViewById(R.id.recycle_foryou);
         searchResultsList = view.findViewById(R.id.searchResultsList);
 
-        List<Course> courses = new ArrayList<>();
 
 
 //        if (db.courseDao().getAllCourses().isEmpty()){
@@ -117,10 +116,19 @@ public class HomeFragment extends Fragment {
 //
 
 
+        //----------------Foryou-----------------------
+        List<Course> courses = new ArrayList<>();
+
         if (db.courseDao().getAllCourses().isEmpty()) {
 
         } else {
-            courses.add(db.courseDao().getAllCourses().get(db.courseDao().getAllCourses().size() - 1));
+            if (db.courseDao().getAllCourses().size()>=2){
+                courses.add(db.courseDao().getAllCourses().get(db.courseDao().getAllCourses().size() - 2));
+                courses.add(db.courseDao().getAllCourses().get(db.courseDao().getAllCourses().size() - 1));
+            }else {
+                courses.add(db.courseDao().getAllCourses().get(db.courseDao().getAllCourses().size() - 1));
+
+            }
         }
         androidx.appcompat.widget.SearchView searchView = view.findViewById(R.id.searchView);
 
@@ -140,14 +148,20 @@ public class HomeFragment extends Fragment {
 
 
 
+
+
+
+
+
+
+        //------------------searchbar-------------------
+
         searchView.setOnSearchClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
             }
         });
-
-
         List<coursecut> sampleData = new ArrayList<>();
         for (int i = 0; i < db.courseDao().getAllCourses().size(); i++) {
             sampleData.add(new coursecut(db.courseDao().getAllCourses().get(i).getId(),db.courseDao().getAllCourses().get(i).getTitle()));

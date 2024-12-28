@@ -6,10 +6,11 @@
     android:id="@+id/lin_item"
     app:cardCornerRadius="20dp"
     android:layout_marginHorizontal="20dp"
+
     android:layout_marginVertical="20dp"
     android:backgroundTint="#CCE9E9"
 
-    android:layout_height="250dp">
+    android:layout_height="280dp">
 
 
 
@@ -18,6 +19,8 @@
         android:layout_width="match_parent"
         android:layout_marginVertical="10dp"
         android:layout_marginHorizontal="10dp"
+        android:background="@null"
+        android:backgroundTint="@null"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
@@ -36,6 +39,7 @@
             android:layout_height="wrap_content"/>
 
         <ImageView
+            android:id="@+id/image_item"
             android:layout_width="match_parent"
             android:src="@drawable/imageoitem5"
             android:layout_height="wrap_content"/>

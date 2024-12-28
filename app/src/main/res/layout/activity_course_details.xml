@@ -1,253 +1,162 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/white"
+    android:background="@color/black"
     android:fitsSystemWindows="true"
     tools:context=".CourseDetailsActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
 
-        <com.google.android.material.card.MaterialCardView
+
+        <LinearLayout
+            android:id="@+id/linearLayout3"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            app:cardCornerRadius="15dp"
-            >
-            <androidx.cardview.widget.CardView
-                android:id="@+id/back_btn"
-                android:layout_width="40dp"
-                android:layout_marginTop="10dp"
-                app:cardCornerRadius="10dp"
-                android:layout_marginStart="10dp"
-                android:layout_height="40dp">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:elevation="1dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/baseline_arrow_back_24"/>
-            </androidx.cardview.widget.CardView>
+            android:layout_height="300dp"
+            android:background="@drawable/cardgradint1"
+            android:orientation="vertical"
+
+            android:paddingStart="20dp"
+            android:paddingTop="30dp"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="RtlSymmetry">
 
 
-            <ImageView
-                android:id="@+id/course_image"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:src="@drawable/gg" />
-        </com.google.android.material.card.MaterialCardView>
+            <TextView
+                android:id="@+id/tv_coursename"
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="20dp">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="CourseName"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                android:textStyle="bold" />
 
-
-        <!-- عنوان الكورس -->
-
-
-        <!-- بطاقة معلومات الكورس -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="10dp"
-            app:cardCornerRadius="15dp"
-            app:cardElevation="5dp">
-
+            <TextView
+                android:id="@+id/tv_descrition"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Description"
+                android:textColor="@color/white" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_marginTop="10dp"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="15dp">
-                <TextView
-                    android:id="@+id/tv_course_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Course Title"
-                    android:textColor="@color/black"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
-                    android:gravity="center"
-                    android:padding="10dp" />
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textStyle="bold"
-                        android:text="Instructor: "
-                        android:textColor="@color/my"
-                        android:textSize="16sp"
-                         />
-                    <TextView
-                        android:id="@+id/tv_instructor_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Dr. Ahmed"
-                        android:textColor="@color/my"
-                        android:textSize="16sp"
-                        />
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
 
-                </LinearLayout>
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Description: "
-                        android:textStyle="bold"
-                        android:textColor="@color/black"
-                        android:textSize="14sp"/>
-                    <TextView
-                        android:id="@+id/tv_course_description"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="This is a sample description for the course."
-                        android:textColor="@color/black"
-                        android:textSize="14sp"/>
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
 
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Price: "
-                        android:textStyle="bold"
-                        android:textColor="@color/black"
-                        android:textSize="14sp"/>
-                    <TextView
-                        android:id="@+id/tv_course_price"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="$100"
-                        android:textColor="@color/black"
-                        android:textSize="14sp"/>
 
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
                     android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Duration: "
-                        android:textStyle="bold"
-                        android:textColor="@color/black"
-                        android:textSize="14sp"
-                        />
-                    <TextView
-                        android:id="@+id/tv_course_hours"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="15 Hours"
-                        android:textColor="@color/black"
-                        android:textSize="14sp"
-                        />
 
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:orientation="horizontal">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Lectures: "
-                        android:textStyle="bold"
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
+                        android:layout_marginStart="5dp"
+                        android:text="Author: "
+                        android:textColor="@color/white"
+                        android:textStyle="bold" />
+
                     <TextView
-                        android:id="@+id/tv_course_lectures"
+                        android:id="@+id/tv_author"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=" 10"
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Number Of Students: "
-                        android:textStyle="bold"
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
-                    <TextView
-                        android:id="@+id/tv_course_num_stuent"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text=" 0"
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
+                        android:text="Author"
+
+                        android:textColor="@color/white" />
                 </LinearLayout>
 
-
-
-
-
-                <!-- تفاصيل الكورس -->
-                <TextView
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Details"
-                    android:textColor="@color/my"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:layout_marginTop="10dp" />
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/tv_course_details"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="This section contains the full details of the course."
-                    android:textColor="@color/black"
-                    android:textSize="14sp"
-                    android:layout_marginTop="8dp"
-                    android:lineSpacingExtra="4dp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Lectures Number: "
+                        android:textColor="@color/white"
+                        android:textStyle="bold" />
 
+                    <TextView
+                        android:id="@+id/tv_lecturesnumber"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Hourse"
+                        android:textColor="@color/white" />
+                </LinearLayout>
             </LinearLayout>
 
-        </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
 
 
-
-        <!-- زر العودة -->
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_signtocourse"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:text="Sign The Courses"
-            android:layout_marginTop="20dp"
-            android:backgroundTint="@color/black"
-            android:textColor="@color/white"
-            app:cornerRadius="15dp" />
+            android:layout_height="match_parent"
+            android:background="@drawable/backgroundfrag"
+            android:backgroundTint="@color/white"
+            android:orientation="vertical"
+            android:layout_marginTop="220dp"
+            android:padding="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-    </LinearLayout>
-    </LinearLayout>
-</ScrollView>
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tab_layout_courses"
+                app:tabIconTint="@color/black"
+                app:tabRippleColor="@color/black"
+                app:tabSelectedTextColor="@color/black"
+                app:tabTextColor="@color/black"
+                android:backgroundTint="@color/white"
+                android:background="@color/black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Details" />
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Lectures" />
+
+
+            </com.google.android.material.tabs.TabLayout>
+
+
+
+
+            <androidx.viewpager.widget.ViewPager
+                android:layout_width="match_parent"
+                android:id="@+id/pagerdetails"
+                android:layout_height="match_parent"/>
+
+
+
+        </LinearLayout>
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

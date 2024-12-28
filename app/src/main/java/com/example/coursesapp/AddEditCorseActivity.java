@@ -149,6 +149,10 @@ public class AddEditCorseActivity extends AppCompatActivity {
                     } else if (binding.edDescription.getText().toString().isEmpty()) {
                         binding.edDescription.setError("Enter Description");
                         binding.edDescription.requestFocus();
+                    } else if (binding.edCategorynameshow.getText().toString().isEmpty()) {
+                        binding.edCategorynameshow.setError("Enter Category Name");
+                        binding.edCategorynameshow.requestFocus();
+
                     } else {
                         Course course = new Course();
                         course.setDescription(binding.edDescription.getText().toString());
@@ -157,9 +161,9 @@ public class AddEditCorseActivity extends AppCompatActivity {
                         course.setPrice(binding.edPrice.getText().toString());
                         course.setTitle(binding.edTitle.getText().toString());
                         course.setLectureNumber(LecNum);
-
                         course.setDetails(binding.edDetails.getText().toString());
                         course.setNumberOfStudents(0);
+                        course.setCategorynameshown(binding.edCategorynameshow.getText().toString());
                         course.setCategoryID(db.categoryDao().getCategoryByTitle(Category).getId());
                         db.courseDao().insertCourse(course);
                         Toast.makeText(AddEditCorseActivity.this, "Course Added", Toast.LENGTH_SHORT).show();
@@ -233,6 +237,7 @@ public class AddEditCorseActivity extends AppCompatActivity {
             binding.edHourse.setText(course.getHours());
             binding.edInsName.setText(course.getInstructorName());
             binding.edDescription.setText(course.getDescription());
+            binding.edCategorynameshow.setText(course.getCategorynameshown());
 
 
             ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -322,6 +327,10 @@ public class AddEditCorseActivity extends AppCompatActivity {
                     } else if (binding.edDescription.getText().toString().isEmpty()) {
                         binding.edDescription.setError("Enter Description");
                         binding.edDescription.requestFocus();
+                    } else if (binding.edCategorynameshow.getText().toString().isEmpty()) {
+                        binding.edCategorynameshow.setError("Enter Category Name");
+                        binding.edCategorynameshow.requestFocus();
+
                     } else {
                         Course course = new Course();
                         course.setDescription(binding.edDescription.getText().toString());
@@ -334,6 +343,7 @@ public class AddEditCorseActivity extends AppCompatActivity {
                         course.setNumberOfStudents(0);
                         course.setCategoryID(db.categoryDao().getCategoryByTitle(Category).getId());
                         course.setId(Long.parseLong(Objects.requireNonNull(getIntent().getStringExtra("id"))));
+                        course.setCategorynameshown(binding.edCategorynameshow.getText().toString());
                         db.courseDao().updateCourse(course);
                         Toast.makeText(AddEditCorseActivity.this, "Course Updated", Toast.LENGTH_SHORT).show();
                         finish();

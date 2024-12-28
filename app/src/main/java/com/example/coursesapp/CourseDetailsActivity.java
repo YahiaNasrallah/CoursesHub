@@ -2,6 +2,7 @@ package com.example.coursesapp;
 
 import static java.security.AccessController.getContext;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -14,8 +15,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import com.example.coursesapp.databinding.ActivityCourseDetailsBinding;
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.Objects;
 
@@ -50,12 +55,12 @@ public class CourseDetailsActivity extends AppCompatActivity {
         long savedid = preferences.getLong("savedid",0);
 
 
-        if (Objects.equals(getIntent().getStringExtra("state"), "out")){
-            binding.btnSigntocourse.setVisibility(View.GONE);
-
-        }else {
-            binding.btnSigntocourse.setVisibility(View.VISIBLE);
-        }
+//        if (Objects.equals(getIntent().getStringExtra("state"), "out")){
+//            binding.btnSigntocourse.setVisibility(View.GONE);
+//
+//        }else {
+//            binding.btnSigntocourse.setVisibility(View.VISIBLE);
+//        }
 
         //Toast.makeText(this, savedPassword, Toast.LENGTH_SHORT).show();
         User user=db.userDao().getUserByid(savedid);
@@ -63,58 +68,85 @@ public class CourseDetailsActivity extends AppCompatActivity {
         //Toast.makeText(this, String.valueOf(user.getUsername()), Toast.LENGTH_SHORT).show();
 
         Course course=db.courseDao().getCoursesByID((getIntent().getLongExtra("course_id",0)));
-
-        binding.tvCourseTitle.setText(course.getTitle());
-        binding.tvInstructorName.setText(course.getInstructorName());
-        binding.tvCourseDescription.setText(course.getDescription());
-        binding.tvCoursePrice.setText(course.getPrice());
-        binding.tvCourseHours.setText(course.getHours());
-        binding.tvCourseLectures.setText(String.valueOf(course.getLectureNumber()));
-        binding.tvCourseDetails.setText(course.getDetails());
-        binding.tvCourseNumStuent.setText(String.valueOf(db.myCoursesDao().getAllMyCourses(savedid).size()));
-        //binding.courseImage.setImageResource(course.getImage());
-        //binding.courseImage.setImageResource(course.getImage());
-
-
-        binding.backBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+//
+//        binding.tvCourseTitle.setText(course.getTitle());
+//        binding.tvInstructorName.setText(course.getInstructorName());
+//        binding.tvCourseDescription.setText(course.getDescription());
+//        binding.tvCoursePrice.setText(course.getPrice());
+//        binding.tvCourseHours.setText(course.getHours());
+//        binding.tvCourseLectures.setText(String.valueOf(course.getLectureNumber()));
+//        binding.tvCourseDetails.setText(course.getDetails());
+//        binding.tvCourseNumStuent.setText(String.valueOf(db.myCoursesDao().getAllMyCourses(savedid).size()));
+//        //binding.courseImage.setImageResource(course.getImage());
+//        //binding.courseImage.setImageResource(course.getImage());
 
 
-        binding.btnSigntocourse.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                boolean bb=true;
+//        binding.backBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                finish();
+//            }
+//        });
+//
+//
+//        binding.btnSigntocourse.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                boolean bb=true;
+//
+//                for (int i = 0; i <db.myCoursesDao().getAllMyCourses(savedid).size() ; i++) {
+//                    if (db.myCoursesDao().getAllMyCourses(savedid).get(i).getCourseID()==course.getId()&&db.myCoursesDao().getAllMyCourses(savedid).get(i).getUserID()==user.getId()){
+//                        Toast.makeText(CourseDetailsActivity.this, "You are already sign this course", Toast.LENGTH_SHORT).show();
+//                        bb=false;
+//                    }
+//
+//                }
+//                if (bb) {
+//                    MyCourses myCourses = new MyCourses();
+//                    myCourses.setCourseID(course.getId());
+//                    myCourses.setUserID(user.getId());
+//                    myCourses.setProgress(0);
+//                    myCourses.setCompleted(false);
+//                    db.myCoursesDao().insertMyCourse(myCourses);
+//                    Toast.makeText(CourseDetailsActivity.this, "تم التسجيل بنجاح", Toast.LENGTH_SHORT).show();
+//                    finish();
+//                }
+//
+//            }
+//        });
+//
 
-                for (int i = 0; i <db.myCoursesDao().getAllMyCourses(savedid).size() ; i++) {
-                    if (db.myCoursesDao().getAllMyCourses(savedid).get(i).getCourseID()==course.getId()&&db.myCoursesDao().getAllMyCourses(savedid).get(i).getUserID()==user.getId()){
-                        Toast.makeText(CourseDetailsActivity.this, "You are already sign this course", Toast.LENGTH_SHORT).show();
-                        bb=false;
-                    }
 
-                }
-                if (bb) {
-                    MyCourses myCourses = new MyCourses();
-                    myCourses.setCourseID(course.getId());
-                    myCourses.setUserID(user.getId());
-                    myCourses.setProgress(0);
-                    myCourses.setCompleted(false);
-                    db.myCoursesDao().insertMyCourse(myCourses);
-                    Toast.makeText(CourseDetailsActivity.this, "تم التسجيل بنجاح", Toast.LENGTH_SHORT).show();
-                    finish();
-                }
+         TabLayout tabLayout = findViewById(R.id.tab_layout_courses);
+         ViewPager viewPager = findViewById(R.id.pagerdetails);
 
-            }
-        });
+        // إنشاء الـ Adapter وإضافة الفراجمنتات
+        vpadapter adapter = new vpadapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        adapter.addFragment(new DetailsCourseFragment(), "Details");
+        adapter.addFragment(new LecturesFragment(), "Lectures");
+
+        viewPager.setAdapter(adapter);
 
 
+        tabLayout.setupWithViewPager(viewPager);
 
 
+        FragmentManager fragmentManager = getSupportFragmentManager();
 
+        Bundle bundle = new Bundle();
+        bundle.putString("id", String.valueOf(course.getId()));
 
+        DetailsCourseFragment fragment = new DetailsCourseFragment();
+        fragment.setArguments(bundle);
+
+        fragmentManager.beginTransaction()
+                .replace(R.id.pagerdetails, fragment)
+                .commit();
+
+        binding.tvCoursename.setText(db.courseDao().getCoursesByID(course.getId()).getTitle());
+        binding.tvDescrition.setText(db.courseDao().getCoursesByID(course.getId()).getDescription());
+        binding.tvAuthor.setText(db.courseDao().getCoursesByID(course.getId()).getInstructorName());
+        binding.tvLecturesnumber.setText(String.valueOf(db.courseDao().getCoursesByID(course.getId()).getLectureNumber()));
 
 
     }

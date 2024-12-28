@@ -27,6 +27,8 @@ public class Course {
     private String Details;
     @NonNull
     private int LectureNumber;
+
+    private String categorynameshown;
     @NonNull
     private long CategoryID;
 
@@ -49,6 +51,14 @@ public class Course {
         this.Details = details;
         this.LectureNumber=lectureNumber;
         this.CategoryID=categoryID;
+    }
+
+    public String getCategorynameshown() {
+        return categorynameshown;
+    }
+
+    public void setCategorynameshown(String categorynameshown) {
+        this.categorynameshown = categorynameshown;
     }
 
     @NonNull

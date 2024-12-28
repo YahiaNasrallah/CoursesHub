@@ -1,6 +1,9 @@
 package com.example.coursesapp;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,14 +43,28 @@ public class CourseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     //الوصول لكل عنصر محدد من الليست
+    @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
+        Appdatabase db = Appdatabase.getDatabase(context);
         MyviewHolder myviewHolder= (MyviewHolder) holder;
 
         myviewHolder.binding.tvNamecourseItem.setText(courseList.get(position).getTitle());
         //myviewHolder.binding.tvDescriptionItem.setText(courseList.get(position).getDescription());
       //  myviewHolder.binding.tvInstructornameItem.setText(courseList.get(position).getInstructorName());
+        if (db.categoryDao().getCategoryById(courseList.get(position).getCategoryID()).getCategoryName().equals("Education")){
+            myviewHolder.binding.imageItem.setImageResource(R.drawable.imageoitem2);
+        }else if (db.categoryDao().getCategoryById(courseList.get(position).getCategoryID()).getCategoryName().equals("Engineering")){
+            myviewHolder.binding.imageItem.setImageResource(R.drawable.imageoitem3);
+        }else if (db.categoryDao().getCategoryById(courseList.get(position).getCategoryID()).getCategoryName().equals("Business")){
+            myviewHolder.binding.imageItem.setImageResource(R.drawable.imageoitem5);
+
+        }else if (db.categoryDao().getCategoryById(courseList.get(position).getCategoryID()).getCategoryName().equals("Other")){
+            myviewHolder.binding.imageItem.setImageResource(R.drawable.imageoitem1);
+
+        }
+
 
 
         myviewHolder.binding.getRoot().setOnClickListener(new View.OnClickListener() {
