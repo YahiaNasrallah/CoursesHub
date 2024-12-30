@@ -40,7 +40,10 @@ public class LectureAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         this.clickHandle=clickHandle;
     }
 
-
+    public void updateLectures(List<Lecture> newLectures) {
+        this.lectureList = newLectures;
+        notifyDataSetChanged(); // تحديث البيانات وإعادة العرض
+    }
     //الدالتين لاعطاء الاوامر للعناصر
     @NonNull
     @Override

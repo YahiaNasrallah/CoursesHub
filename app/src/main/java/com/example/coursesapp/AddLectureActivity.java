@@ -131,6 +131,7 @@ public class AddLectureActivity extends AppCompatActivity {
                             binding.edLectureDescription.requestFocus();
                         } else {
 
+
 //                        for (int i = 0; i <db.lectureDao().getAllLecturesByCourseID(db.courseDao().getCourseByTitle(selectedCourse).getId()).size() ; i++) {
 //                            if (db.lectureDao().getAllLecturesByCourseID(db.courseDao().getCourseByTitle(selectedCourse).getId()).get(i).getLectureNumber()==selectedLectureint) {
 //                                Toast.makeText(AddLectureActivity.this, "Lecture Already Exists", Toast.LENGTH_SHORT).show();
@@ -150,6 +151,11 @@ public class AddLectureActivity extends AppCompatActivity {
 //                            }
 //
 //                        }
+                            if (binding.edLectureLink.getText().toString().startsWith("https://www.youtube.com/") || binding.edLectureLink.getText().toString().startsWith("https://youtu.be/")){
+
+
+
+
                             List<Lecture> lectures = db.lectureDao().getAllLecturesByCourseID(
                                     db.courseDao().getCourseByTitle(selectedCourse).getId()
                             );
@@ -178,8 +184,13 @@ public class AddLectureActivity extends AppCompatActivity {
                                 finish();
                             }
 
-                        }
+                        }else {
+                                binding.edLectureLink.setError("The Lecture link is invalid");
+                                binding.edLectureLink.requestFocus();
+                            }
 
+
+                    }
 
                     }
 

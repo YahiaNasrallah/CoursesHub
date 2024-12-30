@@ -2,6 +2,7 @@ package com.example.coursesapp;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -13,6 +14,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.coursesapp.databinding.FragmentCoursesOngoingBinding;
+
+import java.util.List;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -81,46 +87,34 @@ public class CoursesOngoingFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_courses_ongoing, container, false);
         recyclerView = view.findViewById(R.id.recycler_courses_ongoing); // تهيئة RecyclerView هنا
-
-        adapter=new MycoursesAdapter(getContext(), db.myCoursesDao().getAllMyCourses(savedid,false), new MycoursesAdapter.ClickHandle() {
-            @Override
-            public void onItemClick(int position) {
-                Intent intent = new Intent(getContext(), CourseUserINActivity.class);
-                intent.putExtra("course_id",db.myCoursesDao().getAllMyCourses(savedid,false).get(position).getCourseID());
-                startActivity(intent);
-
-
-            }
+        adapter = new MycoursesAdapter(getContext(), db.myCoursesDao().getAllMyCourses(savedid, false), position -> {
+            Intent intent = new Intent(getContext(), CourseUserINActivity.class);
+            intent.putExtra("course_id", db.myCoursesDao().getAllMyCourses(savedid, false).get(position).getCourseID());
+            startActivity(intent);
         });
-       RecyclerView recyclerView= view.findViewById(R.id.recycler_courses_ongoing);
-       recyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(layoutManager);
+
+// تهيئة RecyclerView
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(true);
+
+
+
+
 
         return view;
     }
-
     @Override
     public void onResume() {
-//        adapter=new MycoursesAdapter(getContext(), db.myCoursesDao().getAllMyCourses(savedid,false), new MycoursesAdapter.ClickHandle() {
-//            @Override
-//            public void onItemClick(int position) {
-//                Intent intent = new Intent(getContext(), CourseUserINActivity.class);
-//                intent.putExtra("course_id",db.myCoursesDao().getAllMyCourses(savedid,false).get(position).getCourseID());
-//                startActivity(intent);
-//
-//
-//            }
-//        });
-//
-//        recyclerView.setAdapter(adapter);
-//        adapter.notifyDataSetChanged();
-//        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-//        recyclerView.setLayoutManager(layoutManager);
-//        recyclerView.setHasFixedSize(true);
-
         super.onResume();
+        // إعادة تحميل الكورسات عند عودة الـ Fragment
+        reloadCourses();
     }
+
+    private void reloadCourses() {
+        List<MyCourses> updatedCourses = db.myCoursesDao().getAllMyCourses(savedid, false);
+        adapter.updateCourses(updatedCourses); // تحديث قائمة الكورسات داخل الـ Adapter
+    }
+
+
 }

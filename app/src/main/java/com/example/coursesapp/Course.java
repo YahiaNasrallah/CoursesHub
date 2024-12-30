@@ -41,7 +41,7 @@ public class Course {
         this.InstructorName = instructorName;
         this.CategoryID=categoryID;
     }
-    public Course(@NonNull String title, @NonNull String description, @NonNull String instructorName, @NonNull String price, @NonNull int numberOfStudents, @NonNull String hours, @NonNull String details,@NonNull int lectureNumber, @NonNull long categoryID) {
+    public Course(@NonNull String title, @NonNull String description, @NonNull String instructorName, @NonNull String price, @NonNull int numberOfStudents, @NonNull String hours, @NonNull String details,@NonNull int lectureNumber, @NonNull long categoryID,String categorynameshown) {
         this.Title = title;
         this.Description = description;
         this.InstructorName = instructorName;
@@ -49,8 +49,9 @@ public class Course {
         this.NumberOfStudents = numberOfStudents;
         this.Hours = hours;
         this.Details = details;
-        this.LectureNumber=lectureNumber;
-        this.CategoryID=categoryID;
+        this.LectureNumber = lectureNumber;
+        this.CategoryID = categoryID;
+        this.categorynameshown=categorynameshown;
     }
 
     public String getCategorynameshown() {

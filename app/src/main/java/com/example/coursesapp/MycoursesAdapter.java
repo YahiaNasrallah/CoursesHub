@@ -31,7 +31,10 @@ public class MycoursesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         this.myCoursesList = myCoursesList;
         this.clickHandle=clickHandle;
     }
-
+    public void updateCourses(List<MyCourses> newCourses) {
+        this.myCoursesList = newCourses;
+        notifyDataSetChanged(); // تحديث واجهة RecyclerView
+    }
 
     //الدالتين لاعطاء الاوامر للعناصر
     @NonNull

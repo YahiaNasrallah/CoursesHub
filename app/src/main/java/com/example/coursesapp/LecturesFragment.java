@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.example.coursesapp.databinding.FragmentLecturesBinding;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -99,6 +100,8 @@ public class LecturesFragment extends Fragment {
                      //   MyCourses myCourses=db.myCoursesDao().getMyCourseByCourseIDAndUserID(userid,courseid);
                         MyCourses myCourse = db.myCoursesDao().getMyCourseByCourseIDAndUserID(userId, courseId);
 
+                        new Thread(() -> updateCourseProgress(lecture)).start();
+
 
 
 
@@ -182,6 +185,17 @@ public class LecturesFragment extends Fragment {
         return binding.getRoot();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        reloadLectures();
+    }
+
+    private void reloadLectures() {
+        // استرجاع المحاضرات المحدثة من قاعدة البيانات
+        List<Lecture> updatedLectures = db.lectureDao().getAllLecturesByCourseID(courseId);
+        adapter.updateLectures(updatedLectures); // تحديث الـ Adapter بالمحاضرات المحدثة
+    }
 
     public void uUpdateData(long courseid,long userid,boolean status) {
         this.courseId = courseid;
@@ -192,4 +206,29 @@ public class LecturesFragment extends Fragment {
 
 
     }
+
+
+    private void updateCourseProgress(Lecture lecture) {
+        MyCourses myCourse = db.myCoursesDao().getMyCourseByCourseIDAndUserID(userId, courseId);
+        if (myCourse != null) {
+            if (myCourse.getCompletedLectures() == null) {
+                myCourse.setCompletedLectures(new ArrayList<>());
+            }
+
+            if (!myCourse.getCompletedLectures().contains(lecture.getId())) {
+                myCourse.getCompletedLectures().add(lecture.getId());
+                Course course = db.courseDao().getCoursesByID(courseId);
+
+                int progress = (myCourse.getCompletedLectures().size() * 100) / course.getLectureNumber();
+                myCourse.setProgress(progress);
+
+                if (myCourse.getCompletedLectures().size() == course.getLectureNumber()) {
+                    myCourse.setCompleted(true);
+                }
+
+                db.myCoursesDao().updateMyCourse(myCourse);
+            }
+        }
+    }
+
 }

@@ -18,6 +18,8 @@ import android.widget.Toast;
 
 import com.example.coursesapp.databinding.FragmentCoursesCompletedBinding;
 
+import java.util.List;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link CoursesCompletedFragment#newInstance} factory method to
@@ -94,23 +96,17 @@ public class CoursesCompletedFragment extends Fragment {
 
 
 
-
-        adapter=new MycoursesAdapter(getContext(), db.myCoursesDao().getAllMyCourses(savedid,true), new MycoursesAdapter.ClickHandle() {
-            @Override
-            public void onItemClick(int position) {
-                Intent intent = new Intent(getContext(), CourseUserINActivity.class);
-                intent.putExtra("course_id",db.myCoursesDao().getAllMyCourses(savedid,true).get(position).getCourseID());
-                startActivity(intent);
-
-
-            }
+        recyclerView = view.findViewById(R.id.recycler_courses_completed); // تهيئة RecyclerView هنا
+        adapter = new MycoursesAdapter(getContext(), db.myCoursesDao().getAllMyCourses(savedid, true), position -> {
+            Intent intent = new Intent(getContext(), CourseUserINActivity.class);
+            intent.putExtra("course_id", db.myCoursesDao().getAllMyCourses(savedid, true).get(position).getCourseID());
+            startActivity(intent);
         });
-        recyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setHasFixedSize(true);
 
+// تهيئة RecyclerView
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setHasFixedSize(true);
 
 
 
@@ -119,24 +115,13 @@ public class CoursesCompletedFragment extends Fragment {
 
     @Override
     public void onResume() {
-
-        if (recyclerView != null) {
-            // إعداد الـ Adapter
-            adapter = new MycoursesAdapter(getContext(), db.myCoursesDao().getAllMyCourses(savedid, true), new MycoursesAdapter.ClickHandle() {
-                @Override
-                public void onItemClick(int position) {
-                    Intent intent = new Intent(getContext(), CourseUserINActivity.class);
-                    intent.putExtra("course_id", db.myCoursesDao().getAllMyCourses(savedid, true).get(position).getCourseID());
-                    startActivity(intent);
-                }
-            });
-
-            recyclerView.setAdapter(adapter);
-            adapter.notifyDataSetChanged();
-        } else {
-            Log.e("CoursesCompletedFragment", "RecyclerView is null in onResume");
-        }
-
         super.onResume();
+        // إعادة تحميل الكورسات عند عودة الـ Fragment
+        reloadCourses();
+    }
+
+    private void reloadCourses() {
+        List<MyCourses> updatedCourses = db.myCoursesDao().getAllMyCourses(savedid, true);
+        adapter.updateCourses(updatedCourses); // تحديث قائمة الكورسات داخل الـ Adapter
     }
 }
