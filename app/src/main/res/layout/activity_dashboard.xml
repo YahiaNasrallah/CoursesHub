@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/dashbackgroud"
+    android:background="@drawable/cardgradint1"
     tools:context=".DashboardActivity">
 
     <TextView
@@ -14,8 +14,9 @@
         android:text="CourseHub"
         android:layout_gravity="center"
         android:textSize="40sp"
-        android:textColor="@color/my"
-        android:fontFamily="@font/wsregular"
+        android:textColor="@color/color2"
+        android:fontFamily="@font/futuraround"
+        android:textStyle="bold"
         android:layout_marginTop="30dp"
         android:layout_height="wrap_content"/>
 
@@ -25,7 +26,8 @@
         android:layout_gravity="center"
         android:textSize="30sp"
         android:textColor="@color/white"
-        android:fontFamily="@font/wsregular"
+        android:fontFamily="@font/futuraround"
+        android:textStyle="bold"
         android:layout_marginTop="20dp"
         android:layout_height="wrap_content"/>
 
@@ -34,7 +36,7 @@
         android:layout_width="350dp"
         android:layout_marginTop="100dp"
         app:cornerRadius="15dp"
-        android:backgroundTint="@color/my"
+        android:backgroundTint="@color/color1"
         android:textColor="@color/white"
         android:layout_gravity="center"
         android:text="Add Courses"
@@ -45,7 +47,7 @@
         android:layout_width="350dp"
         app:cornerRadius="15dp"
         android:layout_marginTop="10dp"
-        android:backgroundTint="@color/my"
+        android:backgroundTint="@color/color1"
         android:textColor="@color/white"
         android:layout_gravity="center"
         android:text="Show All Courses"

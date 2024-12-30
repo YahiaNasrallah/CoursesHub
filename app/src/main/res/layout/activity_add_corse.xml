@@ -54,7 +54,7 @@
                 android:layout_gravity="center"
                 android:textStyle="bold"
                 android:textSize="30sp"
-                android:textColor="@color/my"
+                android:textColor="@color/color1"
                 android:layout_height="wrap_content"/>
 
         </LinearLayout>
@@ -187,8 +187,9 @@
         android:layout_width="250dp"
         android:layout_height="60dp"
         android:text="Save"
+        android:layout_marginBottom="50dp"
         app:cornerRadius="15dp"
-        android:backgroundTint="@color/my"
+        android:backgroundTint="@color/color1"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
 />

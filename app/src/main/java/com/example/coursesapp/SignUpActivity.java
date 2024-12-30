@@ -33,12 +33,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.UUID;
 
 public class SignUpActivity extends AppCompatActivity {
 
     ActivitySignUpBinding binding;
     Appdatabase db;
-    Uri imageUri;
+    boolean flag;
+    Uri imageUri=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +78,7 @@ public class SignUpActivity extends AppCompatActivity {
         binding.cardImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                flag=true;
                 Intent intent2=new Intent();
                 intent2.setAction(Intent.ACTION_GET_CONTENT);
                 intent2.setType("image/*");
@@ -95,7 +98,7 @@ public class SignUpActivity extends AppCompatActivity {
         binding.btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    if (binding.edUsername.getText().toString().isEmpty() || binding.edEmail.getText().toString().isEmpty() || binding.edPassword.getText().toString().isEmpty() || binding.edRepassword.getText().toString().isEmpty()){
+                    if (binding.edUsername.getText().toString().isEmpty() || binding.edEmail.getText().toString().isEmpty() || binding.edPassword.getText().toString().isEmpty() || binding.edRepassword.getText().toString().isEmpty()||binding.edPhone.getText().toString().isEmpty()){
                         Toast.makeText(SignUpActivity.this, "Enter Data", Toast.LENGTH_SHORT).show();
                     }else if (!binding.edPassword.getText().toString().equals(binding.edRepassword.getText().toString())){
                         Toast.makeText(SignUpActivity.this, "Password Not The Same", Toast.LENGTH_SHORT).show();
@@ -107,25 +110,28 @@ public class SignUpActivity extends AppCompatActivity {
                             user.setJoinDate(getFormattedDate());
                             user.setPhoneNumber(Integer.parseInt(binding.edPhone.getText().toString()));
 
+                            if (flag) {
 
 
-                            File externalStorageDirectory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "coursesapp");
-                            if (!externalStorageDirectory.exists()) {
-                                externalStorageDirectory.mkdirs();
+                                File externalStorageDirectory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "coursesapp");
+                                if (!externalStorageDirectory.exists()) {
+                                    externalStorageDirectory.mkdirs();
+                                }
+                                String uniqueName = UUID.randomUUID().toString();
+
+                                File file = new File(externalStorageDirectory, "user_" + user.getId() + "_" +uniqueName +"_"+getFormattedDateForFilename() + ".jpg");
+                                try {
+                                    saveImageToStorage(Objects.requireNonNull(uriToBitmap(imageUri, SignUpActivity.this)), file.getAbsolutePath());
+                                } catch (IOException e) {
+                                    throw new RuntimeException(e);
+                                }
+
+
+                                user.setUserImagePath(file.getAbsolutePath());
+                                loadImageFromStorage(user.getUserImagePath(), binding.imageUserSign);
+                            }else {
+                                user.setUserImagePath("null");
                             }
-
-                            File file = new File(externalStorageDirectory, "user_id_image.jpg");
-                            try {
-                                saveImageToStorage(Objects.requireNonNull(uriToBitmap(imageUri, SignUpActivity.this)), file.getAbsolutePath());
-                            } catch (IOException e) {
-                                throw new RuntimeException(e);
-                            }
-
-
-
-                            user.setUserImagePath(file.getAbsolutePath());
-                            loadImageFromStorage(user.getUserImagePath(),binding.imageUserSign);
-
 
                             db.userDao().insertUser(user);
                             Toast.makeText(SignUpActivity.this, "User Added", Toast.LENGTH_SHORT).show();
@@ -189,6 +195,16 @@ public class SignUpActivity extends AppCompatActivity {
             Bitmap bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
             imageView.setImageBitmap(bitmap);
         }
+    }
+    public static String getFormattedDateForFilename() {
+        // إنشاء كائن تاريخ يحتوي على الوقت الحالي
+        Date currentDate = new Date();
+
+        // التنسيق المطلوب: اليوم-الشهر-السنة_الساعة-الدقيقة-الثانية
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
+
+        // تحويل التاريخ إلى نص بدون رموز أو مسافات
+        return dateFormat.format(currentDate);
     }
 
 

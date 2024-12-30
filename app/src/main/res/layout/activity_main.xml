@@ -28,7 +28,7 @@
         android:background="@drawable/nav_design"
         android:layout_margin="0dp"
             android:fitsSystemWindows="true"
-        app:itemIconTint="#7986CB"
+        app:itemIconTint="@color/black"
         android:padding="0dp"
         app:itemIconSize="20dp"
         app:itemTextAppearanceActive="@style/TextAppearance.App.BottomNavigation"
