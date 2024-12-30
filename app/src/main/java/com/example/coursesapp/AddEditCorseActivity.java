@@ -42,6 +42,7 @@ public class AddEditCorseActivity extends AppCompatActivity {
     int pos;
     boolean flag=false;
     LectureAdapter adapter;
+    boolean flag2=false;
 
 
     @Override
@@ -154,21 +155,36 @@ public class AddEditCorseActivity extends AppCompatActivity {
                         binding.edCategorynameshow.requestFocus();
 
                     } else {
-                        Course course = new Course();
-                        course.setDescription(binding.edDescription.getText().toString());
-                        course.setHours(binding.edHourse.getText().toString());
-                        course.setInstructorName(binding.edInsName.getText().toString());
-                        course.setPrice(binding.edPrice.getText().toString());
-                        course.setTitle(binding.edTitle.getText().toString());
-                        course.setLectureNumber(LecNum);
-                        course.setDetails(binding.edDetails.getText().toString());
-                        course.setNumberOfStudents(0);
-                        course.setCategorynameshown(binding.edCategorynameshow.getText().toString());
-                        course.setCategoryID(db.categoryDao().getCategoryByTitle(Category).getId());
-                        db.courseDao().insertCourse(course);
-                        Toast.makeText(AddEditCorseActivity.this, "Course Added", Toast.LENGTH_SHORT).show();
-                        Toast.makeText(AddEditCorseActivity.this, Category, Toast.LENGTH_SHORT).show();
-                        finish();
+
+                        for (int i = 0; i <db.courseDao().getAllCourses().size() ; i++) {
+                            if (db.courseDao().getAllCourses().get(i).getTitle().equalsIgnoreCase(binding.edTitle.getText().toString())){
+                                flag2=true;
+                            }
+
+                        }
+
+                        if (flag2){
+                            flag2=false;
+                            binding.edTitle.setError("Title Already Exists");
+                            binding.edTitle.requestFocus();
+                        }else {
+                            Course course = new Course();
+                            course.setDescription(binding.edDescription.getText().toString());
+                            course.setHours(binding.edHourse.getText().toString());
+                            course.setInstructorName(binding.edInsName.getText().toString());
+                            course.setPrice(binding.edPrice.getText().toString());
+                            course.setTitle(binding.edTitle.getText().toString());
+                            course.setLectureNumber(LecNum);
+                            course.setDetails(binding.edDetails.getText().toString());
+                            course.setNumberOfStudents(0);
+                            course.setCategorynameshown(binding.edCategorynameshow.getText().toString());
+                            course.setCategoryID(db.categoryDao().getCategoryByTitle(Category).getId());
+                            db.courseDao().insertCourse(course);
+                            Toast.makeText(AddEditCorseActivity.this, "Course Added", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AddEditCorseActivity.this, Category, Toast.LENGTH_SHORT).show();
+                            finish();
+
+                        }
 
 
                     }

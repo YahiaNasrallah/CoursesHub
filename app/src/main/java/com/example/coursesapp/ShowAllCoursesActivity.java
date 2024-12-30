@@ -104,14 +104,11 @@ public class ShowAllCoursesActivity extends AppCompatActivity {
                     .setMessage("هل أنت متأكد أنك تريد المتابعة؟")
                     .setPositiveButton("نعم", (dialog, which) -> {
 
-                        if (db.lectureDao().getLectureByID(db.courseDao().getAllCourses().get(pos).getId())!=null) {
+                        if (db.lectureDao().getLectureByID(db.courseDao().getAllCourses().get(pos).getId())==null) {
                             db.courseDao().deleteCourse(db.courseDao().getAllCourses().get(pos));
                             adapter.notifyItemRemoved(pos);
                             GetAdapterCourse(db.courseDao().getAllCourses());
                         } else {
-
-
-
                             new AlertDialog.Builder(this)
                                     .setTitle("تأكيد العملية")
                                     .setMessage("هل تريد حذف الدورة و المحاضرات؟")
