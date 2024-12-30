@@ -8,6 +8,15 @@
     android:background="@color/white"
     tools:context=".ProfileFragment">
 
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible"
+        android:orientation="vertical">
+
+
+
     <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
         android:layout_marginEnd="20dp"
@@ -34,6 +43,7 @@
         android:layout_marginTop="20dp"
         android:layout_height="100dp">
         <ImageView
+            android:id="@+id/image_user_profile"
             android:layout_width="match_parent"
             android:src="@drawable/cardgradint1"
             android:layout_height="match_parent"/>
@@ -106,7 +116,8 @@
         android:drawableStart="@drawable/baseline_email_24"
         android:drawableTint="@color/black"
         android:drawablePadding="10dp"
-        android:layout_height="wrap_content"/>
+        android:gravity="center_vertical"
+        android:layout_height="50dp"/>
     <com.google.android.material.divider.MaterialDivider
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -120,11 +131,12 @@
         android:text="Phone"
         android:layout_marginTop="10dp"
         android:textSize="20sp"
+        android:gravity="center_vertical"
         android:layout_marginHorizontal="20dp"
         android:drawableStart="@drawable/baseline_local_phone_24"
         android:drawableTint="@color/black"
         android:drawablePadding="10dp"
-        android:layout_height="wrap_content"/>
+        android:layout_height="50dp"/>
     <com.google.android.material.divider.MaterialDivider
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -141,7 +153,8 @@
         android:drawableStart="@drawable/baseline_logout_24"
         android:drawableTint="@color/black"
         android:drawablePadding="10dp"
-        android:layout_height="wrap_content"/>
+        android:gravity="center_vertical"
+        android:layout_height="50dp"/>
 
 
 
@@ -155,5 +168,156 @@
         android:textSize="14sp"
         android:textColor="@color/black"
         android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:orientation="vertical">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="start"
+            app:cardCornerRadius="15dp"
+            app:cardElevation="10dp"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="10dp"
+
+                android:src="@drawable/baseline_arrow_back_24"/>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="100dp"
+            app:cardCornerRadius="30dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:layout_height="100dp">
+            <ImageView
+                android:id="@+id/image_user"
+                android:layout_width="match_parent"
+                android:src="@drawable/cardgradint1"
+                android:layout_height="match_parent"/>
+        </androidx.cardview.widget.CardView>
+
+        <EditText
+            android:id="@+id/ed_UserName"
+            android:background="@drawable/edittext"
+            android:layout_width="match_parent"
+            android:layout_marginHorizontal="20dp"
+            android:hint="UserName"
+            android:padding="10dp"
+            android:inputType="textPersonName"
+            android:drawableStart="@drawable/person_icon"
+            android:drawableTint="@color/black"
+            android:drawablePadding="10dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/black"
+            android:layout_height="50dp"/>
+
+
+
+
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp"
+            />
+
+
+        <EditText
+            android:id="@+id/ed_email"
+            android:background="@drawable/edittext"
+            android:layout_width="match_parent"
+            android:hint="Email"
+            android:padding="10dp"
+            android:inputType="textEmailAddress"
+
+            android:layout_marginTop="10dp"
+            android:textSize="20sp"
+            android:layout_marginHorizontal="20dp"
+            android:drawableStart="@drawable/baseline_email_24"
+            android:drawableTint="@color/black"
+            android:drawablePadding="10dp"
+            android:layout_height="50dp"/>
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp"
+            />
+
+        <EditText
+            android:id="@+id/ed_phone"
+            android:background="@drawable/edittext"
+            android:layout_width="match_parent"
+            android:hint="Phone"
+            android:padding="10dp"
+            android:inputType="phone"
+            android:layout_marginTop="10dp"
+            android:textSize="20sp"
+            android:layout_marginHorizontal="20dp"
+            android:drawableStart="@drawable/baseline_local_phone_24"
+            android:drawableTint="@color/black"
+            android:drawablePadding="10dp"
+            android:layout_height="50dp"/>
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp"
+            />
+
+        <EditText
+            android:id="@+id/ed_password"
+            android:background="@drawable/edittext"
+            android:layout_width="match_parent"
+            android:hint="Password"
+            android:padding="10dp"
+            android:inputType="textPassword"
+            android:layout_marginTop="10dp"
+            android:textSize="20sp"
+            android:layout_marginHorizontal="20dp"
+            android:drawableStart="@drawable/baseline_lock_24"
+            android:drawableTint="@color/black"
+            android:drawablePadding="10dp"
+            android:layout_height="50dp"/>
+        <EditText
+            android:id="@+id/ed_repassword"
+            android:background="@drawable/edittext"
+            android:layout_width="match_parent"
+            android:hint="RePassword"
+            android:padding="10dp"
+            android:inputType="textPassword"
+            android:layout_marginTop="10dp"
+            android:textSize="20sp"
+            android:layout_marginHorizontal="20dp"
+            android:drawableStart="@drawable/baseline_lock_24"
+            android:drawableTint="@color/black"
+            android:drawablePadding="10dp"
+            android:layout_height="50dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_save_changes"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="30dp"
+            android:text="Save"
+            android:layout_marginHorizontal="20dp"/>
+
+    </LinearLayout>
 
 </LinearLayout>

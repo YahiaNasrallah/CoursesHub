@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
@@ -7,6 +7,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".SignUpActivity">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/btn_back"
@@ -19,12 +25,13 @@
         android:text="CourseHub"
         android:layout_marginTop="30dp"
         android:layout_gravity="center"
-        android:textColor="#1f319d"
+        android:textColor="@color/color1"
         android:textSize="35sp"
-        android:fontFamily="@font/wsregular"
+        android:fontFamily="@font/futuraround"
         android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
+
 
     <TextView
         android:text="Create Your Account"
@@ -34,6 +41,20 @@
         android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_image"
+        android:layout_width="100dp"
+        app:cardCornerRadius="30dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:layout_height="100dp">
+        <ImageView
+            android:id="@+id/image_user_sign"
+            android:layout_width="match_parent"
+            android:src="@drawable/cardgradint1"
+            android:layout_height="match_parent"/>
+    </androidx.cardview.widget.CardView>
+
     <EditText
         android:id="@+id/ed_username"
         android:inputType="textPersonName"
@@ -59,14 +80,26 @@
         android:hint="Email"
         android:paddingStart="20dp"
         android:textStyle="bold" />
+        <EditText
+            android:id="@+id/ed_phone"
+            android:layout_width="350dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:inputType="phone"
+            android:paddingEnd="10dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/edittext"
+            android:hint="Phone"
+            android:paddingStart="20dp"
+            android:textStyle="bold" />
 
     <EditText
         android:id="@+id/ed_password"
         android:layout_width="350dp"
         android:hint="Password"
-        android:inputType="textVisiblePassword"
         android:paddingStart="20dp"
         android:paddingEnd="10dp"
+        android:inputType="textPassword"
         android:textStyle="bold"
         android:layout_marginTop="20dp"
         android:layout_gravity="center"
@@ -76,10 +109,10 @@
         android:id="@+id/ed_repassword"
         android:layout_width="350dp"
         android:hint="RePassword"
-        android:inputType="textVisiblePassword"
         android:paddingEnd="10dp"
         android:paddingStart="20dp"
         android:textStyle="bold"
+        android:inputType="textPassword"
         android:layout_marginTop="20dp"
         android:layout_gravity="center"
         android:background="@drawable/edittext"
@@ -91,12 +124,14 @@
         android:layout_width="350dp"
         android:layout_height="65dp"
         android:layout_gravity="center"
-        android:backgroundTint="#1f319d"
+        android:backgroundTint="@color/color1"
         android:layout_marginTop="50dp"
         android:text="Sign Up"
         android:textSize="18sp"
         app:cornerRadius="15dp"
         />
 
+    </LinearLayout>
 
-</LinearLayout>
+
+</ScrollView>

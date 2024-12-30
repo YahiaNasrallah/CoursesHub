@@ -18,6 +18,12 @@ public class User {
     @NonNull
     private String Password;
 
+    private String JoinDate;
+
+    private int PhoneNumber;
+
+    private String UserImagePath;
+
     public User(){
 
     }
@@ -28,6 +34,14 @@ public class User {
         this.Password = password;
     }
 
+    public User(@NonNull String username, @NonNull String email, @NonNull String password,String joindate,int phonenumber,String userImage) {
+        this.Username = username;
+        this.Email = email;
+        this.Password = password;
+        this.JoinDate =joindate;
+        this.PhoneNumber =phonenumber;
+        this.UserImagePath =userImage;
+    }
     @NonNull
     public String getUsername() {
         return Username;
@@ -61,5 +75,29 @@ public class User {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getJoinDate() {
+        return JoinDate;
+    }
+
+    public void setJoinDate(String joinDate) {
+        JoinDate = joinDate;
+    }
+
+    public int getPhoneNumber() {
+        return PhoneNumber;
+    }
+
+    public void setPhoneNumber(int phoneNumber) {
+        PhoneNumber = phoneNumber;
+    }
+
+    public String getUserImagePath() {
+        return UserImagePath;
+    }
+
+    public void setUserImagePath(String userImagePath) {
+        UserImagePath = userImagePath;
     }
 }

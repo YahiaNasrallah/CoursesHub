@@ -4,6 +4,8 @@ import static android.content.Context.MODE_PRIVATE;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -11,8 +13,11 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.example.coursesapp.databinding.FragmentProfileBinding;
+
+import java.io.File;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -88,14 +93,23 @@ public class ProfileFragment extends Fragment {
         int completed=db.myCoursesDao().getAllMyCourses(savedid,true).size();
         int ongoing=db.myCoursesDao().getAllMyCourses(savedid,false).size();
         binding.tvEmail.setText(user.getEmail());
-        //binding.tvPhone.setText(user.getPhone());
-        //binding.tvJoinedin.setText(user.getJoinedin());
+        binding.tvPhone.setText(String.valueOf(user.getPhoneNumber()));
+        binding.tvJoinedin.setText(user.getJoinDate());
         binding.tvUserName.setText(user.getUsername().toUpperCase());
         binding.tvCompletes.setText(completed+" Completed");
         binding.tvOngoing.setText(ongoing+" Ongoing");
+        loadImageFromStorage(user.getUserImagePath(),binding.imageUser);
+
 
 
 
         return binding.getRoot();
+    }
+    public void loadImageFromStorage(String imagePath, ImageView imageView) {
+        File imgFile = new  File(imagePath);
+        if(imgFile.exists()){
+            Bitmap bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+            imageView.setImageBitmap(bitmap);
+        }
     }
 }

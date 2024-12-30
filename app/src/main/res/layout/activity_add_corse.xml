@@ -142,7 +142,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
         android:hint="CategoryName"
-        android:inputType="number"
+        android:inputType="text"
         android:paddingStart="10dp"
         android:layout_height="50dp"/>
 
