@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="@color/my" /> <!-- يمكنك تحديد اللون هنا -->
-    <stroke android:color="@color/white" android:width="2dp"/>
-    <corners android:radius="20dp"/> <!-- الحواف الدائرية هنا -->
+    <solid android:color="@color/white" /> <!-- يمكنك تحديد اللون هنا -->
+    <corners android:topLeftRadius="20dp" android:topRightRadius="20dp" />
 
 </shape>

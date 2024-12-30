@@ -116,6 +116,7 @@ public class LoginActivity extends AppCompatActivity {
 
                             intent.putExtra("id", id);
                             startActivity(intent);
+                            finish();
                             binding.edEmail.getText().clear();
                             binding.edPassword.getText().clear();
                         }

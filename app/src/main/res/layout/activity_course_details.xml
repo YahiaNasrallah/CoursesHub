@@ -34,7 +34,7 @@
                 android:layout_marginTop="20dp"
                 android:text="CourseName"
                 android:textColor="@color/white"
-                android:textSize="24sp"
+                android:textSize="28sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -42,6 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:textSize="18sp"
                 android:text="Description"
                 android:textColor="@color/white" />
 
@@ -66,6 +67,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
                         android:text="Author: "
+                        android:textSize="18sp"
                         android:textColor="@color/white"
                         android:textStyle="bold" />
 
@@ -74,6 +76,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Author"
+                        android:textSize="16sp"
 
                         android:textColor="@color/white" />
                 </LinearLayout>
@@ -82,12 +85,13 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
+                    android:layout_weight="1.5"
                     android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textSize="18sp"
                         android:text="Lectures Number: "
                         android:textColor="@color/white"
                         android:textStyle="bold" />
@@ -97,6 +101,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Hourse"
+                        android:textSize="16sp"
                         android:textColor="@color/white" />
                 </LinearLayout>
             </LinearLayout>

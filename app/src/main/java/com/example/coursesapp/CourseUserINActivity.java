@@ -58,8 +58,8 @@ public class CourseUserINActivity extends AppCompatActivity {
 
 
         vpadapter adapter = new vpadapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-        adapter.addFragment(new CourseDetailsFragment(), "Details");
         adapter.addFragment(new LecturesFragment(), "Lectures");
+        adapter.addFragment(new CourseDetailsFragment(), "Details");
 
         binding.pagerdetails.setAdapter(adapter);
 
@@ -82,12 +82,13 @@ public class CourseUserINActivity extends AppCompatActivity {
         });
 
 
-        LecturesFragment fragment = (LecturesFragment) adapter.getFragmentAt(1);
+
+        LecturesFragment fragment = (LecturesFragment) adapter.getFragmentAt(0);
         if (fragment != null) {
             fragment.uUpdateData(course.getId(),savedid,true);
         }
 
-        CourseDetailsFragment fragment2 = (CourseDetailsFragment) adapter.getFragmentAt(0);
+        CourseDetailsFragment fragment2 = (CourseDetailsFragment) adapter.getFragmentAt(1);
         if (fragment2 != null) {
             fragment2.updateData(course.getId(),savedid,false);
         }

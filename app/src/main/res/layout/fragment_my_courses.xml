@@ -12,11 +12,10 @@
        android:theme="@style/Base.Theme.CoursesApp"
        app:tabIconTint="@color/black"
        android:layout_marginTop="10dp"
-       app:tabRippleColor="@color/black"
+       app:tabRippleColor="@color/color1"
        app:tabSelectedTextColor="@color/black"
        app:tabTextColor="@color/black"
        android:backgroundTint="@color/white"
-       android:background="@color/black"
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
        android:orientation="horizontal">

@@ -1,5 +1,9 @@
 package com.example.coursesapp;
 
+import static android.content.Context.MODE_PRIVATE;
+
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,6 +11,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.coursesapp.databinding.FragmentProfileBinding;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +29,10 @@ public class ProfileFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    FragmentProfileBinding binding;
+    SharedPreferences preferences;
+    SharedPreferences.Editor editor;
+    long savedid;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -48,6 +58,9 @@ public class ProfileFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        preferences = requireContext().getSharedPreferences("MyPrefe", MODE_PRIVATE);
+        editor = preferences.edit();
+        savedid  = preferences.getLong("savedid", 0);
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
@@ -58,7 +71,31 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+        binding=FragmentProfileBinding.inflate(inflater,container,false);
+
+        binding.tvLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                editor.clear();
+                editor.commit();
+                Intent intent=new Intent(getContext(),LoginActivity.class);
+                startActivity(intent);
+                requireActivity().finish();
+            }
+        });
+        Appdatabase db=Appdatabase.getDatabase(getContext());
+        User user=db.userDao().getUserByid(savedid);
+        int completed=db.myCoursesDao().getAllMyCourses(savedid,true).size();
+        int ongoing=db.myCoursesDao().getAllMyCourses(savedid,false).size();
+        binding.tvEmail.setText(user.getEmail());
+        //binding.tvPhone.setText(user.getPhone());
+        //binding.tvJoinedin.setText(user.getJoinedin());
+        binding.tvUserName.setText(user.getUsername().toUpperCase());
+        binding.tvCompletes.setText(completed+" Completed");
+        binding.tvOngoing.setText(ongoing+" Ongoing");
+
+
+
+        return binding.getRoot();
     }
 }

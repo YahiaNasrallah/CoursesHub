@@ -19,11 +19,15 @@ public interface MyCoursesDao {
     @Query("SELECT * FROM MyCourses where UserID=:userid and Completed=:cmompleted")
     List<MyCourses> getAllMyCourses(long userid, boolean cmompleted);
 
+
     @Query("SELECT * FROM MyCourses where UserID=:userid and CourseID=:courseid")
     MyCourses getMyCourseByCourseIDAndUserID(long userid, long courseid);
 
     @Query("SELECT * FROM MyCourses where CourseID=:courseid")
     MyCourses getMyCourseByCourseID(long courseid);
+
+    @Query("SELECT * FROM MyCourses where UserID=:userid")
+    List<MyCourses> getMyCourseByUserID(long userid);
 
     @Update
     void updateMyCourse(MyCourses myCourses);
