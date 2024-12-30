@@ -204,7 +204,7 @@
             android:layout_marginTop="20dp"
             android:layout_height="100dp">
             <ImageView
-                android:id="@+id/image_user"
+                android:id="@+id/image_user_edit"
                 android:layout_width="match_parent"
                 android:src="@drawable/cardgradint1"
                 android:layout_height="match_parent"/>

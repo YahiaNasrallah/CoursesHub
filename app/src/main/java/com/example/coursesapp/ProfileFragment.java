@@ -98,7 +98,7 @@ public class ProfileFragment extends Fragment {
         binding.tvUserName.setText(user.getUsername().toUpperCase());
         binding.tvCompletes.setText(completed+" Completed");
         binding.tvOngoing.setText(ongoing+" Ongoing");
-        loadImageFromStorage(user.getUserImagePath(),binding.imageUser);
+        loadImageFromStorage(user.getUserImagePath(),binding.imageUserProfile);
 
 
 
