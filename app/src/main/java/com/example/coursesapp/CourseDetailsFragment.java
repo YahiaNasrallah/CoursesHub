@@ -86,6 +86,8 @@ public class CourseDetailsFragment extends Fragment {
             binding.tvCourseHouse.setText(String.valueOf(course.getHours()));
             binding.tvCoursePrice.setText(String.valueOf(course.getPrice()));
             binding.tvCourseDetails.setText(course.getDetails());
+            binding.tvCourseStdnum.setText(String.valueOf(course.getNumberOfStudents()));
+
 
 
             if (!flag){

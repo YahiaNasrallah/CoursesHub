@@ -96,7 +96,10 @@ public class LoginActivity extends AppCompatActivity {
                     } else {
 
                              User user = db.userDao().getUser(binding.edEmail.getText().toString(), binding.edPassword.getText().toString());
-                        if (user == null) {
+                             User user2 = db.userDao().getUserByEmail(binding.edEmail.getText().toString());
+                        if (user2 == null) {
+
+
                             dialog.show();
                             coustem.findViewById(R.id.btn_ok).setOnClickListener(new View.OnClickListener() {
                                 @Override
@@ -104,6 +107,10 @@ public class LoginActivity extends AppCompatActivity {
                                     dialog.cancel();
                                 }
                             });
+
+                        } else if (user==null) {
+                            Toast.makeText(LoginActivity.this, "Email Or Password Incorrect", Toast.LENGTH_SHORT).show();
+
 
                         } else if (db.userDao().getUser(binding.edEmail.getText().toString(), binding.edPassword.getText().toString()) != null) {
                             if (binding.checkbox.isChecked()){
