@@ -192,16 +192,19 @@ public class LecturesFragment extends Fragment {
     }
 
     private void reloadLectures() {
-        // استرجاع المحاضرات المحدثة من قاعدة البيانات
-        List<Lecture> updatedLectures = db.lectureDao().getAllLecturesByCourseID(courseId);
-        adapter.updateLectures(updatedLectures); // تحديث الـ Adapter بالمحاضرات المحدثة
+        if (status) {
+            // استرجاع المحاضرات المحدثة من قاعدة البيانات
+            List<Lecture> updatedLectures = db.lectureDao().getAllLecturesByCourseID(courseId);
+            adapter.updateLectures(updatedLectures); // تحديث الـ Adapter بالمحاضرات المحدثة
+        }
     }
 
     public void uUpdateData(long courseid,long userid,boolean status) {
-        this.courseId = courseid;
-        this.userId = userid;
-        this.status=status;
-
+        if (status) {
+            this.courseId = courseid;
+            this.userId = userid;
+            this.status = status;
+        }
 
 
 
@@ -209,24 +212,26 @@ public class LecturesFragment extends Fragment {
 
 
     private void updateCourseProgress(Lecture lecture) {
-        MyCourses myCourse = db.myCoursesDao().getMyCourseByCourseIDAndUserID(userId, courseId);
-        if (myCourse != null) {
-            if (myCourse.getCompletedLectures() == null) {
-                myCourse.setCompletedLectures(new ArrayList<>());
-            }
-
-            if (!myCourse.getCompletedLectures().contains(lecture.getId())) {
-                myCourse.getCompletedLectures().add(lecture.getId());
-                Course course = db.courseDao().getCoursesByID(courseId);
-
-                int progress = (myCourse.getCompletedLectures().size() * 100) / course.getLectureNumber();
-                myCourse.setProgress(progress);
-
-                if (myCourse.getCompletedLectures().size() == course.getLectureNumber()) {
-                    myCourse.setCompleted(true);
+        if (status) {
+            MyCourses myCourse = db.myCoursesDao().getMyCourseByCourseIDAndUserID(userId, courseId);
+            if (myCourse != null) {
+                if (myCourse.getCompletedLectures() == null) {
+                    myCourse.setCompletedLectures(new ArrayList<>());
                 }
 
-                db.myCoursesDao().updateMyCourse(myCourse);
+                if (!myCourse.getCompletedLectures().contains(lecture.getId())) {
+                    myCourse.getCompletedLectures().add(lecture.getId());
+                    Course course = db.courseDao().getCoursesByID(courseId);
+
+                    int progress = (myCourse.getCompletedLectures().size() * 100) / course.getLectureNumber();
+                    myCourse.setProgress(progress);
+
+                    if (myCourse.getCompletedLectures().size() == course.getLectureNumber()) {
+                        myCourse.setCompleted(true);
+                    }
+
+                    db.myCoursesDao().updateMyCourse(myCourse);
+                }
             }
         }
     }
