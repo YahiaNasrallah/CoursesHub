@@ -60,12 +60,27 @@
         </LinearLayout>
 
 
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_image_course"
+            android:layout_width="match_parent"
+            app:cardCornerRadius="20dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_height="200dp">
+            <ImageView
+                android:id="@+id/image_course"
+                android:layout_width="match_parent"
+                android:src="@drawable/gg"
+                android:scaleType="centerCrop"
+                android:layout_height="match_parent"/>
+
+        </androidx.cardview.widget.CardView>
     <EditText
         android:id="@+id/ed_title"
         android:layout_width="350dp"
         android:background="@drawable/edittext"
         android:layout_gravity="center"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:hint="Title"
         android:inputType="text"
         android:paddingStart="10dp"
@@ -135,16 +150,7 @@
         android:layout_marginStart="10dp"
         android:layout_height="40dp"/>
     </LinearLayout>
-        <EditText
-        android:id="@+id/ed_categorynameshow"
-        android:layout_width="350dp"
-        android:background="@drawable/edittext"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:hint="CategoryName"
-        android:inputType="text"
-        android:paddingStart="10dp"
-        android:layout_height="50dp"/>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -169,7 +175,17 @@
             android:layout_marginStart="10dp"
             android:layout_height="40dp"/>
     </LinearLayout>
-
+        <EditText
+            android:id="@+id/ed_categorynameshow"
+            android:layout_width="350dp"
+            android:background="@drawable/edittext"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:visibility="gone"
+            android:hint="CategoryName"
+            android:inputType="text"
+            android:paddingStart="10dp"
+            android:layout_height="50dp"/>
     <EditText
         android:id="@+id/ed_details"
         android:layout_width="350dp"
@@ -187,7 +203,7 @@
         android:layout_width="250dp"
         android:layout_height="60dp"
         android:text="Save"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="100dp"
         app:cornerRadius="15dp"
         android:backgroundTint="@color/color1"
         android:layout_gravity="center"

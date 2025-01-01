@@ -1,10 +1,16 @@
 package com.example.coursesapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +25,15 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.coursesapp.databinding.ActivityLoginBinding;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
+import java.util.UUID;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -62,7 +76,27 @@ public class LoginActivity extends AppCompatActivity {
             db.categoryDao().insertCategory(new Category("Engineering"));
             db.categoryDao().insertCategory(new Category("Business"));
             db.categoryDao().insertCategory(new Category("Other"));
-            db.courseDao().insertCourse(new Course("Android Devlopment","Android Studio","eng.yahia","90",0,"13","s simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting",3,db.categoryDao().getCategoryByTitle("Engineering").getId(),"Programming"));
+
+            File externalStorageDirectory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "coursesapp");
+            if (!externalStorageDirectory.exists()) {
+                externalStorageDirectory.mkdirs();
+            }
+
+            String uniqueName = UUID.randomUUID().toString();
+
+            File file = new File(externalStorageDirectory, "course_" +uniqueName +"_"+getFormattedDateForFilename() + ".jpg");
+            try {
+                saveImageToStorage(intToBitmap(R.drawable.img,LoginActivity.this), file.getAbsolutePath());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            Course course=new Course("Android Devlopment","Android Studio","eng.yahia","90",0,"13","s simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting",3,db.categoryDao().getCategoryByTitle("Engineering").getId(),"Programming");
+            course.setImagePath(file.getAbsolutePath());
+            db.courseDao().insertCourse(course);
+
+
+
         }
 
 
@@ -149,4 +183,34 @@ public class LoginActivity extends AppCompatActivity {
 
         }
     }
+    public void saveImageToStorage(Bitmap bitmap, String imagePath) throws IOException {
+        File file = new File(imagePath);  // استخدم المسار الذي تريد تخزين الصورة فيه
+        FileOutputStream fos = new FileOutputStream(file);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+        fos.flush();
+        fos.close();
+    }
+    public Bitmap intToBitmap(int drawableId, Context context) {
+        Drawable drawable = context.getDrawable(drawableId);
+        if (drawable instanceof BitmapDrawable) {
+            return ((BitmapDrawable) drawable).getBitmap();
+        }
+
+        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+        return bitmap;
+    }
+    public static String getFormattedDateForFilename() {
+        // إنشاء كائن تاريخ يحتوي على الوقت الحالي
+        Date currentDate = new Date();
+
+        // التنسيق المطلوب: اليوم-الشهر-السنة_الساعة-الدقيقة-الثانية
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
+
+        // تحويل التاريخ إلى نص بدون رموز أو مسافات
+        return dateFormat.format(currentDate);
+    }
+
 }

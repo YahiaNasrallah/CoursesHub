@@ -11,6 +11,10 @@
         android:title="My Courses"
         android:icon="@drawable/folder_icon"/>
 
+    <item android:id="@+id/nav_bookmarks_item"
+        android:title="BookMark"
+        android:icon="@drawable/baseline_bookmarks_24"/>
+
 
     <item android:id="@+id/nav_profile_item"
         android:title="Profile"

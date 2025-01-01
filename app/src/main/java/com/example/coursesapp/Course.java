@@ -29,6 +29,7 @@ public class Course {
     private int LectureNumber;
 
     private String categorynameshown;
+    private String imagePath;
     @NonNull
     private long CategoryID;
 
@@ -53,7 +54,19 @@ public class Course {
         this.CategoryID = categoryID;
         this.categorynameshown=categorynameshown;
     }
-
+    public Course(@NonNull String title, @NonNull String description, @NonNull String instructorName, @NonNull String price, @NonNull int numberOfStudents, @NonNull String hours, @NonNull String details,@NonNull int lectureNumber, @NonNull long categoryID,String categorynameshown,String imagePath) {
+        this.Title = title;
+        this.Description = description;
+        this.InstructorName = instructorName;
+        this.Price = price;
+        this.NumberOfStudents = numberOfStudents;
+        this.Hours = hours;
+        this.Details = details;
+        this.LectureNumber = lectureNumber;
+        this.CategoryID = categoryID;
+        this.categorynameshown=categorynameshown;
+        this.imagePath=imagePath;
+    }
     public String getCategorynameshown() {
         return categorynameshown;
     }
@@ -150,5 +163,11 @@ public class Course {
         LectureNumber = lectureNumber;
     }
 
+    public String getImagePath() {
+        return imagePath;
+    }
 
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
 }

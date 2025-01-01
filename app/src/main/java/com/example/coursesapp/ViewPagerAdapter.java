@@ -19,6 +19,8 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
             case 1:
                 return new MyCoursesFragment();
             case 2:
+                return new BookMarksFragment();
+            case 3:
                 return new ProfileFragment();
             default:
                 return new HomeFragment();
@@ -27,6 +29,6 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 3; // عدد الصفحات
+        return 4; // عدد الصفحات
     }
 }

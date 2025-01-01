@@ -1,7 +1,10 @@
 package com.example.coursesapp;
 
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,6 +13,8 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.coursesapp.databinding.ActivityCourseDetailsBinding;
 import com.google.android.material.tabs.TabLayout;
+
+import java.io.File;
 
 public class CourseDetailsActivity extends AppCompatActivity {
 
@@ -105,8 +110,9 @@ public class CourseDetailsActivity extends AppCompatActivity {
 
         binding.tvCoursename.setText(db.courseDao().getCoursesByID(course.getId()).getTitle());
         binding.tvDescrition.setText(db.courseDao().getCoursesByID(course.getId()).getDescription());
-        binding.tvAuthor.setText(db.courseDao().getCoursesByID(course.getId()).getInstructorName());
-        binding.tvLecturesnumber.setText(String.valueOf(db.courseDao().getCoursesByID(course.getId()).getLectureNumber()));
+     //   binding.tvAuthor.setText(db.courseDao().getCoursesByID(course.getId()).getInstructorName());
+     //   binding.tvLecturesnumber.setText(String.valueOf(db.courseDao().getCoursesByID(course.getId()).getLectureNumber()));
+        loadImageFromStorage(db.courseDao().getCoursesByID(course.getId()).getImagePath(),binding.imageViewCourse);
 
 
         TabLayout tabLayout = findViewById(R.id.tab_layout_courses);
@@ -153,5 +159,11 @@ public class CourseDetailsActivity extends AppCompatActivity {
 
 
     }
-
+    public void loadImageFromStorage(String imagePath, ImageView imageView) {
+        File imgFile = new  File(imagePath);
+        if(imgFile.exists()){
+            Bitmap bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+            imageView.setImageBitmap(bitmap);
+        }
+    }
 }

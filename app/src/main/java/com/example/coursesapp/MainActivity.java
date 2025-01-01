@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
 //
 //
 //
-        binding.pagerMain.setOffscreenPageLimit(3); // حافظ على 3 صفحات في الذاكرة
+        binding.pagerMain.setOffscreenPageLimit(4); // حافظ على 3 صفحات في الذاكرة
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         binding.pagerMain.setAdapter(adapter);
@@ -150,8 +150,11 @@ public class MainActivity extends AppCompatActivity {
             }else if (item.getItemId()==R.id.nav_mycourses_item){
                 binding.pagerMain.setCurrentItem(1);
 
-            }else if (item.getItemId()==R.id.nav_profile_item){
+            } else if (item.getItemId()==R.id.nav_bookmarks_item) {
                 binding.pagerMain.setCurrentItem(2);
+
+            } else if (item.getItemId()==R.id.nav_profile_item){
+                binding.pagerMain.setCurrentItem(3);
 
             }
 
@@ -173,6 +176,9 @@ public class MainActivity extends AppCompatActivity {
                         binding.navbottom.setSelectedItemId(R.id.nav_mycourses_item);
                         break;
                     case 2:
+                        binding.navbottom.setSelectedItemId(R.id.nav_bookmarks_item);
+                        break;
+                    case 3:
                         binding.navbottom.setSelectedItemId(R.id.nav_profile_item);
                         break;
                 }

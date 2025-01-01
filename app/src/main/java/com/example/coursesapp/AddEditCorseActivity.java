@@ -2,9 +2,15 @@ package com.example.coursesapp;
 
 import static java.security.AccessController.getContext;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.view.ContextMenu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -12,9 +18,14 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,9 +38,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.coursesapp.databinding.ActivityAddCorseBinding;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
+import java.util.UUID;
 
 public class AddEditCorseActivity extends AppCompatActivity {
 
@@ -43,6 +61,9 @@ public class AddEditCorseActivity extends AppCompatActivity {
     boolean flag=false;
     LectureAdapter adapter;
     boolean flag2=false;
+    Uri imageUri;
+
+    boolean flag3=false;
 
 
     @Override
@@ -120,6 +141,13 @@ public class AddEditCorseActivity extends AppCompatActivity {
                 public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                     // التعامل مع العنصر الذي تم اختياره
                     Category = parentView.getItemAtPosition(position).toString();
+                    if (Category.equals("Other")){
+                        binding.edCategorynameshow.getText().clear();
+                        binding.edCategorynameshow.setVisibility(View.VISIBLE);
+                    }else {
+                        binding.edCategorynameshow.setVisibility(View.GONE);
+                        binding.edCategorynameshow.setText(Category);
+                    }
                 }
 
                 @Override
@@ -179,6 +207,23 @@ public class AddEditCorseActivity extends AppCompatActivity {
                             course.setNumberOfStudents(0);
                             course.setCategorynameshown(binding.edCategorynameshow.getText().toString());
                             course.setCategoryID(db.categoryDao().getCategoryByTitle(Category).getId());
+
+                            File externalStorageDirectory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "coursesapp");
+                            if (!externalStorageDirectory.exists()) {
+                                externalStorageDirectory.mkdirs();
+                            }
+                            String uniqueName = UUID.randomUUID().toString();
+
+                            File file = new File(externalStorageDirectory, "course_"  +uniqueName +"_"+getFormattedDateForFilename() + ".jpg");
+                            try {
+                                saveImageToStorage(Objects.requireNonNull(uriToBitmap(imageUri, AddEditCorseActivity.this)), file.getAbsolutePath());
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+
+
+                            course.setImagePath(file.getAbsolutePath());
+
                             db.courseDao().insertCourse(course);
                             Toast.makeText(AddEditCorseActivity.this, "Course Added", Toast.LENGTH_SHORT).show();
                             Toast.makeText(AddEditCorseActivity.this, Category, Toast.LENGTH_SHORT).show();
@@ -190,6 +235,9 @@ public class AddEditCorseActivity extends AppCompatActivity {
                     }
                 }
             });
+
+
+
 
 
         }
@@ -246,14 +294,15 @@ public class AddEditCorseActivity extends AppCompatActivity {
             });
 
 
-            Course course = db.courseDao().getCoursesByID(Long.parseLong(Objects.requireNonNull(getIntent().getStringExtra("id"))));
-            binding.edTitle.setText(course.getTitle());
-            binding.edDetails.setText(course.getDetails());
-            binding.edPrice.setText(course.getPrice());
-            binding.edHourse.setText(course.getHours());
-            binding.edInsName.setText(course.getInstructorName());
-            binding.edDescription.setText(course.getDescription());
-            binding.edCategorynameshow.setText(course.getCategorynameshown());
+            Course courseSHow = db.courseDao().getCoursesByID(Long.parseLong(Objects.requireNonNull(getIntent().getStringExtra("id"))));
+            binding.edTitle.setText(courseSHow.getTitle());
+            binding.edDetails.setText(courseSHow.getDetails());
+            binding.edPrice.setText(courseSHow.getPrice());
+            binding.edHourse.setText(courseSHow.getHours());
+            binding.edInsName.setText(courseSHow.getInstructorName());
+            binding.edDescription.setText(courseSHow.getDescription());
+            binding.edCategorynameshow.setText(courseSHow.getCategorynameshown());
+            loadImageFromStorage(courseSHow.getImagePath(), binding.imageCourse);
 
 
             ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -306,14 +355,14 @@ public class AddEditCorseActivity extends AppCompatActivity {
             });
 
 
-            binding.lecturenumSpinner.setSelection(course.getLectureNumber() - 1);
-            if (db.categoryDao().getCategoryById(course.getCategoryID()).getCategoryName().equals("Education")) {
+            binding.lecturenumSpinner.setSelection(courseSHow.getLectureNumber() - 1);
+            if (db.categoryDao().getCategoryById(courseSHow.getCategoryID()).getCategoryName().equals("Education")) {
                 Toast.makeText(this, "1", Toast.LENGTH_SHORT).show();
                 binding.categorySpinner.setSelection(0);
-            } else if (db.categoryDao().getCategoryById(course.getCategoryID()).getCategoryName().equals("Engineering")) {
+            } else if (db.categoryDao().getCategoryById(courseSHow.getCategoryID()).getCategoryName().equals("Engineering")) {
                 binding.categorySpinner.setSelection(1);
                 Toast.makeText(this, "2", Toast.LENGTH_SHORT).show();
-            } else if (db.categoryDao().getCategoryById(course.getCategoryID()).getCategoryName().equals("Business")) {
+            } else if (db.categoryDao().getCategoryById(courseSHow.getCategoryID()).getCategoryName().equals("Business")) {
                 binding.categorySpinner.setSelection(2);
                 Toast.makeText(this, "3", Toast.LENGTH_SHORT).show();
             } else {
@@ -360,6 +409,41 @@ public class AddEditCorseActivity extends AppCompatActivity {
                         course.setCategoryID(db.categoryDao().getCategoryByTitle(Category).getId());
                         course.setId(Long.parseLong(Objects.requireNonNull(getIntent().getStringExtra("id"))));
                         course.setCategorynameshown(binding.edCategorynameshow.getText().toString());
+
+                        if (flag3){
+
+
+
+                            File externalStorageDirectory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "coursesapp");
+                            if (!externalStorageDirectory.exists()) {
+                                externalStorageDirectory.mkdirs();
+                            }
+                            String uniqueName = UUID.randomUUID().toString();
+
+                            File file2 = new File(externalStorageDirectory, "course_" +uniqueName +"_"+getFormattedDateForFilename() + ".jpg");
+                            try {
+                                saveImageToStorage(Objects.requireNonNull(uriToBitmap(imageUri, AddEditCorseActivity.this)), file2.getAbsolutePath());
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+
+
+
+                            course.setImagePath(file2.getAbsolutePath());
+                            loadImageFromStorage(course.getImagePath(), binding.imageCourse);
+
+                            loadImageFromStorage(course.getImagePath(), binding.imageCourse);
+                            File fileToDelete = new File(courseSHow.getImagePath());
+                            if(fileToDelete.exists()) {
+                                Toast.makeText(AddEditCorseActivity.this, "deletd", Toast.LENGTH_SHORT).show();
+                                fileToDelete.delete();
+                            }
+                        }else {
+                            course.setImagePath(courseSHow.getImagePath());
+
+                        }
+
+
                         db.courseDao().updateCourse(course);
                         Toast.makeText(AddEditCorseActivity.this, "Course Updated", Toast.LENGTH_SHORT).show();
                         finish();
@@ -368,6 +452,53 @@ public class AddEditCorseActivity extends AppCompatActivity {
                 }
             });
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //-----------------------Gallery-------------------------------------------
+
+        ActivityResultLauncher<Intent> lancher2=registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+            @Override
+            public void onActivityResult(ActivityResult result) {
+                Intent intent =result.getData();
+                assert intent != null;
+                imageUri= intent.getData();
+                binding.imageCourse.setImageURI(imageUri);
+
+
+            }
+        }); {
+        }
+
+
+        //ينقلك للمعرض وبعدها يستخدم lancher2 ويعرض الصورة
+        binding.cardImageCourse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                flag3=true;
+                flag = true;
+                Intent intent2 = new Intent();
+                intent2.setAction(Intent.ACTION_GET_CONTENT);
+                intent2.setType("image/*");
+                lancher2.launch(intent2);
+            }
+        });
+
+
+
+
+
+
 
 
     }
@@ -456,4 +587,47 @@ public class AddEditCorseActivity extends AppCompatActivity {
         super.onResume();
 
     }
+
+
+    public void saveImageToStorage(Bitmap bitmap, String imagePath) throws IOException {
+        File file = new File(imagePath);  // استخدم المسار الذي تريد تخزين الصورة فيه
+        FileOutputStream fos = new FileOutputStream(file);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+        fos.flush();
+        fos.close();
+    }
+
+
+    public void loadImageFromStorage(String imagePath, ImageView imageView) {
+        File imgFile = new  File(imagePath);
+        if(imgFile.exists()){
+            Bitmap bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+            imageView.setImageBitmap(bitmap);
+        }
+    }
+
+
+    public static String getFormattedDateForFilename() {
+        // إنشاء كائن تاريخ يحتوي على الوقت الحالي
+        Date currentDate = new Date();
+
+        // التنسيق المطلوب: اليوم-الشهر-السنة_الساعة-الدقيقة-الثانية
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
+
+        // تحويل التاريخ إلى نص بدون رموز أو مسافات
+        return dateFormat.format(currentDate);
+    }
+
+
+
+    private Bitmap uriToBitmap(Uri uri, Context context) {
+        try {
+            // استخدم ContentResolver لتحميل الصورة كـ Bitmap
+            return MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null; // إذا حدث خطأ
+        }
+    }
+
 }

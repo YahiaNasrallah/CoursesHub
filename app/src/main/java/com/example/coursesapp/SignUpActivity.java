@@ -105,7 +105,11 @@ public class SignUpActivity extends AppCompatActivity {
                     }else {
                         if (db.userDao().getUserByEmail(binding.edEmail.getText().toString())!=null){
                             Toast.makeText(SignUpActivity.this, "Email Used Try Another", Toast.LENGTH_SHORT).show();
-                        }else {
+                        } else if (!binding.edEmail.getText().toString().contains("@")) {
+                            binding.edEmail.setError("Invalid Email");
+                            binding.edEmail.requestFocus();
+                            
+                        } else {
                             User user=new User(binding.edUsername.getText().toString(),binding.edEmail.getText().toString(),binding.edPassword.getText().toString());
                             user.setJoinDate(getFormattedDate());
                             user.setPhoneNumber(Integer.parseInt(binding.edPhone.getText().toString()));
@@ -156,6 +160,7 @@ public class SignUpActivity extends AppCompatActivity {
         // تحويل التاريخ إلى النص المطلوب
         return dateFormat.format(currentDate);
     }
+
     private Bitmap uriToBitmap(Uri uri, Context context) {
         try {
             // استخدم ContentResolver لتحميل الصورة كـ Bitmap
@@ -180,6 +185,7 @@ public class SignUpActivity extends AppCompatActivity {
         return file.getAbsolutePath(); // إرجاع المسار الكامل للصورة
     }
 
+
     public void saveImageToStorage(Bitmap bitmap, String imagePath) throws IOException {
         File file = new File(imagePath);  // استخدم المسار الذي تريد تخزين الصورة فيه
         FileOutputStream fos = new FileOutputStream(file);
@@ -196,6 +202,8 @@ public class SignUpActivity extends AppCompatActivity {
             imageView.setImageBitmap(bitmap);
         }
     }
+
+
     public static String getFormattedDateForFilename() {
         // إنشاء كائن تاريخ يحتوي على الوقت الحالي
         Date currentDate = new Date();
