@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="32"
         tools:ignore="ScopedStorage" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
-
 
     <application
         android:allowBackup="true"
@@ -19,11 +21,14 @@
         android:theme="@style/Base.Theme.CoursesApp"
         tools:targetApi="31">
         <activity
+            android:name=".DetailsORLecturesActivity"
+            android:exported="false" />
+        <activity
             android:name=".CourseUserINActivity"
             android:exported="false" />
         <activity
             android:name=".CourseDetailsActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".AddLectureActivity"
             android:exported="false" />

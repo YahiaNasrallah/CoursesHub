@@ -1,35 +1,97 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="wrap_content" android:layout_height="wrap_content">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
     <LinearLayout
         android:layout_width="match_parent"
-        android:background="@drawable/dialog"
-        android:orientation="vertical"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="30dp"
-        android:layout_height="wrap_content">
+        android:background="@drawable/dialog"
+        android:orientation="vertical"
+        >
 
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="AddLecture"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:textStyle="bold"
+            android:textSize="30sp"
+            android:textColor="@color/color1"
+            android:layout_height="wrap_content"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="50dp"
+            android:gravity="start"
+            android:layout_marginEnd="30dp"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="Lectures Number"
+                android:textStyle="bold"
+
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:layout_height="wrap_content"/>
+            <Spinner
+                android:id="@+id/lecturenum_spinner"
+                android:layout_width="150dp"
+                android:layout_marginStart="10dp"
+                android:layout_height="40dp"/>
+        </LinearLayout>
 
         <EditText
-            android:id="@+id/ed_category_name"
+            android:id="@+id/ed_Lecture_name"
+            android:layout_width="300dp"
+
+            android:background="@drawable/edittext"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
-            android:hint="Category Name"
+            android:hint="LectureName"
+            android:inputType="text"
             android:paddingStart="10dp"
+            android:layout_height="50dp"/>
+        <EditText
+            android:id="@+id/ed_Lecture_link"
+            android:layout_width="300dp"
             android:background="@drawable/edittext"
-            android:layout_width="250dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:hint="LectureLink"
+            android:inputType="text"
+            android:paddingStart="10dp"
+            android:layout_height="50dp"/>
+        <EditText
+            android:id="@+id/ed_Lecture_description"
+            android:layout_width="300dp"
+            android:background="@drawable/edittext"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:hint="Description"
+            android:inputType="text"
+            android:paddingStart="10dp"
             android:layout_height="50dp"/>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_ok"
+            android:id="@+id/btn_save_itrem"
             android:layout_width="250dp"
-            android:layout_marginBottom="10dp"
             android:layout_height="60dp"
-            android:layout_gravity="center"
-            android:backgroundTint="#1f319d"
-            android:layout_marginTop="10dp"
-            android:text="OK"
-            android:textSize="18sp"
+            android:layout_marginBottom="20dp"
+            android:text="Save"
             app:cornerRadius="15dp"
+            android:backgroundTint="@color/color1"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
             />
     </LinearLayout>
 </RelativeLayout>
