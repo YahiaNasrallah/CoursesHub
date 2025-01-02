@@ -33,6 +33,7 @@ public class BookMarksFragment extends Fragment {
     BookmarkAdapter adapter;
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
+    Appdatabase db;
     public BookMarksFragment() {
         // Required empty public constructor
     }
@@ -68,7 +69,7 @@ public class BookMarksFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
          binding=FragmentBookMarksBinding.inflate(inflater,container,false);
-        Appdatabase db=Appdatabase.getDatabase(getContext());
+         db=Appdatabase.getDatabase(getContext());
 
         preferences = requireContext().getSharedPreferences("MyPrefe", MODE_PRIVATE);
         editor = preferences.edit();
@@ -93,5 +94,34 @@ public class BookMarksFragment extends Fragment {
 
 
                 return binding.getRoot();
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        db=Appdatabase.getDatabase(getContext());
+        preferences = requireContext().getSharedPreferences("MyPrefe", MODE_PRIVATE);
+        editor = preferences.edit();
+        long savedid = preferences.getLong("savedid", 0);
+
+        adapter=new BookmarkAdapter(getContext(), db.bookMarksDao().getAllBookMarks(savedid), new BookmarkAdapter.ClickHandle() {
+            @Override
+            public void onItemClick(int position) {
+
+            }
+
+            @Override
+            public void onLongItemClick(int position) {
+
+            }
+        });
+        binding.recycleBookmark.setAdapter(adapter);
+        binding.recycleBookmark.setHasFixedSize(true);
+        GridLayoutManager manager=new GridLayoutManager(getContext(),2);
+        binding.recycleBookmark.setLayoutManager(manager);
+
+
+
     }
 }
