@@ -291,22 +291,118 @@
                         .setTitle("تأكيد العملية")
                         .setMessage("هل أنت متأكد أنك تريد المتابعة؟")
                         .setPositiveButton("نعم", (dialog, which) -> {
-
                             db.lectureDao().deleteLecture(db.lectureDao().getAllLecturesByCourseID(courseid).get(pos));
                             adapter.notifyItemRemoved(pos);
                             GetAdapterCourse(db.lectureDao().getAllLecturesByCourseID(courseid));
-
-
-
                         })
                         .setNegativeButton("لا", (dialog, which) -> dialog.dismiss())
                         .show();
             } else if (id == R.id.menu_edit) {
+                // عرض النموذج المخصص
+                View coustem = LayoutInflater.from(getContext()).inflate(R.layout.log2, null);
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setView(coustem);
 
+                lecturenum_spinner = coustem.findViewById(R.id.lecturenum_spinner);
+                edLectureName = coustem.findViewById(R.id.ed_Lecture_name);
+                edLectureLink = coustem.findViewById(R.id.ed_Lecture_link);
+                edLectureDescription = coustem.findViewById(R.id.ed_Lecture_description);
+                btn_save = coustem.findViewById(R.id.btn_save_itrem);
 
+                AlertDialog dialog = builder.create();
+                Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.setCancelable(true);
+                dialog.show();
+
+                // استدعاء بيانات المحاضرة الحالية
+                Lecture currentLecture = db.lectureDao().getAllLecturesByCourseID(courseid).get(pos);
+
+                // تعبئة الحقول الحالية
+                edLectureName.setText(currentLecture.getLectureName());
+                edLectureLink.setText(currentLecture.getLectureLink());
+                edLectureDescription.setText(currentLecture.getDescription());
+
+                // إعداد الأرقام في الـ Spinner
+                Course selectedCourse = db.courseDao().getCoursesByID(courseid);
+                List<String> integers = new ArrayList<>();
+                for (int i = 0; i < selectedCourse.getLectureNumber(); i++) {
+                    integers.add(String.valueOf(i + 1));
+                }
+
+                ArrayAdapter<String> adapter3 = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, integers);
+                adapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                lecturenum_spinner.setAdapter(adapter3);
+
+                // تحديد القيمة الحالية
+                int currentLecturePosition = integers.indexOf(String.valueOf(currentLecture.getLectureNumber()));
+                lecturenum_spinner.setSelection(currentLecturePosition);
+
+                // حفظ الرقم الجديد عند اختيار المستخدم
+                lecturenum_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                        selectedLecture = integers.get(position);
+                        try {
+                            selectedLectureint = Integer.parseInt(selectedLecture);
+                        } catch (NumberFormatException e) {
+                            selectedLectureint = currentLecture.getLectureNumber();
+                        }
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parentView) {
+                        // الإجراء الافتراضي إذا لم يتم الاختيار
+                        selectedLectureint = currentLecture.getLectureNumber();
+                    }
+                });
+
+                btn_save.setOnClickListener(view -> {
+                    if (edLectureName.getText().toString().isEmpty()) {
+                        edLectureName.setError("Enter Lecture Name");
+                        edLectureName.requestFocus();
+                    } else if (edLectureLink.getText().toString().isEmpty()) {
+                        edLectureLink.setError("Enter Lecture Link");
+                        edLectureLink.requestFocus();
+                    } else if (edLectureDescription.getText().toString().isEmpty()) {
+                        edLectureDescription.setError("Enter Lecture Description");
+                        edLectureDescription.requestFocus();
+                    } else {
+                        if (edLectureLink.getText().toString().startsWith("https://www.youtube.com/") || edLectureLink.getText().toString().startsWith("https://youtu.be/")) {
+                            // التحقق إذا كان الرقم الجديد موجودًا
+                            List<Lecture> lectures = db.lectureDao().getAllLecturesByCourseID(courseid);
+                            boolean lectureExists = false;
+
+                            for (Lecture lecture : lectures) {
+                                if (lecture.getLectureNumber() == selectedLectureint && lecture.getId() != currentLecture.getId()) {
+                                    lectureExists = true;
+                                    break;
+                                }
+                            }
+
+                            if (lectureExists) {
+                                Toast.makeText(getContext(), "Lecture number already exists. Choose another.", Toast.LENGTH_SHORT).show();
+                            } else {
+                                // تحديث بيانات المحاضرة
+                                currentLecture.setLectureName(edLectureName.getText().toString());
+                                currentLecture.setLectureLink(edLectureLink.getText().toString());
+                                currentLecture.setDescription(edLectureDescription.getText().toString());
+                                currentLecture.setLectureNumber(selectedLectureint);
+
+                                db.lectureDao().updateLecture(currentLecture);
+                                Toast.makeText(getContext(), "Lecture Updated", Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
+                                GetAdapterCourse(db.lectureDao().getAllLecturesByCourseID(courseid));
+                            }
+                        } else {
+                            edLectureLink.setError("The Lecture link is invalid");
+                            edLectureLink.requestFocus();
+                        }
+                    }
+                });
             }
             return super.onContextItemSelected(item);
         }
+
 
         @Override
         public void onCreateContextMenu(@NonNull ContextMenu menu, @NonNull View v, ContextMenu.ContextMenuInfo menuInfo) {

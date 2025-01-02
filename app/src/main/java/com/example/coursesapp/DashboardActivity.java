@@ -162,6 +162,8 @@ public class DashboardActivity extends AppCompatActivity {
                         if (db.courseDao().getAllCourses().get(pos) == null) {
                             db.courseDao().deleteCourse(db.courseDao().getAllCourses().get(pos));
                             GetAdapterCourse(db.courseDao().getAllCourses());
+                            db.myCoursesDao().deleteMyCourseByCourseID(courseId);
+
                         } else {
                             new AlertDialog.Builder(this)
                                     .setTitle("تأكيد العملية")
@@ -169,6 +171,7 @@ public class DashboardActivity extends AppCompatActivity {
                                     .setPositiveButton("نعم", (dialog2, which2) -> {
                                         db.lectureDao().deleteLecturesByCourseID(courseId);
                                         db.courseDao().deleteCourse(db.courseDao().getAllCourses().get(pos));
+                                        db.myCoursesDao().deleteMyCourseByCourseID(courseId);
 
                                         adapter.notifyItemRemoved(pos);
                                         GetAdapterCourse(db.courseDao().getAllCourses());

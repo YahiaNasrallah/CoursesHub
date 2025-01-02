@@ -29,6 +29,14 @@ public interface MyCoursesDao {
     @Query("SELECT * FROM MyCourses where UserID=:userid")
     List<MyCourses> getMyCourseByUserID(long userid);
 
+
+    @Query("DELETE FROM MyCourses where UserID=:userid and CourseID=:courseid")
+    void deleteMyCourse(long userid, long courseid);
+
+    @Query("DELETE FROM MyCourses where CourseID=:courseid")
+    void deleteMyCourseByCourseID(long courseid);
+
+
     @Update
     void updateMyCourse(MyCourses myCourses);
 }
