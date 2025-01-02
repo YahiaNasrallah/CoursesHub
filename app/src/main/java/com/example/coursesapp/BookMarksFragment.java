@@ -2,6 +2,7 @@ package com.example.coursesapp;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -78,7 +79,9 @@ public class BookMarksFragment extends Fragment {
         adapter=new BookmarkAdapter(getContext(), db.bookMarksDao().getAllBookMarks(savedid), new BookmarkAdapter.ClickHandle() {
             @Override
             public void onItemClick(int position) {
-
+                Intent intent = new Intent(getContext(), CourseDetailsActivity.class);
+                intent.putExtra("course_id",db.bookMarksDao().getAllBookMarks(savedid).get(position).getCourseID());
+                startActivity(intent);
             }
 
             @Override
@@ -108,7 +111,9 @@ public class BookMarksFragment extends Fragment {
         adapter=new BookmarkAdapter(getContext(), db.bookMarksDao().getAllBookMarks(savedid), new BookmarkAdapter.ClickHandle() {
             @Override
             public void onItemClick(int position) {
-
+                Intent intent = new Intent(getContext(), CourseDetailsActivity.class);
+                intent.putExtra("course_id",db.bookMarksDao().getAllBookMarks(savedid).get(position).getCourseID());
+                startActivity(intent);
             }
 
             @Override
