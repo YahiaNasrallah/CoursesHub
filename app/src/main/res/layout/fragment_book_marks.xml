@@ -11,8 +11,9 @@
         android:text="BookMarks"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
+        android:fontFamily="@font/bebasneueregular"
         android:textStyle="bold"
-        android:textSize="24sp"
+        android:textSize="28sp"
         android:textColor="@color/color1"
         android:layout_height="wrap_content"/>
 

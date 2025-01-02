@@ -236,4 +236,6 @@ public class LecturesFragment extends Fragment {
         }
     }
 
+
+
 }

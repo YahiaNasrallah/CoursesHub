@@ -1,12 +1,18 @@
 package com.example.coursesapp;
 
+import static android.content.Context.MODE_PRIVATE;
+
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.coursesapp.databinding.FragmentBookMarksBinding;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,7 +29,10 @@ public class BookMarksFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    FragmentBookMarksBinding binding;
+    BookmarkAdapter adapter;
+    SharedPreferences preferences;
+    SharedPreferences.Editor editor;
     public BookMarksFragment() {
         // Required empty public constructor
     }
@@ -58,7 +67,31 @@ public class BookMarksFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_book_marks, container, false);
+         binding=FragmentBookMarksBinding.inflate(inflater,container,false);
+        Appdatabase db=Appdatabase.getDatabase(getContext());
+
+        preferences = requireContext().getSharedPreferences("MyPrefe", MODE_PRIVATE);
+        editor = preferences.edit();
+        long savedid = preferences.getLong("savedid", 0);
+
+        adapter=new BookmarkAdapter(getContext(), db.bookMarksDao().getAllBookMarks(savedid), new BookmarkAdapter.ClickHandle() {
+            @Override
+            public void onItemClick(int position) {
+
+            }
+
+            @Override
+            public void onLongItemClick(int position) {
+
+            }
+        });
+        binding.recycleBookmark.setAdapter(adapter);
+        binding.recycleBookmark.setHasFixedSize(true);
+        GridLayoutManager manager=new GridLayoutManager(getContext(),2);
+        binding.recycleBookmark.setLayoutManager(manager);
+
+
+
+                return binding.getRoot();
     }
 }

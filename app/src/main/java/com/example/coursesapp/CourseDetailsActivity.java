@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
@@ -22,6 +23,7 @@ public class CourseDetailsActivity extends AppCompatActivity {
     Appdatabase db;
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
+    boolean flag;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -148,6 +150,64 @@ public class CourseDetailsActivity extends AppCompatActivity {
         if (fragment != null) {
             fragment.updateData(course.getId(),user.getId(),true);
         }
+
+
+//         flag=false;
+//        for (int i = 0; i < db.bookMarksDao().getAllBookMarks(user.getId()).size(); i++) {
+//            if (db.bookMarksDao().getAllBookMarks(user.getId()).get(i).getCourseID()==course.getId()){
+//                flag=true;
+//                binding.imageBookmark.setImageResource(R.drawable.baseline_bookmarks_24);
+//                break;
+//            }else {
+//                flag=false;
+//                binding.imageBookmark.setImageResource(R.drawable.baseline_bookmark_border_24);
+//            }
+//        }
+
+        boolean isBookmarked = false;
+        for (BookMarks bookmark : db.bookMarksDao().getAllBookMarks(user.getId())) {
+            if (bookmark.getCourseID() == course.getId()) {
+                isBookmarked = true;
+                break;
+            }
+        }
+
+        if (isBookmarked) {
+            binding.imageBookmark.setImageResource(R.drawable.baseline_bookmarks_24);
+        } else {
+            binding.imageBookmark.setImageResource(R.drawable.baseline_bookmark_border_24);
+        }
+
+
+
+        binding.cardAddTobookmark.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // التحقق من وجود العنصر في الإشارات المرجعية
+                boolean isBookmarked = false;
+                for (BookMarks bookmark : db.bookMarksDao().getAllBookMarks(user.getId())) {
+                    if (bookmark.getCourseID() == course.getId()) {
+                        isBookmarked = true;
+                        break;
+                    }
+                }
+
+                if (isBookmarked) {
+                    // حذف الإشارة المرجعية
+                    BookMarks bookmarkToRemove = db.bookMarksDao().getBookmarkByCourseAndUser(course.getId(), user.getId());
+                    db.bookMarksDao().delete(bookmarkToRemove);
+                    binding.imageBookmark.setImageResource(R.drawable.baseline_bookmark_border_24);
+                } else {
+                    // إضافة الإشارة المرجعية
+                    BookMarks newBookmark = new BookMarks(course.getId(), user.getId());
+                    db.bookMarksDao().insertBookMark(newBookmark);
+                    binding.imageBookmark.setImageResource(R.drawable.baseline_bookmarks_24);
+                }
+            }
+        });
+
+
+
 
 
 
