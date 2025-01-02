@@ -34,31 +34,47 @@
                 android:scaleType="centerCrop"
                 android:src="@drawable/gg" />
 
-            <TextView
-                android:id="@+id/tv_coursename"
-
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="79dp"
-                android:text="CourseName"
-                android:textColor="@color/white"
-                android:textSize="32sp"
-                android:textStyle="bold"
+                android:layout_marginTop="68dp"
+                android:background="#95000000"
+                android:padding="10dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/tv_descrition"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Description"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                app:layout_constraintEnd_toEndOf="@+id/tv_coursename"
-                app:layout_constraintStart_toStartOf="@+id/tv_coursename"
-                app:layout_constraintTop_toBottomOf="@+id/tv_coursename" />
+
+                <TextView
+                    android:id="@+id/tv_coursename"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/bebasneueregular"
+                    android:text="CourseName"
+                    android:textColor="@color/white"
+                    android:textSize="36sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_descrition"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/bebasneueregular"
+                    android:text="Description"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    app:layout_constraintEnd_toEndOf="@+id/tv_coursename"
+                    app:layout_constraintStart_toStartOf="@+id/tv_coursename"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_coursename" />
+            </LinearLayout>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

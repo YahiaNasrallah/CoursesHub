@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:fontFamily="@font/futuraround"
+            android:fontFamily="@font/bebasneueregular"
             android:layout_marginTop="50dp"
             android:text="Wlecome To New"
             android:textSize="20sp" />
@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:text="Course Hub"
             android:textSize="32sp"
-            android:fontFamily="@font/futuraround"
+            android:fontFamily="@font/bebasneueregular"
             android:textColor="@color/black"
             android:layout_marginStart="20dp"
             android:textStyle="bold" />

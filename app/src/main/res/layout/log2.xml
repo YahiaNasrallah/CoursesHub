@@ -18,8 +18,8 @@
             android:layout_width="wrap_content"
             android:text="AddLecture"
             android:layout_gravity="center"
+            android:fontFamily="@font/bebasneueregular"
             android:layout_marginTop="30dp"
-            android:textStyle="bold"
             android:textSize="30sp"
             android:textColor="@color/color1"
             android:layout_height="wrap_content"/>

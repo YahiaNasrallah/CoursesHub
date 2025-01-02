@@ -30,8 +30,7 @@
             android:textAlignment="center"
             android:text="CourseName"
 
-            android:textStyle="bold"
-            android:fontFamily="@font/futuraround"
+            android:fontFamily="@font/bebasneueregular"
             android:textSize="24sp"
             android:textColor="@color/white"
             android:layout_gravity="center"

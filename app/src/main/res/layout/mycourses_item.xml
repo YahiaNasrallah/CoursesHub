@@ -22,20 +22,24 @@
             android:id="@+id/tv_coursename"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/bebasneueregular"
             android:text="CourseName"
             android:textColor="@color/black"
-            android:textStyle="bold"
             android:textSize="24sp"
-            />
+            android:textStyle="bold" />
         <TextView
             android:id="@+id/tv_lecnum"
             android:layout_width="wrap_content"
+            android:fontFamily="@font/bebasneueregular"
             android:layout_height="wrap_content"
             android:text="Lecture Numbers:"/>
         <TextView
             android:id="@+id/tv_hourse"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/bebasneueregular"
+
             android:text="Hourse"/>
 
         <LinearLayout
