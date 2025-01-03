@@ -11,7 +11,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
@@ -31,8 +30,6 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
 import java.util.UUID;
 
 public class LoginActivity extends AppCompatActivity {
@@ -64,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
-        View coustem= LayoutInflater.from(LoginActivity.this).inflate(R.layout.log,null);
+        View coustem= LayoutInflater.from(LoginActivity.this).inflate(R.layout.user_not_found_item,null);
         AlertDialog.Builder bulder=new AlertDialog.Builder(this);
         bulder.setView(coustem);
         AlertDialog dialog=bulder.create();

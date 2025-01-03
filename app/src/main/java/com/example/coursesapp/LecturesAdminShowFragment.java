@@ -10,7 +10,6 @@
 
     import androidx.annotation.NonNull;
     import androidx.fragment.app.Fragment;
-    import androidx.recyclerview.widget.GridLayoutManager;
     import androidx.recyclerview.widget.LinearLayoutManager;
 
     import android.view.ContextMenu;
@@ -112,7 +111,7 @@
 
 
 
-                    View coustem= LayoutInflater.from(getContext()).inflate(R.layout.log2,null);
+                    View coustem= LayoutInflater.from(getContext()).inflate(R.layout.add_lecture_item,null);
                     AlertDialog.Builder bulder=new AlertDialog.Builder(getContext());
                     bulder.setView(coustem);
 
@@ -299,7 +298,7 @@
                         .show();
             } else if (id == R.id.menu_edit) {
                 // عرض النموذج المخصص
-                View coustem = LayoutInflater.from(getContext()).inflate(R.layout.log2, null);
+                View coustem = LayoutInflater.from(getContext()).inflate(R.layout.add_lecture_item, null);
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder.setView(coustem);
 

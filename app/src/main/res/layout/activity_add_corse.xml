@@ -39,78 +39,131 @@
         </LinearLayout>
 
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_image_course"
-            android:layout_width="match_parent"
-            app:cardCornerRadius="20dp"
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="350dp"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="20dp"
+            android:paddingBottom="5dp"
+            app:boxCornerRadiusTopEnd="15dp"
+            app:boxCornerRadiusTopStart="15dp"
+            app:boxCornerRadiusBottomEnd="15dp"
+            app:boxCornerRadiusBottomStart="15dp"
+            android:layout_height="wrap_content">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/ed_title"
+                android:layout_width="match_parent"
+                android:hint="Title"
+                android:inputType="text"
+                android:textStyle="bold"
+                android:paddingStart="10dp"
+                android:layout_height="65dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="350dp"
+            android:layout_gravity="center"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="10dp"
-            android:layout_height="200dp">
-            <ImageView
-                android:id="@+id/image_course"
+            android:paddingBottom="5dp"
+            app:boxCornerRadiusTopEnd="15dp"
+            app:boxCornerRadiusTopStart="15dp"
+            app:boxCornerRadiusBottomEnd="15dp"
+            app:boxCornerRadiusBottomStart="15dp"
+            android:layout_height="wrap_content">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/ed_description"
                 android:layout_width="match_parent"
-                android:src="@drawable/gg"
-                android:scaleType="centerCrop"
-                android:layout_height="match_parent"/>
+                android:hint="Description"
+                android:inputType="text"
+                android:textStyle="bold"
+                android:paddingStart="10dp"
+                android:layout_height="65dp" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        </androidx.cardview.widget.CardView>
-        <EditText
-            android:id="@+id/ed_title"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="350dp"
-            android:background="@drawable/edittext"
             android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:hint="Title"
-            android:inputType="text"
-            android:paddingStart="10dp"
-            android:layout_height="50dp"/>
-        <EditText
-            android:id="@+id/ed_description"
-            android:layout_width="350dp"
-            android:background="@drawable/edittext"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:hint="Description"
-            android:inputType="text"
-            android:paddingStart="10dp"
-            android:layout_height="50dp"/>
-        <EditText
-            android:id="@+id/ed_ins_name"
-            android:layout_width="350dp"
-            android:background="@drawable/edittext"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:inputType="textPersonName"
-            android:hint="InstructorName"
-            android:paddingStart="10dp"
-            android:layout_height="50dp"/>
-        <EditText
-            android:id="@+id/ed_price"
-            android:layout_width="350dp"
-            android:background="@drawable/edittext"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:hint="Price"
-            android:inputType="number"
-            android:paddingStart="10dp"
-            android:layout_height="50dp"/>
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp"
+            android:paddingBottom="5dp"
+            app:boxCornerRadiusTopEnd="15dp"
+            app:boxCornerRadiusTopStart="15dp"
+            app:boxCornerRadiusBottomEnd="15dp"
+            app:boxCornerRadiusBottomStart="15dp"
+            android:layout_height="wrap_content">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/ed_ins_name"
+                android:layout_width="match_parent"
+                android:hint="InstructorName"
+                android:inputType="textPersonName"
+                android:textStyle="bold"
+                android:paddingStart="10dp"
+                android:layout_height="65dp" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <EditText
-            android:id="@+id/ed_hourse"
-            android:layout_width="350dp"
-            android:background="@drawable/edittext"
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="170dp"
+                android:layout_gravity="center"
+                android:paddingBottom="5dp"
+                android:layout_marginEnd="5dp"
+
+                app:boxCornerRadiusTopEnd="15dp"
+                app:boxCornerRadiusTopStart="15dp"
+                app:boxCornerRadiusBottomEnd="15dp"
+                app:boxCornerRadiusBottomStart="15dp"
+                android:layout_height="wrap_content">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/ed_price"
+                    android:layout_width="match_parent"
+                    android:hint="Price"
+                    android:inputType="number"
+                    android:textStyle="bold"
+                    android:layout_gravity="center"
+                    android:layout_height="65dp"/>
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="170dp"
+                android:layout_marginStart="5dp"
+                android:layout_gravity="center"
+                android:paddingBottom="5dp"
+                app:boxCornerRadiusTopEnd="15dp"
+                app:boxCornerRadiusTopStart="15dp"
+                app:boxCornerRadiusBottomEnd="15dp"
+                app:boxCornerRadiusBottomStart="15dp"
+                android:layout_height="wrap_content">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/ed_hourse"
+                    android:layout_width="match_parent"
+                    android:hint="Hours"
+                    android:inputType="number"
+                    android:textStyle="bold"
+                    android:layout_gravity="center"
+                    android:layout_height="65dp"/>
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="300dp"
             android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:hint="Hours"
-            android:inputType="number"
-            android:paddingStart="10dp"
-            android:layout_height="50dp"/>
+            android:layout_marginTop="10dp"
+            android:layout_height="wrap_content"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:gravity="start"
             android:layout_marginEnd="30dp"
             android:orientation="horizontal">
@@ -154,29 +207,86 @@
                 android:layout_marginStart="10dp"
                 android:layout_height="40dp"/>
         </LinearLayout>
-        <EditText
-            android:id="@+id/ed_categorynameshow"
-            android:layout_width="350dp"
-            android:background="@drawable/edittext"
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="300dp"
             android:layout_gravity="center"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_height="wrap_content"/>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/container_ed_showcategory"
+            android:layout_width="350dp"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp"
+            android:paddingBottom="5dp"
             android:visibility="gone"
-            android:hint="CategoryName"
-            android:inputType="text"
-            android:paddingStart="10dp"
-            android:layout_height="50dp"/>
-        <EditText
-            android:id="@+id/ed_details"
+            app:boxCornerRadiusTopEnd="15dp"
+            app:boxCornerRadiusTopStart="15dp"
+            app:boxCornerRadiusBottomEnd="15dp"
+            app:boxCornerRadiusBottomStart="15dp"
+            android:layout_height="wrap_content">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/ed_categorynameshow"
+                android:layout_width="match_parent"
+                android:hint="CategoryName"
+                android:inputType="text"
+                android:textStyle="bold"
+                android:paddingStart="10dp"
+                android:layout_height="65dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="350dp"
-            android:background="@drawable/edittext"
             android:layout_gravity="center"
-            android:gravity="top"
-            android:paddingTop="10dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp"
+            android:paddingBottom="5dp"
+            app:boxCornerRadiusTopEnd="15dp"
+            app:boxCornerRadiusTopStart="15dp"
+            app:boxCornerRadiusBottomEnd="15dp"
+            app:boxCornerRadiusBottomStart="15dp"
+            android:layout_height="wrap_content">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/ed_details"
+                android:layout_width="match_parent"
+                android:hint="Details"
+                android:gravity="top"
+                android:inputType="textMultiLine"
+                android:textStyle="bold"
+                android:paddingStart="10dp"
+                android:layout_height="150dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:id="@+id/card_image_course"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:background="@drawable/edittext"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_gravity="center"
             android:layout_marginTop="20dp"
-            android:hint="Details"
-            android:inputType="textMultiLine"
-            android:paddingStart="10dp"
-            android:layout_height="150dp"/>
+            android:padding="8dp">
+
+            <ImageView
+                android:id="@+id/image_course"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/baseline_upload_24"
+                android:layout_gravity="center" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Upload Image"
+                android:textColor="@color/black"
+                android:layout_marginStart="8dp"
+                android:layout_gravity="center"
+                android:textSize="14sp" />
+        </LinearLayout>
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_save"
             android:layout_width="250dp"

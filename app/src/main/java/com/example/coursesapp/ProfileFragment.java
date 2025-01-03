@@ -2,6 +2,7 @@ package com.example.coursesapp;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -129,7 +130,7 @@ public class ProfileFragment extends Fragment {
 
                 binding.edEmail.setText(user.getEmail());
                 binding.edPhone.setText(String.valueOf(user.getPhoneNumber()));
-                binding.edUserName.setText(user.getUsername());
+                binding.edUsername.setText(user.getUsername());
                 binding.edPassword.setText(user.getPassword());
                 binding.edRepassword.setText(user.getPassword());
                 loadImageFromStorage(user.getUserImagePath(),binding.imageUserEdit);
@@ -142,7 +143,7 @@ public class ProfileFragment extends Fragment {
 
                 String oldpath=user.getUserImagePath();
                 user.setId(savedid);
-                user.setUsername(binding.edUserName.getText().toString());
+                user.setUsername(binding.edUsername.getText().toString());
                 user.setEmail(binding.edEmail.getText().toString());
                 user.setPhoneNumber(Integer.parseInt(binding.edPhone.getText().toString()));
                 user.setPassword(binding.edPassword.getText().toString());
@@ -218,32 +219,35 @@ public class ProfileFragment extends Fragment {
 
         //-----------------------------------------------------------------------
 
-        ActivityResultLauncher<Intent> lancher2=registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
-            @Override
-            public void onActivityResult(ActivityResult result) {
-                Intent intent =result.getData();
-                assert intent != null;
-                imageUri= intent.getData();
-                binding.imageUserEdit.setImageURI(imageUri);
+        ActivityResultLauncher<Intent> lancher2 = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if (result.getResultCode() == Activity.RESULT_OK) { // تحقق من النتيجة
+                            Intent intent = result.getData();
+                            if (intent != null && intent.getData() != null) { // تحقق من أن البيانات ليست فارغة
+                                imageUri = intent.getData();
+                                binding.imageUserEdit.setImageURI(imageUri); // تعيين الصورة في ImageView
+                            } else {
+                                Toast.makeText(getContext(), "No image selected", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                }
+        );
 
-
-            }
-        }); {
-        }
-
-
-        //ينقلك للمعرض وبعدها يستخدم lancher2 ويعرض الصورة
+// فتح المعرض عند الضغط
         binding.cardImageEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                flag=true;
-                Intent intent2=new Intent();
+                flag = true;
+                Intent intent2 = new Intent();
                 intent2.setAction(Intent.ACTION_GET_CONTENT);
                 intent2.setType("image/*");
                 lancher2.launch(intent2);
             }
         });
-
 
 
 

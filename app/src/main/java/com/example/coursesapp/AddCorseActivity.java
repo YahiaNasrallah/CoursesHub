@@ -1,5 +1,6 @@
 package com.example.coursesapp;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -129,9 +130,9 @@ public class AddCorseActivity extends AppCompatActivity {
                 Category = parentView.getItemAtPosition(position).toString();
                 if (Category.equals("Other")) {
                     binding.edCategorynameshow.getText().clear();
-                    binding.edCategorynameshow.setVisibility(View.VISIBLE);
+                    binding.containerEdShowcategory.setVisibility(View.VISIBLE);
                 } else {
-                    binding.edCategorynameshow.setVisibility(View.GONE);
+                    binding.containerEdShowcategory.setVisibility(View.GONE);
                     binding.edCategorynameshow.setText(Category);
                 }
             }
@@ -232,12 +233,15 @@ public class AddCorseActivity extends AppCompatActivity {
         ActivityResultLauncher<Intent> lancher2=registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
             @Override
             public void onActivityResult(ActivityResult result) {
-                Intent intent =result.getData();
-                assert intent != null;
-                imageUri= intent.getData();
-                binding.imageCourse.setImageURI(imageUri);
-
-
+                if (result.getResultCode() == Activity.RESULT_OK) { // تحقق من أن النتيجة ناجحة
+                    Intent intent = result.getData();
+                    if (intent != null && intent.getData() != null) { // تحقق من أن البيانات ليست فارغة
+                        imageUri = intent.getData();
+                        binding.imageCourse.setImageURI(imageUri); // عرض الصورة
+                    } else {
+                        Toast.makeText(getApplicationContext(), "No image selected", Toast.LENGTH_SHORT).show();
+                    }
+                }
             }
         }); {
         }

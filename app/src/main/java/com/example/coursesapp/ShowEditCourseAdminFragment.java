@@ -1,5 +1,6 @@
 package com.example.coursesapp;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -281,25 +282,29 @@ public class ShowEditCourseAdminFragment extends Fragment {
 
         //-----------------------Gallery-------------------------------------------
 
-        ActivityResultLauncher<Intent> lancher2=registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
-            @Override
-            public void onActivityResult(ActivityResult result) {
-                Intent intent =result.getData();
-                assert intent != null;
-                imageUri= intent.getData();
-                binding.imageCourse.setImageURI(imageUri);
+        ActivityResultLauncher<Intent> lancher2 = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if (result.getResultCode() == Activity.RESULT_OK) { // تحقق من أن النتيجة ناجحة
+                            Intent intent = result.getData();
+                            if (intent != null && intent.getData() != null) { // تحقق من أن البيانات ليست فارغة
+                                imageUri = intent.getData();
+                                binding.imageCourse.setImageURI(imageUri); // عرض الصورة
+                            } else {
+                                Toast.makeText(getContext(), "No image selected", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                }
+        );
 
-
-            }
-        }); {
-        }
-
-
-        //ينقلك للمعرض وبعدها يستخدم lancher2 ويعرض الصورة
+// فتح المعرض عند الضغط
         binding.cardImageCourse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                flag3=true;
+                flag3 = true;
                 flag = true;
                 Intent intent2 = new Intent();
                 intent2.setAction(Intent.ACTION_GET_CONTENT);
@@ -307,6 +312,7 @@ public class ShowEditCourseAdminFragment extends Fragment {
                 lancher2.launch(intent2);
             }
         });
+
 
 
 

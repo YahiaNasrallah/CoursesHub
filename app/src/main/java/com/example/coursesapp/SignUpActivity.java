@@ -1,5 +1,6 @@
 package com.example.coursesapp;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -60,31 +61,36 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
-        ActivityResultLauncher<Intent> lancher2=registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
-            @Override
-            public void onActivityResult(ActivityResult result) {
-                Intent intent =result.getData();
-                assert intent != null;
-                imageUri= intent.getData();
-                binding.imageUserSign.setImageURI(imageUri);
+        ActivityResultLauncher<Intent> lancher2 = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if (result.getResultCode() == Activity.RESULT_OK) { // تحقق من أن النتيجة ناجحة
+                            Intent intent = result.getData();
+                            if (intent != null && intent.getData() != null) { // تحقق من أن البيانات ليست فارغة
+                                imageUri = intent.getData();
+                                binding.imageUserSign.setImageURI(imageUri); // عرض الصورة
+                            } else {
+                                Toast.makeText(getApplicationContext(), "No image selected", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                }
+        );
 
-
-            }
-        }); {
-        }
-
-
-        //ينقلك للمعرض وبعدها يستخدم lancher2 ويعرض الصورة
+// فتح المعرض عند الضغط
         binding.cardImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                flag=true;
-                Intent intent2=new Intent();
+                flag = true;
+                Intent intent2 = new Intent();
                 intent2.setAction(Intent.ACTION_GET_CONTENT);
                 intent2.setType("image/*");
                 lancher2.launch(intent2);
             }
         });
+
 
 
 

@@ -21,15 +21,9 @@
         android:layout_marginTop="20dp"
         android:layout_height="35dp"
         android:src="@drawable/baseline_arrow_upward_24"/>
-        <ImageView
-            android:layout_width="match_parent"
-            android:src="@drawable/logopng"
-            android:layout_marginTop="20dp"
-            android:layout_marginHorizontal="20dp"
-            android:layout_height="100dp"/>
 
 
-    <TextView
+        <TextView
         android:text="Create Your Account"
         android:layout_marginStart="20dp"
         android:layout_marginTop="50dp"
@@ -52,68 +46,159 @@
             android:layout_height="match_parent"/>
     </androidx.cardview.widget.CardView>
 
-    <EditText
-        android:id="@+id/ed_username"
-        android:inputType="textPersonName"
-        android:layout_width="350dp"
-        android:hint="Username"
-        android:paddingEnd="10dp"
-        android:paddingStart="20dp"
-        android:textStyle="bold"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/edittext"
-        android:layout_height="60dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
 
-    <EditText
-        android:id="@+id/ed_email"
-        android:layout_width="350dp"
-        android:layout_height="60dp"
-        android:layout_gravity="center"
-        android:inputType="textEmailAddress"
-        android:paddingEnd="10dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/edittext"
-        android:hint="Email"
-        android:paddingStart="20dp"
-        android:textStyle="bold" />
-        <EditText
-            android:id="@+id/ed_phone"
-            android:layout_width="350dp"
-            android:layout_height="60dp"
-            android:layout_gravity="center"
-            android:inputType="phone"
-            android:paddingEnd="10dp"
             android:layout_marginTop="20dp"
-            android:background="@drawable/edittext"
-            android:hint="Phone"
-            android:paddingStart="20dp"
-            android:textStyle="bold" />
 
-    <EditText
-        android:id="@+id/ed_password"
-        android:layout_width="350dp"
-        android:hint="Password"
-        android:paddingStart="20dp"
-        android:paddingEnd="10dp"
-        android:inputType="textPassword"
-        android:textStyle="bold"
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center"
-        android:background="@drawable/edittext"
-        android:layout_height="60dp"/>
-    <EditText
-        android:id="@+id/ed_repassword"
-        android:layout_width="350dp"
-        android:hint="RePassword"
-        android:paddingEnd="10dp"
-        android:paddingStart="20dp"
-        android:textStyle="bold"
-        android:inputType="textPassword"
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center"
-        android:background="@drawable/edittext"
-        android:layout_height="60dp"/>
+            android:orientation="horizontal">
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="160dp"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="10dp"
+            android:paddingBottom="5dp"
+
+            app:boxCornerRadiusTopEnd="15dp"
+            app:boxCornerRadiusTopStart="15dp"
+            app:boxCornerRadiusBottomEnd="15dp"
+            app:boxCornerRadiusBottomStart="15dp"
+            android:layout_height="wrap_content">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/ed_username"
+                android:layout_width="match_parent"
+                android:hint="FirstName"
+                android:inputType="textPersonName"
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                android:layout_height="65dp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="180dp"
+            android:layout_gravity="center"
+            android:paddingBottom="5dp"
+            app:boxCornerRadiusTopEnd="15dp"
+            app:boxCornerRadiusTopStart="15dp"
+            app:boxCornerRadiusBottomEnd="15dp"
+            app:boxCornerRadiusBottomStart="15dp"
+            android:layout_height="wrap_content">
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:hint="LastName"
+                android:inputType="textPersonName"
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                android:layout_height="65dp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="300dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_height="wrap_content"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="350dp"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp"
+            android:paddingBottom="5dp"
+
+            app:boxCornerRadiusTopEnd="15dp"
+            app:boxCornerRadiusTopStart="15dp"
+            app:boxCornerRadiusBottomEnd="15dp"
+            app:boxCornerRadiusBottomStart="15dp"
+            android:layout_height="wrap_content">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/ed_email"
+                android:layout_width="match_parent"
+                android:hint="Email"
+                android:inputType="textEmailAddress"
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                android:layout_height="65dp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="350dp"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp"
+            android:paddingBottom="5dp"
+
+            app:boxCornerRadiusTopEnd="15dp"
+            app:boxCornerRadiusTopStart="15dp"
+            app:boxCornerRadiusBottomEnd="15dp"
+            app:boxCornerRadiusBottomStart="15dp"
+            android:layout_height="wrap_content">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/ed_phone"
+                android:layout_width="match_parent"
+                android:hint="Phone"
+                android:textStyle="bold"
+                android:inputType="phone"
+                android:layout_gravity="center"
+                android:layout_height="65dp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="300dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_height="wrap_content"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="350dp"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp"
+            android:paddingBottom="5dp"
+
+            app:boxCornerRadiusTopEnd="15dp"
+            app:boxCornerRadiusTopStart="15dp"
+            app:boxCornerRadiusBottomEnd="15dp"
+            app:boxCornerRadiusBottomStart="15dp"
+            android:layout_height="wrap_content">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/ed_password"
+                android:layout_width="match_parent"
+                android:hint="Password"
+                android:textStyle="bold"
+                android:inputType="textPassword"
+
+                android:layout_gravity="center"
+                android:layout_height="65dp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="350dp"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp"
+            android:paddingBottom="5dp"
+
+            app:boxCornerRadiusTopEnd="15dp"
+            app:boxCornerRadiusTopStart="15dp"
+            app:boxCornerRadiusBottomEnd="15dp"
+            app:boxCornerRadiusBottomStart="15dp"
+            android:layout_height="wrap_content">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/ed_repassword"
+                android:layout_width="match_parent"
+                android:hint="RePassword"
+                android:textStyle="bold"
+                android:inputType="textPassword"
+
+                android:layout_gravity="center"
+                android:layout_height="65dp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+
 
 
     <com.google.android.material.button.MaterialButton
@@ -122,7 +207,7 @@
         android:layout_height="65dp"
         android:layout_gravity="center"
         android:backgroundTint="@color/color1"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         android:text="Sign Up"
         android:layout_marginBottom="50dp"
         android:textSize="18sp"
