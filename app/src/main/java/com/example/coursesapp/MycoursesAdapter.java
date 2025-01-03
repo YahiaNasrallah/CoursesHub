@@ -6,6 +6,9 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Environment;
 import android.view.LayoutInflater;
@@ -14,12 +17,14 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.coursesapp.databinding.CategoryViewItemBinding;
 import com.example.coursesapp.databinding.MycoursesItemBinding;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -30,127 +35,111 @@ public class MycoursesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     private Context context;
     private List<MyCourses> myCoursesList;
-    long savedid;
+    private long savedid;
+    private SharedPreferences preferences;
+    private SharedPreferences.Editor editor;
 
-    SharedPreferences preferences;
-    SharedPreferences.Editor editor;
-    //استدعاء الinterface
     private MycoursesAdapter.ClickHandle clickHandle;
-
-    MycoursesItemBinding binding;
-
+    private MycoursesItemBinding binding;
 
     public MycoursesAdapter(Context context, List<MyCourses> myCoursesList, MycoursesAdapter.ClickHandle clickHandle) {
         this.context = context;
         this.myCoursesList = myCoursesList;
-        this.clickHandle=clickHandle;
-    }
-    public void updateCourses(List<MyCourses> newCourses) {
-        this.myCoursesList = newCourses;
-        notifyDataSetChanged(); // تحديث واجهة RecyclerView
+        this.clickHandle = clickHandle;
     }
 
-    //الدالتين لاعطاء الاوامر للعناصر
+    public void updateCourses(List<MyCourses> newCourses) {
+        this.myCoursesList = newCourses;
+        notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        binding=MycoursesItemBinding.inflate(LayoutInflater.from(context),parent,false);
-        return new MycoursesAdapter.MyviewHolder(binding);
+        binding = MycoursesItemBinding.inflate(LayoutInflater.from(context), parent, false);
+        return new MyviewHolder(binding);
     }
 
-    //الوصول لكل عنصر محدد من الليست
-    @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        Appdatabase db=Appdatabase.getDatabase(context);
-        MycoursesAdapter.MyviewHolder myviewHolder= (MycoursesAdapter.MyviewHolder) holder;
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        Appdatabase db = Appdatabase.getDatabase(context);
+        MyviewHolder myviewHolder = (MyviewHolder) holder;
 
         preferences = context.getSharedPreferences("MyPrefe", MODE_PRIVATE);
         editor = preferences.edit();
-        savedid  = preferences.getLong("savedid", 0);
+        savedid = preferences.getLong("savedid", 0);
 
-        myviewHolder.binding.tvCoursename.setText(db.courseDao().getCoursesByID(myCoursesList.get(position).getCourseID()).getTitle());
-        myviewHolder.binding.tvHourse.setText("Hourse: "+db.courseDao().getCoursesByID(myCoursesList.get(position).getCourseID()).getHours());
-        myviewHolder.binding.tvLecnum.setText("Lecture Numbers: "+db.courseDao().getCoursesByID(myCoursesList.get(position).getCourseID()).getLectureNumber());
-        myviewHolder.binding.progressBar.setProgress(myCoursesList.get(position).getProgress());
+        // استرجاع بيانات الدورة
+        MyCourses course = myCoursesList.get(position);
 
+        myviewHolder.binding.tvCoursename.setText(db.courseDao().getCoursesByID(course.getCourseID()).getTitle());
+        myviewHolder.binding.tvHourse.setText("Hourse: " + db.courseDao().getCoursesByID(course.getCourseID()).getHours());
+        myviewHolder.binding.tvLecnum.setText("Lecture Numbers: " + db.courseDao().getCoursesByID(course.getCourseID()).getLectureNumber());
+        myviewHolder.binding.progressBar.setProgress(course.getProgress());
 
-
-        // تحقق إذا كانت الدورة مكتملة
-        if (myCoursesList.get(position).isCompleted()) {
-            // إخفاء العناصر
+        if (course.isCompleted()) {
             myviewHolder.binding.tvHourse.setVisibility(View.GONE);
             myviewHolder.binding.tvLecnum.setVisibility(View.GONE);
             myviewHolder.binding.btnCertificte.setVisibility(View.VISIBLE);
             myviewHolder.binding.linProgres.setVisibility(View.GONE);
 
+            myviewHolder.binding.btnCertificte.setOnClickListener(view -> {
+                System.out.println("Button clicked!");
 
-            myviewHolder.binding.btnCertificte.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    System.out.println("Button clicked!"); // طباعة رسالة للتحقق
+                // حفظ الصورة في SharedPreferences
+                String logoPath = preferences.getString("logo_path", null);
+                if (logoPath == null) {
+                    Drawable logoDrawable = context.getDrawable(R.drawable.logo); // الصورة من drawable
+                    Bitmap logoBitmap = ((BitmapDrawable) logoDrawable).getBitmap();
+                    File logoFile = new File(context.getCacheDir(), "app_logo.png");
+                    saveBitmapToFile(logoBitmap, logoFile);
+                    logoPath = logoFile.getAbsolutePath();
+                    editor.putString("logo_path", logoPath);
+                    editor.apply();
+                }
 
-                    // تحديد مسار الحفظ في مجلد الصور العام
-                    File externalStorageDirectory = new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "coursesapp");
-                    if (!externalStorageDirectory.exists()) {
-                        externalStorageDirectory.mkdirs(); // إنشاء المجلد إذا لم يكن موجودًا
-                    }
+                // إنشاء ملف الشهادة
+                File externalStorageDirectory = new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "coursesapp");
+                if (!externalStorageDirectory.exists()) {
+                    externalStorageDirectory.mkdirs();
+                }
 
-                    // إنشاء اسم فريد للملف
-                    String uniqueName = UUID.randomUUID().toString();
-                    File file = new File(externalStorageDirectory, "cert_" + savedid + "_" + uniqueName + "_" + getFormattedDateForFilename() + ".pdf");
+                String uniqueName = UUID.randomUUID().toString();
+                File file = new File(externalStorageDirectory, "cert_" + savedid + "_" + uniqueName + ".pdf");
 
-                    // إنشاء كائن CertificateGenerator واستدعاء الدالة لإنشاء الشهادة
-                    CertificateGenerator generator = new CertificateGenerator();
-                    generator.generateCertificate(
+                try (OutputStream outputStream = new FileOutputStream(file)) {
+                    CertificateGenerator.generateCertificate(
                             db.userDao().getUserByid(savedid).getUsername(),
-                            db.courseDao().getCoursesByID(myCoursesList.get(position).getCourseID()).getTitle(),
-                            file.getAbsolutePath()
+                            db.courseDao().getCoursesByID(course.getCourseID()).getTitle(),
+                            Integer.parseInt(db.courseDao().getCoursesByID(course.getCourseID()).getHours()),
+                            outputStream,
+                            logoPath
                     );
 
-                    // فتح ملف PDF باستخدام FileProvider
-                    Uri pdfUri = androidx.core.content.FileProvider.getUriForFile(
-                            context,
-                            context.getPackageName() + ".provider",
-                            file
-                    );
-
+                    Uri pdfUri = FileProvider.getUriForFile(context, context.getPackageName() + ".provider", file);
                     Intent intent = new Intent(Intent.ACTION_VIEW);
                     intent.setDataAndType(pdfUri, "application/pdf");
                     intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                    try {
-                        context.startActivity(intent);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        Toast.makeText(context, "No PDF viewer available", Toast.LENGTH_LONG).show();
-                    }
 
+                    context.startActivity(intent);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Toast.makeText(context, "Failed to generate certificate", Toast.LENGTH_LONG).show();
                 }
             });
 
-
-
-            // عرض تاريخ الإكمال
             myviewHolder.binding.tvCompleteDate.setVisibility(View.VISIBLE);
-            myviewHolder.binding.tvCompleteDate.setText("Completed on: " + myCoursesList.get(position).getCompleteDate());
+            myviewHolder.binding.tvCompleteDate.setText("Completed on: " + course.getCompleteDate());
+
         } else {
-            // إذا لم تكن مكتملة، أظهر العناصر وأخفي تاريخ الإكمال
             myviewHolder.binding.tvHourse.setVisibility(View.VISIBLE);
             myviewHolder.binding.tvLecnum.setVisibility(View.VISIBLE);
             myviewHolder.binding.tvCompleteDate.setVisibility(View.GONE);
-
             myviewHolder.binding.btnCertificte.setVisibility(View.GONE);
         }
 
-
-
-        myviewHolder.binding.getRoot().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                clickHandle.onItemClick(position);
-            }
-        });
-
+        myviewHolder.binding.getRoot().setOnClickListener(view -> clickHandle.onItemClick(position));
     }
 
     @Override
@@ -158,37 +147,29 @@ public class MycoursesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         return myCoursesList.size();
     }
 
-
-    //ربط التصميم
-    public class MyviewHolder extends RecyclerView.ViewHolder{
-
+    public class MyviewHolder extends RecyclerView.ViewHolder {
         MycoursesItemBinding binding;
+
         public MyviewHolder(MycoursesItemBinding binding) {
             super(binding.getRoot());
-            this.binding=binding;
+            this.binding = binding;
         }
     }
 
-
-
-    //اصدار امر عند الضغط على عنصر ولكن من main
-    public interface ClickHandle{
-        void onItemClick(int position);
-
-    }
     public static String getFormattedDateForFilename() {
-        // إنشاء كائن تاريخ يحتوي على الوقت الحالي
-        Date currentDate = new Date();
-
-        // التنسيق المطلوب: اليوم-الشهر-السنة_الساعة-الدقيقة-الثانية
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
-
-        // تحويل التاريخ إلى نص بدون رموز أو مسافات
-        return dateFormat.format(currentDate);
+        return dateFormat.format(new Date());
     }
 
+    public void saveBitmapToFile(Bitmap bitmap, File file) {
+        try (FileOutputStream fos = new FileOutputStream(file)) {
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
-
-
-
+    public interface ClickHandle {
+        void onItemClick(int position);
+    }
 }

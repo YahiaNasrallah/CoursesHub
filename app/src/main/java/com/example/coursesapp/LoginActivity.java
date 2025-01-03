@@ -85,6 +85,7 @@ public class LoginActivity extends AppCompatActivity {
             String uniqueName = UUID.randomUUID().toString();
 
             File file = new File(externalStorageDirectory, "course_" +uniqueName +"_"+getFormattedDateForFilename() + ".jpg");
+
             try {
                 saveImageToStorage(intToBitmap(R.drawable.img,LoginActivity.this), file.getAbsolutePath());
             } catch (IOException e) {
@@ -94,6 +95,9 @@ public class LoginActivity extends AppCompatActivity {
             Course course=new Course("Android Devlopment","Android Studio","eng.yahia","90",0,"13","s simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting",3,db.categoryDao().getCategoryByTitle("Engineering").getId(),"Programming");
             course.setImagePath(file.getAbsolutePath());
             db.courseDao().insertCourse(course);
+
+
+
 
 
 

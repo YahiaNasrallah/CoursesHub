@@ -70,10 +70,11 @@
             android:id="@+id/btn_certificte"
             android:layout_width="match_parent"
             android:visibility="gone"
+            app:cornerRadius="15dp"
             android:layout_marginHorizontal="20dp"
             android:layout_marginVertical="10dp"
             android:text="Course Certificate"
-            android:layout_height="wrap_content"/>
+            android:layout_height="55dp"/>
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>
