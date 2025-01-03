@@ -2,11 +2,11 @@ package com.example.coursesapp;
 
 import static android.content.Context.MODE_PRIVATE;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,17 +15,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.coursesapp.databinding.FragmentCoursesOngoingBinding;
+import com.example.coursesapp.databinding.FragmentOngoingCompleteBinding;
 
 import java.util.List;
-import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link CoursesOngoingFragment#newInstance} factory method to
+ * Use the {@link Ongoing_Complete_Fragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CoursesOngoingFragment extends Fragment {
+public class Ongoing_Complete_Fragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -33,19 +32,18 @@ public class CoursesOngoingFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
+    private boolean mParam1;
     private String mParam2;
+    FragmentOngoingCompleteBinding binding;
     MycoursesAdapter adapter;
     Appdatabase db;
     long savedid;
     User user;
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
-    private RecyclerView recyclerView;
 
 
-
-    public CoursesOngoingFragment() {
+    public Ongoing_Complete_Fragment() {
         // Required empty public constructor
     }
 
@@ -55,13 +53,13 @@ public class CoursesOngoingFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment LecturesOngoingFragment.
+     * @return A new instance of fragment Ongoing_Complete_Fragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static CoursesOngoingFragment newInstance(String param1, String param2) {
-        CoursesOngoingFragment fragment = new CoursesOngoingFragment();
+    public static Ongoing_Complete_Fragment newInstance(boolean param1, String param2) {
+        Ongoing_Complete_Fragment fragment = new Ongoing_Complete_Fragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
+        args.putBoolean(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
@@ -70,39 +68,46 @@ public class CoursesOngoingFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mParam1 = getArguments().getBoolean(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
+        }
+
         db=Appdatabase.getDatabase(getContext());
+
 
         preferences = requireContext().getSharedPreferences("MyPrefe", MODE_PRIVATE);
         editor = preferences.edit();
         savedid  = preferences.getLong("savedid", 0); // استرجاع البريد الإلكتروني
-       user=db.userDao().getUserByid(savedid);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        user=db.userDao().getUserByid(savedid);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment_courses_ongoing, container, false);
-        recyclerView = view.findViewById(R.id.recycler_courses_ongoing); // تهيئة RecyclerView هنا
-        adapter = new MycoursesAdapter(getContext(), db.myCoursesDao().getAllMyCourses(savedid, false), position -> {
-            Intent intent = new Intent(getContext(), CourseUserINActivity.class);
-            intent.putExtra("course_id", db.myCoursesDao().getAllMyCourses(savedid, false).get(position).getCourseID());
+        binding = FragmentOngoingCompleteBinding.inflate(inflater, container, false);
+
+
+        adapter = new MycoursesAdapter(getContext(), db.myCoursesDao().getAllMyCourses(savedid, mParam1), position -> {
+
+            Intent intent = new Intent(getContext(), CourseDetailsActivity.class);
+            intent.putExtra("course_id", db.myCoursesDao().getAllMyCourses(savedid, mParam1).get(position).getCourseID());
+            intent.putExtra("from", "mycourses");
             startActivity(intent);
         });
 
 // تهيئة RecyclerView
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setHasFixedSize(true);
+        binding.recyclerCoursesCompletedOngoing.setAdapter(adapter);
+        binding.recyclerCoursesCompletedOngoing.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.recyclerCoursesCompletedOngoing.setHasFixedSize(true);
 
 
 
 
 
-        return view;
+
+
+        return binding.getRoot();
     }
     @Override
     public void onResume() {
@@ -112,9 +117,7 @@ public class CoursesOngoingFragment extends Fragment {
     }
 
     private void reloadCourses() {
-        List<MyCourses> updatedCourses = db.myCoursesDao().getAllMyCourses(savedid, false);
+        List<MyCourses> updatedCourses = db.myCoursesDao().getAllMyCourses(savedid, mParam1);
         adapter.updateCourses(updatedCourses); // تحديث قائمة الكورسات داخل الـ Adapter
     }
-
-
 }

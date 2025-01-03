@@ -11,6 +11,10 @@ import android.widget.Toast;
 
 import com.example.coursesapp.databinding.FragmentCourseDetailsBinding;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link CourseDetailsFragment#newInstance} factory method to
@@ -117,6 +121,7 @@ public class CourseDetailsFragment extends Fragment {
                             Course course1=db.courseDao().getCoursesByID(courseid);
                             course1.setNumberOfStudents(course1.getNumberOfStudents()+1);
                             db.courseDao().updateCourse(course1);
+                            myCourses.setCompleteDate(getFormattedDate());
                             db.myCoursesDao().insertMyCourse(myCourses);
                             Toast.makeText(getContext(), "تم التسجيل بنجاح", Toast.LENGTH_SHORT).show();
                             requireActivity().finish(); // إنهاء الـ Activity من داخل الـ Fragment
@@ -145,4 +150,15 @@ public class CourseDetailsFragment extends Fragment {
 
 
     }
+    public static String getFormattedDate() {
+        // إنشاء كائن تاريخ يحتوي على الوقت الحالي
+        Date currentDate = new Date();
+
+        // التنسيق المطلوب: اليوم رقم، الشهر كلمة، السنة
+        SimpleDateFormat dateFormat = new SimpleDateFormat("d MMMM yyyy", new Locale("en"));
+
+        // تحويل التاريخ إلى النص المطلوب
+        return dateFormat.format(currentDate);
+    }
+
 }

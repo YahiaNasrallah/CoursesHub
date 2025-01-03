@@ -7,8 +7,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -92,7 +90,7 @@ public class DashboardActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //onShowButtonisClicked();
-                Intent intent = new Intent(DashboardActivity.this, AddEditCorseActivity.class);
+                Intent intent = new Intent(DashboardActivity.this, AddCorseActivity.class);
                 intent.putExtra("zz", "new");
                 startActivity(intent);
             }

@@ -90,8 +90,8 @@ public class MyCoursesFragment extends Fragment {
 
         tabLayout.setupWithViewPager(viewPager);
         vpadapter adapter=new vpadapter(getParentFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-        adapter.addFragment(new CoursesOngoingFragment(),"Ongoing");
-        adapter.addFragment(new CoursesCompletedFragment(),"Completed");
+        adapter.addFragment(Ongoing_Complete_Fragment.newInstance(false,"null"),"Ongoing");
+        adapter.addFragment(Ongoing_Complete_Fragment.newInstance(true,"null"),"Completed");
         viewPager.setAdapter(adapter);
 
 

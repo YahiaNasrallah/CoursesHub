@@ -113,6 +113,15 @@ public class BookMarksFragment extends Fragment {
             public void onItemClick(int position) {
                 Intent intent = new Intent(getContext(), CourseDetailsActivity.class);
                 intent.putExtra("course_id",db.bookMarksDao().getAllBookMarks(savedid).get(position).getCourseID());
+
+                for (int i = 0; i <db.myCoursesDao().getAllMyCourses(savedid).size() ; i++) {
+                    if (db.bookMarksDao().getAllBookMarks(savedid).get(position).getCourseID()==db.myCoursesDao().getAllMyCourses(savedid).get(i).getCourseID()){
+                    intent.putExtra("from","mycourses");
+                    }else {
+                        intent.putExtra("from","home");
+                    }
+                }
+
                 startActivity(intent);
             }
 

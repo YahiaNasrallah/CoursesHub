@@ -31,6 +31,8 @@ public class MyCourses {
     @NonNull
     private long UserID;
 
+    private String completeDate;
+
     private ArrayList<Long> completedLectures; // قائمة المحاضرات المكتملة
 
     public MyCourses(){
@@ -93,5 +95,13 @@ public class MyCourses {
 
     public void setCompletedLectures(ArrayList<Long> completedLectures) {
         this.completedLectures = completedLectures;
+    }
+
+    public String getCompleteDate() {
+        return completeDate;
+    }
+
+    public void setCompleteDate(String completeDate) {
+        this.completeDate = completeDate;
     }
 }

@@ -26,6 +26,7 @@
             android:layout_marginStart="20dp"
             android:fontFamily="@font/bebasneueregular"
             android:layout_marginTop="50dp"
+
             android:text="Wlecome To New"
             android:textSize="20sp" />
 

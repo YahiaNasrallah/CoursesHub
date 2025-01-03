@@ -123,7 +123,8 @@ public class LecturesFragment extends Fragment {
 
                                     // تحقق إذا تم إكمال الكورس
                                     if (myCourses.getCompletedLectures().size() == course.getLectureNumber()) {
-                                        myCourses.setCompleted(true); // الكورس مكتمل
+                                        myCourses.setCompleted(true);
+// الكورس مكتمل
                                     }
 
                                     // تحديث في قاعدة البيانات

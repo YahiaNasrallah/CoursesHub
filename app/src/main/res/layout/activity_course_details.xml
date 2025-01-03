@@ -44,6 +44,7 @@
                     android:layout_marginEnd="10dp"
                     android:layout_marginTop="10dp"
                     android:padding="10dp"
+                    android:backgroundTint="#95000000"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
@@ -53,6 +54,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:src="@drawable/baseline_bookmark_border_24"
+                        app:tint="@color/white"
                         tools:layout_editor_absoluteX="372dp"
                         tools:layout_editor_absoluteY="7dp" />
                 </androidx.cardview.widget.CardView>

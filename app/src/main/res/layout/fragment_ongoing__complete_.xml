@@ -4,11 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".CoursesOngoingFragment">
-
+    tools:context=".Ongoing_Complete_Fragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_courses_ongoing"
+        android:id="@+id/recycler_courses_completed_ongoing"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

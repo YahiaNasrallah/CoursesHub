@@ -1,7 +1,5 @@
 package com.example.coursesapp;
 
-import static java.security.AccessController.getContext;
-
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -11,9 +9,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.view.ContextMenu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
@@ -26,15 +21,10 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.coursesapp.databinding.ActivityAddCorseBinding;
 
@@ -44,12 +34,11 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.UUID;
 
-public class AddEditCorseActivity extends AppCompatActivity {
+public class AddCorseActivity extends AppCompatActivity {
 
     ActivityAddCorseBinding binding;
     Appdatabase db;
@@ -215,7 +204,7 @@ public class AddEditCorseActivity extends AppCompatActivity {
 
                             File file = new File(externalStorageDirectory, "course_" + uniqueName + "_" + getFormattedDateForFilename() + ".jpg");
                             try {
-                                saveImageToStorage(Objects.requireNonNull(uriToBitmap(imageUri, AddEditCorseActivity.this)), file.getAbsolutePath());
+                                saveImageToStorage(Objects.requireNonNull(uriToBitmap(imageUri, AddCorseActivity.this)), file.getAbsolutePath());
                             } catch (IOException e) {
                                 throw new RuntimeException(e);
                             }
@@ -225,8 +214,8 @@ public class AddEditCorseActivity extends AppCompatActivity {
                             course.setImagePath("null");
                         }
                         db.courseDao().insertCourse(course);
-                        Toast.makeText(AddEditCorseActivity.this, "Course Added", Toast.LENGTH_SHORT).show();
-                        Toast.makeText(AddEditCorseActivity.this, Category, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddCorseActivity.this, "Course Added", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddCorseActivity.this, Category, Toast.LENGTH_SHORT).show();
                         finish();
 
                     }

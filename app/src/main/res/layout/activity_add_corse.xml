@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:fitsSystemWindows="true"
-    tools:context=".AddEditCorseActivity">
+    tools:context=".AddCorseActivity">
 
     <LinearLayout
         android:id="@+id/lin_add"

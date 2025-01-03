@@ -36,6 +36,7 @@ public class HomeFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     RecyclerView searchResultsList;
+    ShowCourseByCategoryFragment fragment;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -73,10 +74,10 @@ public class HomeFragment extends Fragment {
 
         // إنشاء الـ Adapter وإضافة الفراجمنتات
         vpadapter adapter = new vpadapter(getParentFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-        adapter.addFragment(new EducationFragment(), "Education");
-        adapter.addFragment(new EngineeringFragment(), "Engineering");
-        adapter.addFragment(new BusinessFragment(), "Business");
-        adapter.addFragment(new OthersFragment(), "Others");
+        adapter.addFragment( ShowCourseByCategoryFragment.newInstance("Education","null"), "Education");
+        adapter.addFragment( ShowCourseByCategoryFragment.newInstance("Engineering","null"), "Engineering");
+        adapter.addFragment( ShowCourseByCategoryFragment.newInstance("Business","null"), "Business");
+        adapter.addFragment( ShowCourseByCategoryFragment.newInstance("Other","null"), "Other");
 
         // إعداد ViewPager2 مع الـ Adapter
         viewPager.setAdapter(adapter);
@@ -88,6 +89,8 @@ public class HomeFragment extends Fragment {
 
         RecyclerView recyclerViewForyou = view.findViewById(R.id.recycle_foryou);
         searchResultsList = view.findViewById(R.id.searchResultsList);
+
+
 
 
 
