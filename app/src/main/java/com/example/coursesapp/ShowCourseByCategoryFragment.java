@@ -85,7 +85,7 @@ public class ShowCourseByCategoryFragment extends Fragment {
             @Override
             public void onItemClick(int position) {
                 for (int i = 0; i <db.myCoursesDao().getAllMyCourses(savedid).size() ; i++) {
-                    if (db.myCoursesDao().getAllMyCourses(savedid).get(i).getId()==db.courseDao().getCoursesByCategory(db.categoryDao().getCategoryByTitle(mParam1).getId()).get(position).getId()){
+                    if (db.myCoursesDao().getAllMyCourses(savedid).get(i).getCourseID()==db.courseDao().getCoursesByCategory(db.categoryDao().getCategoryByTitle(mParam1).getId()).get(position).getId()){
                         flag=true;
                     }
                 }

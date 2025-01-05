@@ -190,7 +190,7 @@ public class HomeFragment extends Fragment {
                     public void onItemClick(int position) {
 
                         for (int i = 0; i <db.myCoursesDao().getAllMyCourses(savedid).size() ; i++) {
-                            if (db.myCoursesDao().getAllMyCourses(savedid).get(i).getId()==filteredList.get(position).getId()){
+                            if (db.myCoursesDao().getAllMyCourses(savedid).get(i).getCourseID()==filteredList.get(position).getId()){
                                 flag=true;
                             }
                         }
@@ -205,7 +205,7 @@ public class HomeFragment extends Fragment {
                             intent.putExtra("from","home");
                             startActivity(intent);
                         }
-
+                        flag=false;
 
 
                     }

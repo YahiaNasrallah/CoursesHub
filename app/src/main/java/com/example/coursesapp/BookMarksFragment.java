@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.coursesapp.databinding.FragmentBookMarksBinding;
 
@@ -33,6 +34,7 @@ public class BookMarksFragment extends Fragment {
     FragmentBookMarksBinding binding;
     BookmarkAdapter adapter;
     SharedPreferences preferences;
+    boolean flag=false;
     SharedPreferences.Editor editor;
     Appdatabase db;
     public BookMarksFragment() {
@@ -79,9 +81,27 @@ public class BookMarksFragment extends Fragment {
         adapter=new BookmarkAdapter(getContext(), db.bookMarksDao().getAllBookMarks(savedid), new BookmarkAdapter.ClickHandle() {
             @Override
             public void onItemClick(int position) {
-                Intent intent = new Intent(getContext(), CourseDetailsActivity.class);
-                intent.putExtra("course_id",db.bookMarksDao().getAllBookMarks(savedid).get(position).getCourseID());
-                startActivity(intent);
+                for (int i = 0; i <db.myCoursesDao().getAllMyCourses(savedid).size() ; i++) {
+                    if (db.myCoursesDao().getAllMyCourses(savedid).get(i).getCourseID()==db.bookMarksDao().getAllBookMarks(savedid).get(position).getCourseID()){
+                        flag=true;
+                    }
+                }
+                if (flag){
+                    Intent intent = new Intent(getContext(), CourseDetailsActivity.class);
+                    intent.putExtra("course_id",db.bookMarksDao().getAllBookMarks(savedid).get(position).getCourseID());
+                    intent.putExtra("from","mycourses");
+
+                    startActivity(intent);
+                }else {
+                    Intent intent = new Intent(getContext(), CourseDetailsActivity.class);
+                    intent.putExtra("course_id",db.bookMarksDao().getAllBookMarks(savedid).get(position).getCourseID());
+                    intent.putExtra("from","home");
+                    startActivity(intent);
+                }
+                flag=false;
+
+
+
             }
 
             @Override
@@ -111,19 +131,26 @@ public class BookMarksFragment extends Fragment {
         adapter=new BookmarkAdapter(getContext(), db.bookMarksDao().getAllBookMarks(savedid), new BookmarkAdapter.ClickHandle() {
             @Override
             public void onItemClick(int position) {
-                Intent intent = new Intent(getContext(), CourseDetailsActivity.class);
-                intent.putExtra("course_id",db.bookMarksDao().getAllBookMarks(savedid).get(position).getCourseID());
 
                 for (int i = 0; i <db.myCoursesDao().getAllMyCourses(savedid).size() ; i++) {
-                    if (db.bookMarksDao().getAllBookMarks(savedid).get(position).getCourseID()==db.myCoursesDao().getAllMyCourses(savedid).get(i).getCourseID()){
-                    intent.putExtra("from","mycourses");
-                    break;
-                    }else {
-                        intent.putExtra("from","home");
+                    if (db.myCoursesDao().getAllMyCourses(savedid).get(i).getCourseID()==db.bookMarksDao().getAllBookMarks(savedid).get(position).getCourseID()){
+                        flag=true;
                     }
                 }
+                if (flag){
+                    Intent intent = new Intent(getContext(), CourseDetailsActivity.class);
+                    intent.putExtra("course_id",db.bookMarksDao().getAllBookMarks(savedid).get(position).getCourseID());
+                    intent.putExtra("from","mycourses");
 
-                startActivity(intent);
+                    startActivity(intent);
+                }else {
+                    Intent intent = new Intent(getContext(), CourseDetailsActivity.class);
+                    intent.putExtra("course_id",db.bookMarksDao().getAllBookMarks(savedid).get(position).getCourseID());
+                    intent.putExtra("from","home");
+                    startActivity(intent);
+                }
+                flag=false;
+
             }
 
             @Override
