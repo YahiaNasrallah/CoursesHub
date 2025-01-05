@@ -50,7 +50,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:layout_marginHorizontal="30dp"
 
             android:layout_marginTop="20dp"
 
@@ -58,10 +57,9 @@
 
 
         <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_width="170dp"
             android:layout_gravity="center"
-            android:paddingBottom="5dp"
+            android:paddingBottom="10dp"
 
             app:boxCornerRadiusTopEnd="15dp"
             app:boxCornerRadiusTopStart="15dp"
@@ -79,9 +77,8 @@
                 android:layout_height="65dp"/>
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"            android:layout_gravity="center"
-            android:paddingBottom="5dp"
+            android:layout_width="170dp"
+            android:paddingBottom="10dp"
             android:layout_marginStart="5dp"
             app:boxCornerRadiusTopEnd="15dp"
             app:boxCornerRadiusTopStart="15dp"

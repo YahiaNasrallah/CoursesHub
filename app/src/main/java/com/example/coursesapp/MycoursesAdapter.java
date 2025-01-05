@@ -108,7 +108,7 @@ public class MycoursesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                 try (OutputStream outputStream = new FileOutputStream(file)) {
                     CertificateGenerator.generateCertificate(
-                            db.userDao().getUserByid(savedid).getFirstName(),
+                            db.userDao().getUserByid(savedid).getFirstName()+" "+db.userDao().getUserByid(savedid).getLastName(),
                             db.courseDao().getCoursesByID(course.getCourseID()).getTitle(),
                             Integer.parseInt(db.courseDao().getCoursesByID(course.getCourseID()).getHours()),
                             outputStream,
@@ -131,7 +131,9 @@ public class MycoursesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             myviewHolder.binding.tvCompleteDate.setVisibility(View.VISIBLE);
             myviewHolder.binding.tvCompleteDate.setText("Completed on: " + course.getCompleteDate());
 
-        } else {
+        }
+        else {
+
             myviewHolder.binding.tvHourse.setVisibility(View.VISIBLE);
             myviewHolder.binding.tvLecnum.setVisibility(View.VISIBLE);
             myviewHolder.binding.tvCompleteDate.setVisibility(View.GONE);

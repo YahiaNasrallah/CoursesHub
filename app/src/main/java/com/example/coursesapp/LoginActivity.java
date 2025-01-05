@@ -92,6 +92,12 @@ public class LoginActivity extends AppCompatActivity {
             Course course=new Course("Android Devlopment","Android Studio","eng.yahia","90",0,"13","s simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting",3,db.categoryDao().getCategoryByTitle("Other").getId(),"Programming");
             course.setImagePath(file.getAbsolutePath());
             db.courseDao().insertCourse(course);
+            User user=new User("Yahia","yahianasrallah2004@gmail.com","a");
+            user.setPhoneNumber(595282048);
+            user.setLastName("Hassan");
+            user.setJoinDate("1 Jan 2025");
+                    user.setUserImagePath(file.getAbsolutePath());
+                    db.userDao().insertUser(user);
 
 
 

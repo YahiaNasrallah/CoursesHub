@@ -97,7 +97,19 @@ public class CourseDetailsFragment extends Fragment {
 
             if (!flag){
                 binding.btnSignToCourse.setVisibility(View.GONE);
+                binding.btnDeleteProgrees.setVisibility(View.VISIBLE);
+                binding.btnDeleteProgrees.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        MyCourses myCourses=db.myCoursesDao().getMyCourseByCourseIDAndUserID(userid,courseid);
+                        db.myCoursesDao().deleteMyCourseByCourseID(courseid);
+                        Toast.makeText(requireContext(), "Enrollment Deleted!", Toast.LENGTH_SHORT).show();
+                        requireActivity().finish();
+
+                    }
+                });
             }else {
+                binding.btnDeleteProgrees.setVisibility(View.GONE);
                 binding.btnSignToCourse.setVisibility(View.VISIBLE);
                 binding.btnSignToCourse.setOnClickListener(new View.OnClickListener() {
                     @Override

@@ -33,7 +33,9 @@
         <activity
             android:name=".AddCorseActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustResize"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+             />
 
         <activity
             android:name=".DashboardActivity"
