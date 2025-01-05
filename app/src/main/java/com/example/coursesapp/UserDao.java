@@ -18,7 +18,7 @@ public interface UserDao {
     @Query("SELECT * FROM User WHERE email = :email")
     User getUserByEmail(String email);
 
-    @Query("SELECT * FROM User WHERE username = :username")
+    @Query("SELECT * FROM User WHERE FirstName = :username")
     User getUserByUsername(String username);
 
     @Query("SELECT * FROM User WHERE id = :id")
@@ -30,7 +30,7 @@ public interface UserDao {
     @Query("DELETE FROM User WHERE id = :id")
     void deleteUser(long id);
 
-    @Query("UPDATE User SET username = :username, email = :email, password = :password WHERE id = :id")
+    @Query("UPDATE User SET FirstName = :username, email = :email, password = :password WHERE id = :id")
     void updateUser(long id, String username, String email, String password);
 
     @Update

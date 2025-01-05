@@ -115,9 +115,10 @@ public class ProfileFragment extends Fragment {
         binding.tvEmail.setText(user.getEmail());
         binding.tvPhone.setText(String.valueOf(user.getPhoneNumber()));
         binding.tvJoinedin.setText("Joined on "+user.getJoinDate());
-        binding.tvUserName.setText(user.getUsername().toUpperCase());
+        binding.tvUserName.setText(user.getFirstName().toUpperCase());
         binding.tvCompletes.setText(completed+" Completed");
         binding.tvOngoing.setText(ongoing+" Ongoing");
+        binding.edLastname.setText(user.getLastName());
         loadImageFromStorage(user.getUserImagePath(),binding.imageUserProfile);
 
 
@@ -130,7 +131,8 @@ public class ProfileFragment extends Fragment {
 
                 binding.edEmail.setText(user.getEmail());
                 binding.edPhone.setText(String.valueOf(user.getPhoneNumber()));
-                binding.edUsername.setText(user.getUsername());
+                binding.edFirstname.setText(user.getFirstName());
+                binding.edLastname.setText(user.getLastName());
                 binding.edPassword.setText(user.getPassword());
                 binding.edRepassword.setText(user.getPassword());
                 loadImageFromStorage(user.getUserImagePath(),binding.imageUserEdit);
@@ -143,7 +145,8 @@ public class ProfileFragment extends Fragment {
 
                 String oldpath=user.getUserImagePath();
                 user.setId(savedid);
-                user.setUsername(binding.edUsername.getText().toString());
+                user.setFirstName(binding.edFirstname.getText().toString());
+                user.setLastName(binding.edLastname.getText().toString());
                 user.setEmail(binding.edEmail.getText().toString());
                 user.setPhoneNumber(Integer.parseInt(binding.edPhone.getText().toString()));
                 user.setPassword(binding.edPassword.getText().toString());
@@ -190,7 +193,7 @@ public class ProfileFragment extends Fragment {
                 binding.tvEmail.setText(user.getEmail());
                 binding.tvPhone.setText(String.valueOf(user.getPhoneNumber()));
                 binding.tvJoinedin.setText("Joined on "+user.getJoinDate());
-                binding.tvUserName.setText(user.getUsername().toUpperCase());
+                binding.tvUserName.setText(user.getFirstName().toUpperCase());
                 binding.tvCompletes.setText(completed+" Completed");
                 binding.tvOngoing.setText(ongoing+" Ongoing");
                 loadImageFromStorage(user.getUserImagePath(),binding.imageUserProfile);
@@ -309,7 +312,7 @@ public class ProfileFragment extends Fragment {
         binding.tvEmail.setText(user.getEmail());
         binding.tvPhone.setText(String.valueOf(user.getPhoneNumber()));
         binding.tvJoinedin.setText("Joined on "+user.getJoinDate());
-        binding.tvUserName.setText(user.getUsername().toUpperCase());
+        binding.tvUserName.setText(user.getFirstName().toUpperCase());
         binding.tvCompletes.setText(completed+" Completed");
         binding.tvOngoing.setText(ongoing+" Ongoing");
         loadImageFromStorage(user.getUserImagePath(),binding.imageUserProfile);

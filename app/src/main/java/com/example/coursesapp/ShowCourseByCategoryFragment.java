@@ -1,6 +1,9 @@
 package com.example.coursesapp;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -29,7 +32,11 @@ public class ShowCourseByCategoryFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     Appdatabase db;
+    SharedPreferences preferences;
+    SharedPreferences.Editor editor;
     CourseAdapter adapter;
+    long savedid;
+    boolean flag=false;
     public ShowCourseByCategoryFragment() {
         // Required empty public constructor
     }
@@ -54,6 +61,9 @@ public class ShowCourseByCategoryFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        preferences = requireContext().getSharedPreferences("MyPrefe", MODE_PRIVATE);
+        editor = preferences.edit();
+         savedid = preferences.getLong("savedid", 0);
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
@@ -74,10 +84,24 @@ public class ShowCourseByCategoryFragment extends Fragment {
         adapter = new CourseAdapter(getContext(), db.courseDao().getCoursesByCategory(db.categoryDao().getCategoryByTitle(mParam1).getId()), new CourseAdapter.ClickHandle() {
             @Override
             public void onItemClick(int position) {
-                Intent intent = new Intent(getContext(), CourseDetailsActivity.class);
-                intent.putExtra("course_id",db.courseDao().getCoursesByCategory(db.categoryDao().getCategoryByTitle(mParam1).getId()).get(position).getId());
-                intent.putExtra("from","home");
-                startActivity(intent);
+                for (int i = 0; i <db.myCoursesDao().getAllMyCourses(savedid).size() ; i++) {
+                    if (db.myCoursesDao().getAllMyCourses(savedid).get(i).getId()==db.courseDao().getCoursesByCategory(db.categoryDao().getCategoryByTitle(mParam1).getId()).get(position).getId()){
+                        flag=true;
+                    }
+                }
+                if (flag){
+                    Intent intent = new Intent(getContext(), CourseDetailsActivity.class);
+                    intent.putExtra("course_id",db.courseDao().getCoursesByCategory(db.categoryDao().getCategoryByTitle(mParam1).getId()).get(position).getId());
+                    intent.putExtra("from","mycourses");
+                    startActivity(intent);
+                }else {
+                    Intent intent = new Intent(getContext(), CourseDetailsActivity.class);
+                    intent.putExtra("course_id",db.courseDao().getCoursesByCategory(db.categoryDao().getCategoryByTitle(mParam1).getId()).get(position).getId());
+                    intent.putExtra("from","home");
+                    startActivity(intent);
+                }
+                flag=false;
+
             }
 
             @Override
@@ -94,6 +118,9 @@ public class ShowCourseByCategoryFragment extends Fragment {
      return binding.getRoot();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
 
-
+    }
 }

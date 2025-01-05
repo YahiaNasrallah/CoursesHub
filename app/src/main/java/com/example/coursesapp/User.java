@@ -14,7 +14,9 @@ public class User {
     @NonNull
     private String Email;
     @NonNull
-    private String Username;
+    private String FirstName;
+
+    private String LastName;
     @NonNull
     private String Password;
 
@@ -28,14 +30,14 @@ public class User {
 
     }
 
-    public User(@NonNull String username, @NonNull String email, @NonNull String password) {
-        this.Username = username;
+    public User(@NonNull String firstname, @NonNull String email, @NonNull String password) {
+        this.FirstName = firstname;
         this.Email = email;
         this.Password = password;
     }
 
-    public User(@NonNull String username, @NonNull String email, @NonNull String password,String joindate,int phonenumber,String userImage) {
-        this.Username = username;
+    public User(@NonNull String firstname, @NonNull String email, @NonNull String password,String joindate,int phonenumber,String userImage) {
+        this.FirstName = firstname;
         this.Email = email;
         this.Password = password;
         this.JoinDate =joindate;
@@ -43,12 +45,12 @@ public class User {
         this.UserImagePath =userImage;
     }
     @NonNull
-    public String getUsername() {
-        return Username;
+    public String getFirstName() {
+        return FirstName;
     }
 
-    public void setUsername(@NonNull String username) {
-        Username = username;
+    public void setFirstName(@NonNull String firstName) {
+        FirstName = firstName;
     }
 
     @NonNull
@@ -99,5 +101,13 @@ public class User {
 
     public void setUserImagePath(String userImagePath) {
         UserImagePath = userImagePath;
+    }
+
+    public String getLastName() {
+        return LastName;
+    }
+
+    public void setLastName(String lastName) {
+        LastName = lastName;
     }
 }

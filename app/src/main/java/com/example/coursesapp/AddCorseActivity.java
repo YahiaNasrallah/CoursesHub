@@ -215,6 +215,7 @@ public class AddCorseActivity extends AppCompatActivity {
                             course.setImagePath("null");
                         }
                         db.courseDao().insertCourse(course);
+
                         Toast.makeText(AddCorseActivity.this, "Course Added", Toast.LENGTH_SHORT).show();
                         Toast.makeText(AddCorseActivity.this, Category, Toast.LENGTH_SHORT).show();
                         finish();

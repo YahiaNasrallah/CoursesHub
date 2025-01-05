@@ -104,7 +104,7 @@ public class SignUpActivity extends AppCompatActivity {
         binding.btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    if (binding.edUsername.getText().toString().isEmpty() || binding.edEmail.getText().toString().isEmpty() || binding.edPassword.getText().toString().isEmpty() || binding.edRepassword.getText().toString().isEmpty()||binding.edPhone.getText().toString().isEmpty()){
+                    if (binding.edFirstname.getText().toString().isEmpty() || binding.edEmail.getText().toString().isEmpty() || binding.edPassword.getText().toString().isEmpty() || binding.edRepassword.getText().toString().isEmpty()||binding.edPhone.getText().toString().isEmpty()){
                         Toast.makeText(SignUpActivity.this, "Enter Data", Toast.LENGTH_SHORT).show();
                     }else if (!binding.edPassword.getText().toString().equals(binding.edRepassword.getText().toString())){
                         Toast.makeText(SignUpActivity.this, "Password Not The Same", Toast.LENGTH_SHORT).show();
@@ -116,9 +116,10 @@ public class SignUpActivity extends AppCompatActivity {
                             binding.edEmail.requestFocus();
                             
                         } else {
-                            User user=new User(binding.edUsername.getText().toString(),binding.edEmail.getText().toString(),binding.edPassword.getText().toString());
+                            User user=new User(binding.edFirstname.getText().toString(),binding.edEmail.getText().toString(),binding.edPassword.getText().toString());
                             user.setJoinDate(getFormattedDate());
                             user.setPhoneNumber(Integer.parseInt(binding.edPhone.getText().toString()));
+                            user.setLastName(Objects.requireNonNull(binding.edLastname.getText()).toString());
 
                             if (flag) {
 

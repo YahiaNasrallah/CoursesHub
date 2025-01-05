@@ -177,15 +177,19 @@ public class ShowEditCourseAdminFragment extends Fragment {
 
         binding.lecturenumSpinner.setSelection(courseSHow.getLectureNumber() - 1);
         if (db.categoryDao().getCategoryById(courseSHow.getCategoryID()).getCategoryName().equals("Education")) {
+            binding.edCategorynameshow.setText("Education");
             Toast.makeText(getContext(), "1", Toast.LENGTH_SHORT).show();
             binding.categorySpinner.setSelection(0);
         } else if (db.categoryDao().getCategoryById(courseSHow.getCategoryID()).getCategoryName().equals("Engineering")) {
+            binding.edCategorynameshow.setText("Engineering");
             binding.categorySpinner.setSelection(1);
             Toast.makeText(getContext(), "2", Toast.LENGTH_SHORT).show();
         } else if (db.categoryDao().getCategoryById(courseSHow.getCategoryID()).getCategoryName().equals("Business")) {
+            binding.edCategorynameshow.setText("Business");
             binding.categorySpinner.setSelection(2);
             Toast.makeText(getContext(), "3", Toast.LENGTH_SHORT).show();
         } else {
+            binding.edCategorynameshow.setText("Other");
             binding.categorySpinner.setSelection(3);
             Toast.makeText(getContext(), "4", Toast.LENGTH_SHORT).show();
         }

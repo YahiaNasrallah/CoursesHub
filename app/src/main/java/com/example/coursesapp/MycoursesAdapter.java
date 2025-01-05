@@ -2,7 +2,6 @@ package com.example.coursesapp;
 
 import static android.content.Context.MODE_PRIVATE;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -109,7 +108,7 @@ public class MycoursesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                 try (OutputStream outputStream = new FileOutputStream(file)) {
                     CertificateGenerator.generateCertificate(
-                            db.userDao().getUserByid(savedid).getUsername(),
+                            db.userDao().getUserByid(savedid).getFirstName(),
                             db.courseDao().getCoursesByID(course.getCourseID()).getTitle(),
                             Integer.parseInt(db.courseDao().getCoursesByID(course.getCourseID()).getHours()),
                             outputStream,

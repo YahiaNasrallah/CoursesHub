@@ -1,6 +1,9 @@
 package com.example.coursesapp;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.SearchView;
@@ -36,7 +39,12 @@ public class HomeFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     RecyclerView searchResultsList;
+    SharedPreferences preferences;
+    SharedPreferences.Editor editor;
     ShowCourseByCategoryFragment fragment;
+    long savedid;
+    boolean flag=false;
+    boolean flag2=false;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -66,6 +74,10 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
+        preferences = requireContext().getSharedPreferences("MyPrefe", MODE_PRIVATE);
+        editor = preferences.edit();
+        savedid  = preferences.getLong("savedid", 0);
+
         Appdatabase db = Appdatabase.getDatabase(getContext());
 
 
@@ -91,32 +103,6 @@ public class HomeFragment extends Fragment {
         searchResultsList = view.findViewById(R.id.searchResultsList);
 
 
-
-
-
-//        if (db.courseDao().getAllCourses().isEmpty()){
-//
-//        }else {
-//            courses.add(db.courseDao().getAllCourses().get(db.courseDao().getAllCourses().size() - 1));
-//        }
-//
-//       CourseAdapter adapter2 = new CourseAdapter(getContext(),courses, new CourseAdapter.ClickHandle() {
-//            @Override
-//            public void onItemClick(int position) {
-//                Intent intent = new Intent(getContext(), CourseDetailsActivity.class);
-//                intent.putExtra("course_id",db.courseDao().getCoursesByCategory(db.categoryDao().getCategoryByTitle("Business").getId()).get(position).getId());
-//                startActivity(intent);
-//            }
-//
-//            @Override
-//            public void onLongItemClick(int position) {
-//
-//            }
-//        });
-//        LinearLayoutManager layoutManager=new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false);
-//        recyclerViewForyou.setLayoutManager(layoutManager);
-//        recyclerViewForyou.setAdapter(adapter2);
-//
 
 
         //----------------Foryou-----------------------
@@ -202,9 +188,26 @@ public class HomeFragment extends Fragment {
                 searchadapter searchadapter=new searchadapter(getContext(), filteredList, new searchadapter.ClickHandle() {
                     @Override
                     public void onItemClick(int position) {
-                        Intent intent = new Intent(getContext(), CourseDetailsActivity.class);
-                        intent.putExtra("course_id",filteredList.get(position).getId());
-                        startActivity(intent);
+
+                        for (int i = 0; i <db.myCoursesDao().getAllMyCourses(savedid).size() ; i++) {
+                            if (db.myCoursesDao().getAllMyCourses(savedid).get(i).getId()==filteredList.get(position).getId()){
+                                flag=true;
+                            }
+                        }
+                        if (flag){
+                            Intent intent = new Intent(getContext(), CourseDetailsActivity.class);
+                            intent.putExtra("course_id",filteredList.get(position).getId());
+                            intent.putExtra("from","mycourses");
+                            startActivity(intent);
+                        }else {
+                            Intent intent = new Intent(getContext(), CourseDetailsActivity.class);
+                            intent.putExtra("course_id",filteredList.get(position).getId());
+                            intent.putExtra("from","home");
+                            startActivity(intent);
+                        }
+
+
+
                     }
                 });
 

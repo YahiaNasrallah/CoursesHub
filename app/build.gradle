@@ -44,6 +44,7 @@ dependencies {
 
     //noinspection UseTomlInstead
     implementation 'com.itextpdf:itext7-core:7.1.17'
+    implementation "androidx.work:work-runtime:2.8.0"
 
 
 

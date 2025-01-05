@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -47,17 +48,19 @@ public class CourseDetailsActivity extends AppCompatActivity {
 
 
 
-        Course course=db.courseDao().getCoursesByID(id);
 
 
+        Course coursesByID=db.courseDao().getCoursesByID(id);
 
 
 
          if (Objects.equals(getIntent().getStringExtra("from"), "home")){
+             Course course=db.courseDao().getCoursesByID(id);
 
              binding.tvCoursename.setText(course.getTitle());
              binding.tvDescrition.setText(course.getDescription());
              loadImageFromStorage(course.getImagePath(),binding.imageViewCourse);
+
 
              // إنشاء الـ Adapter وإضافة الفراجمنتات
              vpadapter adapter = new vpadapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
@@ -124,10 +127,12 @@ public class CourseDetailsActivity extends AppCompatActivity {
          }
 
          else if (Objects.equals(getIntent().getStringExtra("from"), "mycourses")) {
+             Course course=db.courseDao().getCoursesByID(id);
 
              binding.tvCoursename.setText(course.getTitle());
              binding.tvDescrition.setText(course.getDescription());
              loadImageFromStorage(course.getImagePath(),binding.imageViewCourse);
+             Toast.makeText(this, course.getTitle(), Toast.LENGTH_SHORT).show();
 
 
              vpadapter adapter = new vpadapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
@@ -150,9 +155,13 @@ public class CourseDetailsActivity extends AppCompatActivity {
             fragment2.updateData(course.getId(),savedid,false);
         }
          }
+
+
+
+
         boolean isBookmarked = false;
         for (BookMarks bookmark : db.bookMarksDao().getAllBookMarks(user.getId())) {
-            if (bookmark.getCourseID() == course.getId()) {
+            if (bookmark.getCourseID() == coursesByID.getId()) {
                 isBookmarked = true;
                 break;
             }
@@ -173,7 +182,7 @@ public class CourseDetailsActivity extends AppCompatActivity {
                 // التحقق من وجود العنصر في الإشارات المرجعية
                 boolean isBookmarked = false;
                 for (BookMarks bookmark : db.bookMarksDao().getAllBookMarks(user.getId())) {
-                    if (bookmark.getCourseID() == course.getId()) {
+                    if (bookmark.getCourseID() == coursesByID.getId()) {
                         isBookmarked = true;
                         break;
                     }
@@ -181,12 +190,12 @@ public class CourseDetailsActivity extends AppCompatActivity {
 
                 if (isBookmarked) {
                     // حذف الإشارة المرجعية
-                    BookMarks bookmarkToRemove = db.bookMarksDao().getBookmarkByCourseAndUser(course.getId(), user.getId());
+                    BookMarks bookmarkToRemove = db.bookMarksDao().getBookmarkByCourseAndUser(coursesByID.getId(), user.getId());
                     db.bookMarksDao().delete(bookmarkToRemove);
                     binding.imageBookmark.setImageResource(R.drawable.baseline_bookmark_border_24);
                 } else {
                     // إضافة الإشارة المرجعية
-                    BookMarks newBookmark = new BookMarks(course.getId(), user.getId());
+                    BookMarks newBookmark = new BookMarks(coursesByID.getId(), user.getId());
                     db.bookMarksDao().insertBookMark(newBookmark);
                     binding.imageBookmark.setImageResource(R.drawable.baseline_bookmarks_24);
                 }
