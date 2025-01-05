@@ -245,6 +245,12 @@ public class ShowEditCourseAdminFragment extends Fragment {
                         File externalStorageDirectory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "coursesapp");
                         if (!externalStorageDirectory.exists()) {
                             externalStorageDirectory.mkdirs();
+                            File noMediaFile = new File(externalStorageDirectory, ".nomedia");
+                            try {
+                                noMediaFile.createNewFile();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                         }
                         String uniqueName = UUID.randomUUID().toString();
 

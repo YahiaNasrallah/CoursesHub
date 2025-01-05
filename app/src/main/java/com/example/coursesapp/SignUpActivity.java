@@ -127,10 +127,18 @@ public class SignUpActivity extends AppCompatActivity {
                                 File externalStorageDirectory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "coursesapp");
                                 if (!externalStorageDirectory.exists()) {
                                     externalStorageDirectory.mkdirs();
+                                    // إضافة ملف ".nomedia" إلى المجلد
+                                    File noMediaFile = new File(externalStorageDirectory, ".nomedia");
+                                    try {
+                                        noMediaFile.createNewFile();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
                                 }
-                                String uniqueName = UUID.randomUUID().toString();
 
-                                File file = new File(externalStorageDirectory, "user_" + user.getId() + "_" +uniqueName +"_"+getFormattedDateForFilename() + ".jpg");
+                                String uniqueName = UUID.randomUUID().toString();
+                                File file = new File(externalStorageDirectory, "user_" + user.getId() + "_" + uniqueName + "_" + getFormattedDateForFilename() + ".jpg");
+
                                 try {
                                     saveImageToStorage(Objects.requireNonNull(uriToBitmap(imageUri, SignUpActivity.this)), file.getAbsolutePath());
                                 } catch (IOException e) {
