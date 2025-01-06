@@ -1,14 +1,22 @@
     package com.example.coursesapp;
 
+    import static android.content.Context.MODE_PRIVATE;
+
     import android.annotation.SuppressLint;
     import android.app.AlertDialog;
+    import android.app.NotificationChannel;
+    import android.app.NotificationManager;
+    import android.content.Context;
     import android.content.Intent;
+    import android.content.SharedPreferences;
     import android.graphics.Color;
     import android.graphics.drawable.ColorDrawable;
     import android.net.Uri;
+    import android.os.Build;
     import android.os.Bundle;
 
     import androidx.annotation.NonNull;
+    import androidx.core.app.NotificationCompat;
     import androidx.fragment.app.Fragment;
     import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -47,12 +55,15 @@
         private String mParam1;
         private String mParam2;
         private long courseid;
+        SharedPreferences preferences;
+        SharedPreferences.Editor editor;
         LectureAdapterAdmin adapter;
         String selectedLecture;
         FragmentLecturesAdminShowBinding binding;
         Spinner lecturenum_spinner;
         EditText edLectureName, edLectureDescription, edLectureLink;
         MaterialButton btn_save;
+        long savedid;
         int selectedLectureint;
         List<String> integers;
         Appdatabase db;
@@ -84,6 +95,9 @@
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
+            preferences = requireContext().getSharedPreferences("MyPrefe", MODE_PRIVATE);
+            editor = preferences.edit();
+            savedid  = preferences.getLong("savedid", 0);
             super.onCreate(savedInstanceState);
             if (getArguments() != null) {
                 mParam1 = getArguments().getString(ARG_PARAM1);
@@ -168,8 +182,7 @@
 
 
 
-
-                           btn_save.setOnClickListener(new View.OnClickListener() {
+                    btn_save.setOnClickListener(new View.OnClickListener() {
                                @Override
                                public void onClick(View view) {
                                    if (edLectureName.getText().toString().isEmpty()) {
@@ -226,6 +239,18 @@
                                                    lecture.setDescription(edLectureDescription.getText().toString());
 
                                                    db.lectureDao().insertLecture(lecture);
+
+                                                   for (int i = 0; i <db.myCoursesDao().getAllMyCourseByCourseID(courseid).size() ; i++) {
+                                                       Notification notification=new Notification(db.myCoursesDao().getAllMyCourseByCourseID(courseid).get(i).getUserID(),courseid
+                                                               ,"Add Alert!","Lecture Number ("+lecture.getLectureNumber()+") Added to Course \""+db.courseDao().getCoursesByID(courseid).getTitle()+"\"",
+                                                               false);
+                                                       db.notificationDao().insertNotification(notification);
+
+
+                                                   }
+
+
+
                                                    Toast.makeText(getContext(), "Lecture Added", Toast.LENGTH_SHORT).show();
                                                    dialog.dismiss();
                                                    GetAdapterCourse(db.lectureDao().getAllLecturesByCourseID(courseid));
@@ -251,8 +276,9 @@
 
 
 
-                       }
-                   });
+
+            }
+        });
 
 
 
@@ -290,7 +316,12 @@
                         .setTitle("تأكيد العملية")
                         .setMessage("هل أنت متأكد أنك تريد المتابعة؟")
                         .setPositiveButton("نعم", (dialog, which) -> {
+
+
+                            Notification notification=new Notification(savedid,courseid,"Delete Alert!","Lecture ("+db.lectureDao().getAllLecturesByCourseID(courseid).get(pos).getLectureNumber()+ ") Deleted from Course \""+db.courseDao().getCoursesByID(courseid).getTitle()+"\"",false);
+                            db.notificationDao().insertNotification(notification);
                             db.lectureDao().deleteLecture(db.lectureDao().getAllLecturesByCourseID(courseid).get(pos));
+
                             adapter.notifyItemRemoved(pos);
                             GetAdapterCourse(db.lectureDao().getAllLecturesByCourseID(courseid));
                         })
@@ -359,13 +390,16 @@
                     if (edLectureName.getText().toString().isEmpty()) {
                         edLectureName.setError("Enter Lecture Name");
                         edLectureName.requestFocus();
-                    } else if (edLectureLink.getText().toString().isEmpty()) {
+                    }
+                    else if (edLectureLink.getText().toString().isEmpty()) {
                         edLectureLink.setError("Enter Lecture Link");
                         edLectureLink.requestFocus();
-                    } else if (edLectureDescription.getText().toString().isEmpty()) {
+                    }
+                    else if (edLectureDescription.getText().toString().isEmpty()) {
                         edLectureDescription.setError("Enter Lecture Description");
                         edLectureDescription.requestFocus();
-                    } else {
+                    }
+                    else {
                         if (edLectureLink.getText().toString().startsWith("https://www.youtube.com/") || edLectureLink.getText().toString().startsWith("https://youtu.be/")) {
                             // التحقق إذا كان الرقم الجديد موجودًا
                             List<Lecture> lectures = db.lectureDao().getAllLecturesByCourseID(courseid);
@@ -387,7 +421,20 @@
                                 currentLecture.setDescription(edLectureDescription.getText().toString());
                                 currentLecture.setLectureNumber(selectedLectureint);
 
+
+
+
                                 db.lectureDao().updateLecture(currentLecture);
+
+
+                                for (int i = 0; i <db.myCoursesDao().getAllMyCourseByCourseID(courseid).size() ; i++) {
+                                    Notification notification=new Notification(db.myCoursesDao().getAllMyCourseByCourseID(courseid).get(i).getUserID(),courseid
+                                            ,"Update Alert!","Lecture Number ("+currentLecture.getLectureNumber()+") Updated in Course \""+db.courseDao().getCoursesByID(courseid).getTitle()+"\"",
+                                            false);
+                                    db.notificationDao().insertNotification(notification);
+
+
+                                }
                                 Toast.makeText(getContext(), "Lecture Updated", Toast.LENGTH_SHORT).show();
                                 dialog.dismiss();
                                 GetAdapterCourse(db.lectureDao().getAllLecturesByCourseID(courseid));
@@ -435,6 +482,7 @@
             binding.recycleLecturesAdmin.setLayoutManager(linearLayoutManager);
 
         }
+
 
 
     }

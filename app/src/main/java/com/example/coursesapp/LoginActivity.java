@@ -1,14 +1,20 @@
 package com.example.coursesapp;
 
+import android.app.Activity;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.LayoutInflater;
@@ -18,6 +24,9 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -174,7 +183,19 @@ public class LoginActivity extends AppCompatActivity {
                             editor.commit();
 
                             intent.putExtra("id", id);
+                            for (int i = 0; i <db.notificationDao().getAllNotifications(user.getId()).size() ; i++) {
+                                if (!db.notificationDao().getAllNotifications(user.getId()).get(i).isNotified()){
+                                    Notification notification=db.notificationDao().getAllNotifications(user.getId()).get(i);
+                                    notification.setNotified(true);
+                                    db.notificationDao().updateNotification(notification);
+                                    showNotification(LoginActivity.this,notification);
+                                }
+
+                            }
+
                             startActivity(intent);
+
+
                             finish();
                             binding.edEmail.getText().clear();
                             binding.edPassword.getText().clear();
@@ -225,6 +246,37 @@ public class LoginActivity extends AppCompatActivity {
 
         // تحويل التاريخ إلى نص بدون رموز أو مسافات
         return dateFormat.format(currentDate);
+    }
+
+
+
+    public static void showNotification(Context context, Notification notification) {
+        String channelId = "new_default_channel_id";
+        String channelName = "NewDefaultChannel";
+        Intent intent = new Intent(context, CourseDetailsActivity.class);
+        intent.putExtra("course_id",notification.getCoourseID());
+        intent.putExtra("from", "mycourses"); // تمرير بيانات إضافية إذا لزم الأمر
+        PendingIntent pendingIntent = PendingIntent.getActivity(
+                context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            if (notificationManager.getNotificationChannel(channelId) == null) {
+                NotificationChannel channel = new NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_HIGH);
+                notificationManager.createNotificationChannel(channel);
+            }
+        }
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, channelId)
+                .setSmallIcon(R.mipmap.ic_launcher_logo_round) // تأكد من أن الأيقونة صحيحة
+                .setContentTitle(notification.getTitle())
+                .setContentText(notification.getMessage())
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setContentIntent(pendingIntent) // ربط الـ PendingIntent بالإشعار
+                .setAutoCancel(true);
+        int notificationId = (int) System.currentTimeMillis();
+        notificationManager.notify(notificationId, builder.build());
     }
 
 }

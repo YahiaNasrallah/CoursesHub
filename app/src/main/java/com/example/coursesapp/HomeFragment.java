@@ -2,31 +2,36 @@ package com.example.coursesapp;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import android.annotation.SuppressLint;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.SearchView;
+import androidx.cardview.widget.CardView;
+import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
-import androidx.viewpager2.widget.ViewPager2;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
@@ -45,6 +50,8 @@ public class HomeFragment extends Fragment {
     long savedid;
     boolean flag=false;
     boolean flag2=false;
+    NotificationAdapter adapter;
+
 
     public HomeFragment() {
         // Required empty public constructor
@@ -63,12 +70,20 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        preferences = requireContext().getSharedPreferences("MyPrefe", MODE_PRIVATE);
+        editor = preferences.edit();
+        savedid  = preferences.getLong("savedid", 0);
+
+        Appdatabase db = Appdatabase.getDatabase(getContext());
+        User user=db.userDao().getUserByid(savedid);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
+    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -78,7 +93,45 @@ public class HomeFragment extends Fragment {
         editor = preferences.edit();
         savedid  = preferences.getLong("savedid", 0);
 
+        CardView btn_notification=view.findViewById(R.id.btn_notification);
         Appdatabase db = Appdatabase.getDatabase(getContext());
+
+
+        View coustem= LayoutInflater.from(getContext()).inflate(R.layout.notification_dialog_item,null);
+        AlertDialog.Builder bulder=new AlertDialog.Builder(getContext());
+        bulder.setView(coustem);
+        AlertDialog dialog=bulder.create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.setCancelable(true);
+        RecyclerView recyclerView=coustem.findViewById(R.id.recycle_notification);
+
+        List<Notification> notifications = db.notificationDao().getAllNotifications(savedid);
+        Collections.reverse(notifications);
+
+        btn_notification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                dialog.show();
+                adapter=new NotificationAdapter(getContext(),notifications, new NotificationAdapter.ClickHandle() {
+                    @Override
+                    public void onItemClick(int position) {
+
+                    }
+
+                    @Override
+                    public void onLongItemClick(int position) {
+
+                    }
+                });
+                LinearLayoutManager layoutManager=new LinearLayoutManager(getContext());
+                recyclerView.setAdapter(adapter);
+                recyclerView.setLayoutManager(layoutManager);
+
+            }
+        });
+
+
 
 
         TabLayout tabLayout = view.findViewById(R.id.tab_layout);
@@ -206,6 +259,7 @@ public class HomeFragment extends Fragment {
                             startActivity(intent);
                         }
                         flag=false;
+
 
 
                     }

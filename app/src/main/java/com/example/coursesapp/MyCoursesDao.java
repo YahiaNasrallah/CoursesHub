@@ -26,6 +26,9 @@ public interface MyCoursesDao {
     @Query("SELECT * FROM MyCourses where CourseID=:courseid")
     MyCourses getMyCourseByCourseID(long courseid);
 
+    @Query("SELECT * FROM MyCourses where CourseID=:courseid")
+    List<MyCourses> getAllMyCourseByCourseID(long courseid);
+
     @Query("SELECT * FROM MyCourses where UserID=:userid")
     List<MyCourses> getMyCourseByUserID(long userid);
 
