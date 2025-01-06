@@ -1,5 +1,6 @@
 package com.example.coursesapp;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -9,14 +10,17 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
@@ -250,6 +254,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
+    @SuppressLint("ObsoleteSdkInt")
     public static void showNotification(Context context, Notification notification) {
         String channelId = "new_default_channel_id";
         String channelName = "NewDefaultChannel";
@@ -269,7 +274,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, channelId)
-                .setSmallIcon(R.mipmap.ic_launcher_logo_round) // تأكد من أن الأيقونة صحيحة
+                .setSmallIcon(R.drawable.logopng)
                 .setContentTitle(notification.getTitle())
                 .setContentText(notification.getMessage())
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
