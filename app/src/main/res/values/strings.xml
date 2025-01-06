@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CoursesApp</string>
+    <string name="app_name">CoursesHub</string>
     <string-array name="spinner_items">
         <item>1 Lecture</item>
         <item>2 Lecture</item>
