@@ -14,8 +14,11 @@ import android.widget.Toast;
 
 import com.example.coursesapp.databinding.FragmentLecturesBinding;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -124,6 +127,8 @@ public class LecturesFragment extends Fragment {
                                     // تحقق إذا تم إكمال الكورس
                                     if (myCourses.getCompletedLectures().size() == course.getLectureNumber()) {
                                         myCourses.setCompleted(true);
+                                        myCourses.setCompleteDate(getFormattedDate());
+
 // الكورس مكتمل
                                     }
 
@@ -235,6 +240,16 @@ public class LecturesFragment extends Fragment {
                 }
             }
         }
+    }
+    public static String getFormattedDate() {
+        // إنشاء كائن تاريخ يحتوي على الوقت الحالي
+        Date currentDate = new Date();
+
+        // التنسيق المطلوب: اليوم رقم، الشهر كلمة، السنة
+        SimpleDateFormat dateFormat = new SimpleDateFormat("d MMMM yyyy", new Locale("en"));
+
+        // تحويل التاريخ إلى النص المطلوب
+        return dateFormat.format(currentDate);
     }
 
 

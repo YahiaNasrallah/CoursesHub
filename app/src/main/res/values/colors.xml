@@ -12,6 +12,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="my">#1f319d</color>
+    <color name="gren">#81C784</color>
     <color name="color1">#7986CB</color>
     <color name="color2">#CCE9E9</color>
     <color name="color_active">#FFFFFF</color> <!-- اللون عند التحديد -->

@@ -2,9 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="32"
@@ -12,6 +10,8 @@
     <uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
+
+
 
     <application
         android:allowBackup="true"
@@ -24,20 +24,19 @@
         android:theme="@style/Base.Theme.CoursesApp"
         tools:targetApi="31">
         <activity
+            android:name=".AdminShowUsersActivity"
+            android:exported="false" />
+        <activity
             android:name=".DetailsORLecturesActivity"
             android:exported="false" />
-
         <activity
             android:name=".CourseDetailsActivity"
             android:exported="true" />
-
         <activity
             android:name=".AddCorseActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
-             />
-
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".DashboardActivity"
             android:exported="false"
@@ -67,7 +66,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-
     </application>
 
 </manifest>

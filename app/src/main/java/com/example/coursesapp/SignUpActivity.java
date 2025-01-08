@@ -7,9 +7,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.Image;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -122,6 +124,13 @@ public class SignUpActivity extends AppCompatActivity {
                             user.setLastName(Objects.requireNonNull(binding.edLastname.getText()).toString());
 
                             if (flag) {
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                                    if (!Environment.isExternalStorageManager()) {
+                                        Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION, Uri.parse("package:" + getPackageName()));
+                                        startActivity(intent);
+                                    }
+                                }
+
 
 
                                 File externalStorageDirectory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "coursesapp");
@@ -144,8 +153,7 @@ public class SignUpActivity extends AppCompatActivity {
                                 } catch (IOException e) {
                                     throw new RuntimeException(e);
                                 }
-
-
+                                
                                 user.setUserImagePath(file.getAbsolutePath());
                                 loadImageFromStorage(user.getUserImagePath(), binding.imageUserSign);
                             }else {

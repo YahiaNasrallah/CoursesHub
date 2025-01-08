@@ -133,7 +133,9 @@ public class CourseDetailsFragment extends Fragment {
                             Course course1=db.courseDao().getCoursesByID(courseid);
                             course1.setNumberOfStudents(course1.getNumberOfStudents()+1);
                             db.courseDao().updateCourse(course1);
-                            myCourses.setCompleteDate(getFormattedDate());
+
+                            myCourses.setCompleteDate("");
+                            myCourses.setStartDate(getFormattedDate());
                             db.myCoursesDao().insertMyCourse(myCourses);
                             Toast.makeText(getContext(), "تم التسجيل بنجاح", Toast.LENGTH_SHORT).show();
                             requireActivity().finish(); // إنهاء الـ Activity من داخل الـ Fragment

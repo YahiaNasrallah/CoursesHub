@@ -42,4 +42,6 @@ public interface MyCoursesDao {
 
     @Update
     void updateMyCourse(MyCourses myCourses);
+
+
 }

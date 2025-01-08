@@ -184,6 +184,16 @@ public class DashboardActivity extends AppCompatActivity {
             Intent intent = new Intent(DashboardActivity.this, DetailsORLecturesActivity.class);
             intent.putExtra("id", db.courseDao().getAllCourses().get(pos).getId());
             startActivity(intent);
+        } else if (id==R.id.menu_show_enrolled_users) {
+            Intent intent = new Intent(DashboardActivity.this, AdminShowUsersActivity.class);
+            intent.putExtra("id", db.courseDao().getAllCourses().get(pos).getId());
+            startActivity(intent);
+
+
+
+
+
+
         }
         return super.onContextItemSelected(item);
     }
@@ -192,7 +202,7 @@ public class DashboardActivity extends AppCompatActivity {
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         MenuInflater inflatur=getMenuInflater();
-        inflatur.inflate(R.menu.menu1,menu);
+        inflatur.inflate(R.menu.menuadmin,menu);
 
     }
 
