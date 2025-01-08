@@ -139,25 +139,25 @@ public class LoginActivity extends AppCompatActivity {
             binding.btnSignin.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (binding.edEmail.getText().toString().isEmpty() || binding.edPassword.getText().toString().isEmpty()) {
-                        if (binding.edEmail.getText().toString().isEmpty()) {
+                    if (binding.edEmail.getText().toString().trim().isEmpty() || binding.edPassword.getText().toString().trim().isEmpty()) {
+                        if (binding.edEmail.getText().toString().trim().isEmpty()) {
                             binding.edEmail.setError("Enter Email");
                             binding.edEmail.requestFocus();
                         }
-                        if (binding.edPassword.getText().toString().isEmpty()) {
+                        if (binding.edPassword.getText().toString().trim().isEmpty()) {
                             binding.edPassword.setError("Enter Password");
                             binding.edPassword.requestFocus();
                         }
                         //Toast.makeText(LoginActivity.this, "Enter Data", Toast.LENGTH_SHORT).show();
-                    } else  if (binding.edPassword.getText().toString().equals(AdminPassword)&&binding.edEmail.getText().toString().equals(AdminEmail)) {
+                    } else  if (binding.edPassword.getText().toString().trim().equals(AdminPassword)&&binding.edEmail.getText().toString().trim().equals(AdminEmail)) {
                         binding.edEmail.getText().clear();
                         binding.edPassword.getText().clear();
                         startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
 
                     } else {
 
-                             User user = db.userDao().getUser(binding.edEmail.getText().toString(), binding.edPassword.getText().toString());
-                             User user2 = db.userDao().getUserByEmail(binding.edEmail.getText().toString());
+                             User user = db.userDao().getUser(binding.edEmail.getText().toString().trim(), binding.edPassword.getText().toString().trim());
+                             User user2 = db.userDao().getUserByEmail(binding.edEmail.getText().toString().trim());
                         if (user2 == null) {
 
 
@@ -173,7 +173,7 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(LoginActivity.this, "Email Or Password Incorrect", Toast.LENGTH_SHORT).show();
 
 
-                        } else if (db.userDao().getUser(binding.edEmail.getText().toString(), binding.edPassword.getText().toString()) != null) {
+                        } else if (db.userDao().getUser(binding.edEmail.getText().toString().trim(), binding.edPassword.getText().toString().trim()) != null) {
                             if (binding.checkbox.isChecked()){
                                 editor.putString("savedName",binding.edEmail.getText().toString());
                                 editor.putString("savedPAssword",binding.edPassword.getText().toString());
@@ -182,7 +182,7 @@ public class LoginActivity extends AppCompatActivity {
                             }
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
 
-                            long id=db.userDao().getUser(binding.edEmail.getText().toString(), binding.edPassword.getText().toString()).getId();
+                            long id=db.userDao().getUser(binding.edEmail.getText().toString().trim(), binding.edPassword.getText().toString().trim()).getId();
                             editor.putLong("savedid",user.getId());
                             editor.commit();
 

@@ -152,21 +152,22 @@ public class DashboardActivity extends AppCompatActivity {
 
         if (id == R.id.menu_delete) {
             new AlertDialog.Builder(this)
-                    .setTitle("تأكيد العملية")
-                    .setMessage("هل أنت متأكد أنك تريد المتابعة؟")
-                    .setPositiveButton("نعم", (dialog, which) -> {
+                    .setTitle("Confirm the operation?")
+                    .setMessage("You Will Delete This Course!")
+                    .setPositiveButton("Sure", (dialog, which) -> {
                         long courseId = db.courseDao().getAllCourses().get(pos).getId();
 
-                        if (db.courseDao().getAllCourses().get(pos) == null) {
+                        if (db.lectureDao().getAllLecturesByCourseID(db.courseDao().getAllCourses().get(pos).getId()).isEmpty()) {
                             db.courseDao().deleteCourse(db.courseDao().getAllCourses().get(pos));
                             GetAdapterCourse(db.courseDao().getAllCourses());
                             db.myCoursesDao().deleteMyCourseByCourseID(courseId);
 
-                        } else {
+                        }
+                        else {
                             new AlertDialog.Builder(this)
-                                    .setTitle("تأكيد العملية")
-                                    .setMessage("هل تريد حذف الدورة والمحاضرات المرتبطة بها؟")
-                                    .setPositiveButton("نعم", (dialog2, which2) -> {
+                                    .setTitle("Confirm the operation?")
+                                    .setMessage("You Will Delete This Course and Lectures!")
+                                    .setPositiveButton("Sure", (dialog2, which2) -> {
                                         db.lectureDao().deleteLecturesByCourseID(courseId);
                                         db.courseDao().deleteCourse(db.courseDao().getAllCourses().get(pos));
                                         db.myCoursesDao().deleteMyCourseByCourseID(courseId);
@@ -174,11 +175,11 @@ public class DashboardActivity extends AppCompatActivity {
                                         adapter.notifyItemRemoved(pos);
                                         GetAdapterCourse(db.courseDao().getAllCourses());
                                     })
-                                    .setNegativeButton("لا", (dialog2, which2) -> dialog2.dismiss())
+                                    .setNegativeButton("Cancle", (dialog2, which2) -> dialog2.dismiss())
                                     .show();
                         }
                     })
-                    .setNegativeButton("لا", (dialog, which) -> dialog.dismiss())
+                    .setNegativeButton("Cancle", (dialog, which) -> dialog.dismiss())
                     .show();
         } else if (id == R.id.menu_edit) {
             Intent intent = new Intent(DashboardActivity.this, DetailsORLecturesActivity.class);

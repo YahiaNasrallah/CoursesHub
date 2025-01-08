@@ -106,22 +106,29 @@ public class SignUpActivity extends AppCompatActivity {
         binding.btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    if (binding.edFirstname.getText().toString().isEmpty() || binding.edEmail.getText().toString().isEmpty() || binding.edPassword.getText().toString().isEmpty() || binding.edRepassword.getText().toString().isEmpty()||binding.edPhone.getText().toString().isEmpty()){
-                        Toast.makeText(SignUpActivity.this, "Enter Data", Toast.LENGTH_SHORT).show();
-                    }else if (!binding.edPassword.getText().toString().equals(binding.edRepassword.getText().toString())){
-                        Toast.makeText(SignUpActivity.this, "Password Not The Same", Toast.LENGTH_SHORT).show();
+                    if (binding.edFirstname.getText().toString().trim().isEmpty() || binding.edEmail.getText().toString().trim().isEmpty() || binding.edPassword.getText().toString().trim().isEmpty() || binding.edRepassword.getText().toString().trim().isEmpty()||binding.edPhone.getText().toString().trim().isEmpty()){
+                        Toast.makeText(SignUpActivity.this, "Fill Data", Toast.LENGTH_SHORT).show();
+                    }else if (!binding.edPassword.getText().toString().trim().equals(binding.edRepassword.getText().toString().trim())){
+                        binding.edPassword.setError("Password Not The Same");
+                        binding.edPassword.requestFocus();
+                        binding.edRepassword.setError("Password Not The Same");
+                        binding.edRepassword.requestFocus();
                     }else {
-                        if (db.userDao().getUserByEmail(binding.edEmail.getText().toString())!=null){
+                        if (db.userDao().getUserByEmail(binding.edEmail.getText().toString().trim())!=null){
                             Toast.makeText(SignUpActivity.this, "Email Used Try Another", Toast.LENGTH_SHORT).show();
-                        } else if (!binding.edEmail.getText().toString().contains("@")) {
+                        } else if (!binding.edEmail.getText().toString().trim().contains("@")) {
                             binding.edEmail.setError("Invalid Email");
                             binding.edEmail.requestFocus();
                             
+                        } else if (binding.edPassword.getText().toString().trim().length()<4) {
+                            binding.edPassword.setError("Password must Contains 4 Number");
+                            binding.edPassword.requestFocus();
+
                         } else {
-                            User user=new User(binding.edFirstname.getText().toString(),binding.edEmail.getText().toString(),binding.edPassword.getText().toString());
+                            User user=new User(binding.edFirstname.getText().toString().trim(),binding.edEmail.getText().toString().trim(),binding.edPassword.getText().toString().trim());
                             user.setJoinDate(getFormattedDate());
-                            user.setPhoneNumber(Integer.parseInt(binding.edPhone.getText().toString()));
-                            user.setLastName(Objects.requireNonNull(binding.edLastname.getText()).toString());
+                            user.setPhoneNumber(Integer.parseInt(binding.edPhone.getText().toString().trim()));
+                            user.setLastName(Objects.requireNonNull(binding.edLastname.getText()).toString().trim());
 
                             if (flag) {
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -153,7 +160,7 @@ public class SignUpActivity extends AppCompatActivity {
                                 } catch (IOException e) {
                                     throw new RuntimeException(e);
                                 }
-                                
+
                                 user.setUserImagePath(file.getAbsolutePath());
                                 loadImageFromStorage(user.getUserImagePath(), binding.imageUserSign);
                             }else {

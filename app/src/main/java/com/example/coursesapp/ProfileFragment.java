@@ -145,11 +145,11 @@ public class ProfileFragment extends Fragment {
 
                 String oldpath=user.getUserImagePath();
                 user.setId(savedid);
-                user.setFirstName(binding.edFirstname.getText().toString());
-                user.setLastName(binding.edLastname.getText().toString());
-                user.setEmail(binding.edEmail.getText().toString());
-                user.setPhoneNumber(Integer.parseInt(binding.edPhone.getText().toString()));
-                user.setPassword(binding.edPassword.getText().toString());
+                user.setFirstName(binding.edFirstname.getText().toString().trim());
+                user.setLastName(binding.edLastname.getText().toString().trim());
+                user.setEmail(binding.edEmail.getText().toString().trim());
+                user.setPhoneNumber(Integer.parseInt(binding.edPhone.getText().toString().trim()));
+                user.setPassword(binding.edPassword.getText().toString().trim());
                 user.setJoinDate(user.getJoinDate());
 
                 if (flag){

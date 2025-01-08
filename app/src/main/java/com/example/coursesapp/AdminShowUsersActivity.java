@@ -52,6 +52,7 @@ public class AdminShowUsersActivity extends AppCompatActivity {
         // إعداد القوائم
         initializeLists(courseid);
         getAdapter(NewestToOldestlist);
+        binding.tvUser.setText("Users ("+NewestToOldestlist.size()+")");
 
 
         View customView = LayoutInflater.from(this).inflate(R.layout.sortby_item, null);
@@ -69,12 +70,16 @@ public class AdminShowUsersActivity extends AppCompatActivity {
             rg_sort.setOnCheckedChangeListener((radioGroup, i) -> {
                 if (R.id.rb_ongoing == i) {
                     getAdapter(OngoingList);
+                    binding.tvUser.setText("Users ("+OngoingList.size()+")");
                 } else if (R.id.rb_complete == i) {
                     getAdapter(CompletedList);
+                    binding.tvUser.setText("Users ("+CompletedList.size()+")");
                 } else if (R.id.rb_nto == i) {
                     getAdapter(NewestToOldestlist);
+                    binding.tvUser.setText("Users ("+NewestToOldestlist.size()+")");
                 } else if (R.id.rb_otn == i) {
                     getAdapter(OldestToNewestlist);
+                    binding.tvUser.setText("Users ("+OldestToNewestlist.size()+")");
                 }
                 dialog.dismiss();
             });

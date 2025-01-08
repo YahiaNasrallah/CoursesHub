@@ -313,9 +313,9 @@
 
             if (id == R.id.menu_delete) {
                 new androidx.appcompat.app.AlertDialog.Builder(requireContext())
-                        .setTitle("تأكيد العملية")
-                        .setMessage("هل أنت متأكد أنك تريد المتابعة؟")
-                        .setPositiveButton("نعم", (dialog, which) -> {
+                        .setTitle("Confirm the operation?")
+                        .setMessage("You Will Delete This Lecture!")
+                        .setPositiveButton("Sure", (dialog, which) -> {
 
 
                             Notification notification=new Notification(savedid,courseid,"Delete Alert!","Lecture ("+db.lectureDao().getAllLecturesByCourseID(courseid).get(pos).getLectureNumber()+ ") Deleted from Course \""+db.courseDao().getCoursesByID(courseid).getTitle()+"\"",false);
@@ -325,7 +325,7 @@
                             adapter.notifyItemRemoved(pos);
                             GetAdapterCourse(db.lectureDao().getAllLecturesByCourseID(courseid));
                         })
-                        .setNegativeButton("لا", (dialog, which) -> dialog.dismiss())
+                        .setNegativeButton("Cancle", (dialog, which) -> dialog.dismiss())
                         .show();
             } else if (id == R.id.menu_edit) {
                 // عرض النموذج المخصص
@@ -416,15 +416,23 @@
                                 Toast.makeText(getContext(), "Lecture number already exists. Choose another.", Toast.LENGTH_SHORT).show();
                             } else {
                                 // تحديث بيانات المحاضرة
-                                currentLecture.setLectureName(edLectureName.getText().toString());
-                                currentLecture.setLectureLink(edLectureLink.getText().toString());
-                                currentLecture.setDescription(edLectureDescription.getText().toString());
-                                currentLecture.setLectureNumber(selectedLectureint);
 
 
 
+                                if (currentLecture.getLectureName().equals(edLectureName.getText().toString())
+                                &&currentLecture.getLectureLink().equals(edLectureLink.getText().toString())
+                                &&currentLecture.getDescription().equals(edLectureDescription.getText().toString())
+                                &&currentLecture.getLectureNumber()==selectedLectureint){
+                                    dialog.dismiss();
+                                    Toast.makeText(getContext(), "Nothing Updated No Changes", Toast.LENGTH_SHORT).show();
+                                }else {
+                                    currentLecture.setLectureName(edLectureName.getText().toString());
+                                    currentLecture.setLectureLink(edLectureLink.getText().toString());
+                                    currentLecture.setDescription(edLectureDescription.getText().toString());
+                                    currentLecture.setLectureNumber(selectedLectureint);
 
-                                db.lectureDao().updateLecture(currentLecture);
+
+                                    db.lectureDao().updateLecture(currentLecture);
 
 
                                 for (int i = 0; i <db.myCoursesDao().getAllMyCourseByCourseID(courseid).size() ; i++) {
@@ -438,6 +446,7 @@
                                 Toast.makeText(getContext(), "Lecture Updated", Toast.LENGTH_SHORT).show();
                                 dialog.dismiss();
                                 GetAdapterCourse(db.lectureDao().getAllLecturesByCourseID(courseid));
+                                }
                             }
                         } else {
                             edLectureLink.setError("The Lecture link is invalid");

@@ -2,6 +2,7 @@ package com.example.coursesapp;
 
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -101,12 +102,28 @@ public class CourseDetailsFragment extends Fragment {
                 binding.btnDeleteProgrees.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        MyCourses myCourses=db.myCoursesDao().getMyCourseByCourseIDAndUserID(userid,courseid);
-                        db.myCoursesDao().deleteMyCourseByCourseID(courseid);
-                        Toast.makeText(requireContext(), "Enrollment Deleted!", Toast.LENGTH_SHORT).show();
-                        requireActivity().finish();
 
+
+                        new AlertDialog.Builder(getContext())
+                                .setTitle("Confirm the operation?")
+                                .setMessage("You Will Delete This Enrollment!")
+                                .setPositiveButton("Sure", (dialog2, which2) -> {
+                                    MyCourses myCourses=db.myCoursesDao().getMyCourseByCourseIDAndUserID(userid,courseid);
+                                    db.myCoursesDao().deleteMyCourseByCourseID(courseid);
+                                    Course course1=db.courseDao().getCoursesByID(courseid);
+                                    course1.setNumberOfStudents(course1.getNumberOfStudents()-1);
+                                    db.courseDao().updateCourse(course1);
+                                    Toast.makeText(requireContext(), "Enrollment Deleted!", Toast.LENGTH_SHORT).show();
+                                    requireActivity().finish();
+
+
+                                })
+                                .setNegativeButton("Cancle", (dialog2, which2) -> dialog2.dismiss())
+                                .show();
                     }
+
+
+
                 });
             }else {
                 binding.btnDeleteProgrees.setVisibility(View.GONE);
