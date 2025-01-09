@@ -329,8 +329,8 @@
                               Notification notification=new Notification(db.myCoursesDao().getAllMyCourseByCourseID(courseid).get(i).getUserID()
                                       ,courseid,"Delete Alert!","Lecture ("+db.lectureDao().getAllLecturesByCourseID(courseid).get(pos).getLectureNumber()+ ") Deleted from Course \""+db.courseDao().getCoursesByID(courseid).getTitle()+"\"",false);
                               db.notificationDao().insertNotification(notification);
-
                             }
+
                             db.lectureDao().deleteLecture(db.lectureDao().getAllLecturesByCourseID(courseid).get(pos));
 
 
