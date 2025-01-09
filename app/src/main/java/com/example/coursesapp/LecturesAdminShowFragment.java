@@ -319,27 +319,47 @@
                         .setTitle("Confirm the operation?")
                         .setMessage("You Will Delete This Lecture!")
                         .setPositiveButton("Sure", (dialog, which) -> {
+                            Lecture lectureToDelete = db.lectureDao().getAllLecturesByCourseID(courseid).get(pos);
 
-
-//                            Notification notification=new Notification(savedid,courseid,"Delete Alert!","Lecture ("+db.lectureDao().getAllLecturesByCourseID(courseid).get(pos).getLectureNumber()+ ") Deleted from Course \""+db.courseDao().getCoursesByID(courseid).getTitle()+"\"",false);
-//                            db.notificationDao().insertNotification(notification);
-
-
-                            for (int i = 0; i <db.myCoursesDao().getAllMyCourseByCourseID(courseid).size(); i++) {
-                              Notification notification=new Notification(db.myCoursesDao().getAllMyCourseByCourseID(courseid).get(i).getUserID()
-                                      ,courseid,"Delete Alert!","Lecture ("+db.lectureDao().getAllLecturesByCourseID(courseid).get(pos).getLectureNumber()+ ") Deleted from Course \""+db.courseDao().getCoursesByID(courseid).getTitle()+"\"",false);
-                              db.notificationDao().insertNotification(notification);
+                            // إنشاء إشعار للمستخدمين المرتبطين بالمحاضرة
+                            for (int i = 0; i < db.myCoursesDao().getAllMyCourseByCourseID(courseid).size(); i++) {
+                                long userId = db.myCoursesDao().getAllMyCourseByCourseID(courseid).get(i).getUserID();
+                                Notification notification = new Notification(
+                                        userId,
+                                        courseid,
+                                        "Delete Alert!",
+                                        "Lecture (" + lectureToDelete.getLectureNumber() + ") Deleted from Course \"" + db.courseDao().getCoursesByID(courseid).getTitle() + "\"",
+                                        false
+                                );
+                                db.notificationDao().insertNotification(notification);
                             }
 
-                            db.lectureDao().deleteLecture(db.lectureDao().getAllLecturesByCourseID(courseid).get(pos));
+                            db.lectureDao().deleteLecture(lectureToDelete);
 
+                            new Thread(() -> {
+                                List<MyCourses> myCoursesList = db.myCoursesDao().getAllMyCourseByCourseID(courseid);
+                                for (MyCourses myCourse : myCoursesList) {
+                                    if (myCourse.getCompletedLectures() != null && myCourse.getCompletedLectures().contains(lectureToDelete.getId())) {
+                                        myCourse.getCompletedLectures().remove(lectureToDelete.getId()); // إزالة المحاضرة من قائمة المكتملة
 
+                                        Course course = db.courseDao().getCoursesByID(courseid);
+                                        int progress = (myCourse.getCompletedLectures().size() * 100) / course.getLectureNumber();
+                                        myCourse.setProgress(progress);
 
+                                        if (myCourse.getCompletedLectures().size() < course.getLectureNumber()) {
+                                            myCourse.setCompleted(false);
+                                            myCourse.setCompleteDate(null);
+                                        }
+
+                                        db.myCoursesDao().updateMyCourse(myCourse);
+                                    }
+                                }
+                            }).start();
 
                             adapter.notifyItemRemoved(pos);
                             GetAdapterCourse(db.lectureDao().getAllLecturesByCourseID(courseid));
                         })
-                        .setNegativeButton("Cancle", (dialog, which) -> dialog.dismiss())
+                        .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
                         .show();
             }
 
@@ -407,16 +427,13 @@
                     if (edLectureName.getText().toString().isEmpty()) {
                         edLectureName.setError("Enter Lecture Name");
                         edLectureName.requestFocus();
-                    }
-                    else if (edLectureLink.getText().toString().isEmpty()) {
+                    } else if (edLectureLink.getText().toString().isEmpty()) {
                         edLectureLink.setError("Enter Lecture Link");
                         edLectureLink.requestFocus();
-                    }
-                    else if (edLectureDescription.getText().toString().isEmpty()) {
+                    } else if (edLectureDescription.getText().toString().isEmpty()) {
                         edLectureDescription.setError("Enter Lecture Description");
                         edLectureDescription.requestFocus();
-                    }
-                    else {
+                    } else {
                         if (edLectureLink.getText().toString().startsWith("https://www.youtube.com/") || edLectureLink.getText().toString().startsWith("https://youtu.be/")) {
                             // التحقق إذا كان الرقم الجديد موجودًا
                             List<Lecture> lectures = db.lectureDao().getAllLecturesByCourseID(courseid);
@@ -432,37 +449,62 @@
                             if (lectureExists) {
                                 Toast.makeText(getContext(), "Lecture number already exists. Choose another.", Toast.LENGTH_SHORT).show();
                             } else {
+                                // التحقق من تغيير الرابط
+                                boolean isLinkChanged = !currentLecture.getLectureLink().equals(edLectureLink.getText().toString());
+
                                 // تحديث بيانات المحاضرة
-
-
-
                                 if (currentLecture.getLectureName().equals(edLectureName.getText().toString())
-                                &&currentLecture.getLectureLink().equals(edLectureLink.getText().toString())
-                                &&currentLecture.getDescription().equals(edLectureDescription.getText().toString())
-                                &&currentLecture.getLectureNumber()==selectedLectureint){
+                                        && currentLecture.getLectureLink().equals(edLectureLink.getText().toString())
+                                        && currentLecture.getDescription().equals(edLectureDescription.getText().toString())
+                                        && currentLecture.getLectureNumber() == selectedLectureint) {
                                     dialog.dismiss();
                                     Toast.makeText(getContext(), "Nothing Updated No Changes", Toast.LENGTH_SHORT).show();
-                                }else {
+                                } else {
                                     currentLecture.setLectureName(edLectureName.getText().toString());
                                     currentLecture.setLectureLink(edLectureLink.getText().toString());
                                     currentLecture.setDescription(edLectureDescription.getText().toString());
                                     currentLecture.setLectureNumber(selectedLectureint);
 
-
                                     db.lectureDao().updateLecture(currentLecture);
 
+                                    // حذف تقدم المستخدمين إذا تغير الرابط
+                                    if (isLinkChanged) {
+                                        new Thread(() -> {
+                                            List<MyCourses> myCoursesList = db.myCoursesDao().getAllMyCourseByCourseID(courseid);
+                                            for (MyCourses myCourse : myCoursesList) {
+                                                if (myCourse.getCompletedLectures() != null && myCourse.getCompletedLectures().contains(currentLecture.getId())) {
+                                                    myCourse.getCompletedLectures().remove(currentLecture.getId());
 
-                                for (int i = 0; i <db.myCoursesDao().getAllMyCourseByCourseID(courseid).size() ; i++) {
-                                    Notification notification=new Notification(db.myCoursesDao().getAllMyCourseByCourseID(courseid).get(i).getUserID(),courseid
-                                            ,"Update Alert!","Lecture Number ("+currentLecture.getLectureNumber()+") Updated in Course \""+db.courseDao().getCoursesByID(courseid).getTitle()+"\"",
-                                            false);
-                                    db.notificationDao().insertNotification(notification);
+                                                    // إعادة حساب التقدم
+                                                    Course course = db.courseDao().getCoursesByID(courseid);
+                                                    int progress = (myCourse.getCompletedLectures().size() * 100) / course.getLectureNumber();
+                                                    myCourse.setProgress(progress);
 
+                                                    // إذا لم يتم إكمال الكورس بعد الحذف
+                                                    if (myCourse.getCompletedLectures().size() < course.getLectureNumber()) {
+                                                        myCourse.setCompleted(false);
+                                                        myCourse.setCompleteDate(null); // إعادة تعيين تاريخ الإكمال
+                                                    }
 
-                                }
-                                Toast.makeText(getContext(), "Lecture Updated", Toast.LENGTH_SHORT).show();
-                                dialog.dismiss();
-                                GetAdapterCourse(db.lectureDao().getAllLecturesByCourseID(courseid));
+                                                    db.myCoursesDao().updateMyCourse(myCourse);
+                                                }
+                                            }
+                                        }).start();
+                                    }
+
+                                    for (int i = 0; i < db.myCoursesDao().getAllMyCourseByCourseID(courseid).size(); i++) {
+                                        Notification notification = new Notification(
+                                                db.myCoursesDao().getAllMyCourseByCourseID(courseid).get(i).getUserID(),
+                                                courseid,
+                                                "Update Alert!",
+                                                "Lecture Number (" + currentLecture.getLectureNumber() + ") Updated in Course \"" + db.courseDao().getCoursesByID(courseid).getTitle() + "\"",
+                                                false
+                                        );
+                                        db.notificationDao().insertNotification(notification);
+                                    }
+                                    Toast.makeText(getContext(), "Lecture Updated", Toast.LENGTH_SHORT).show();
+                                    dialog.dismiss();
+                                    GetAdapterCourse(db.lectureDao().getAllLecturesByCourseID(courseid));
                                 }
                             }
                         } else {
