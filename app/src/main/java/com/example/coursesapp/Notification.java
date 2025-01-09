@@ -7,17 +7,21 @@ import androidx.room.PrimaryKey;
 
 @Entity(
         foreignKeys = {
-                @ForeignKey(entity = User.class, parentColumns = {"id"}, childColumns = {"UserID"})
+                @ForeignKey(entity = User.class, parentColumns = {"id"}, childColumns = {"UserID"}),
+                @ForeignKey(entity = Course.class, parentColumns = {"id"}, childColumns = {"courseID"})
+
         }
 )
 public class Notification {
 
     @PrimaryKey(autoGenerate = true)
+    @NonNull
     private long id;
+
     @NonNull
     private long UserID;
     @NonNull
-    private long coourseID;
+    private long courseID;
     @NonNull
     private String Title;
     @NonNull
@@ -34,7 +38,7 @@ public class Notification {
         this.Message = message;
         this.Title=title;
         this.isNotified=isNotified;
-        this.coourseID=coourseID;
+        this.courseID =coourseID;
 
     }
 
@@ -71,12 +75,12 @@ public class Notification {
         isNotified = notified;
     }
 
-    public long getCoourseID() {
-        return coourseID;
+    public long getCourseID() {
+        return courseID;
     }
 
-    public void setCoourseID(long coourseID) {
-        this.coourseID = coourseID;
+    public void setCourseID(long courseID) {
+        this.courseID = courseID;
     }
 
     @NonNull

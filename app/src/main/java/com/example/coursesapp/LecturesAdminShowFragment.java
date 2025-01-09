@@ -308,6 +308,9 @@
 
         @Override
         public boolean onContextItemSelected(@NonNull MenuItem item) {
+            preferences = requireContext().getSharedPreferences("MyPrefe", MODE_PRIVATE);
+            editor = preferences.edit();
+            savedid  = preferences.getLong("savedid", 0);
             db = Appdatabase.getDatabase(getContext());
             int id = item.getItemId();
 
@@ -318,16 +321,30 @@
                         .setPositiveButton("Sure", (dialog, which) -> {
 
 
-                            Notification notification=new Notification(savedid,courseid,"Delete Alert!","Lecture ("+db.lectureDao().getAllLecturesByCourseID(courseid).get(pos).getLectureNumber()+ ") Deleted from Course \""+db.courseDao().getCoursesByID(courseid).getTitle()+"\"",false);
-                            db.notificationDao().insertNotification(notification);
+//                            Notification notification=new Notification(savedid,courseid,"Delete Alert!","Lecture ("+db.lectureDao().getAllLecturesByCourseID(courseid).get(pos).getLectureNumber()+ ") Deleted from Course \""+db.courseDao().getCoursesByID(courseid).getTitle()+"\"",false);
+//                            db.notificationDao().insertNotification(notification);
+
+
+                            for (int i = 0; i <db.myCoursesDao().getAllMyCourseByCourseID(courseid).size(); i++) {
+                              Notification notification=new Notification(db.myCoursesDao().getAllMyCourseByCourseID(courseid).get(i).getUserID()
+                                      ,courseid,"Delete Alert!","Lecture ("+db.lectureDao().getAllLecturesByCourseID(courseid).get(pos).getLectureNumber()+ ") Deleted from Course \""+db.courseDao().getCoursesByID(courseid).getTitle()+"\"",false);
+                              db.notificationDao().insertNotification(notification);
+
+                            }
                             db.lectureDao().deleteLecture(db.lectureDao().getAllLecturesByCourseID(courseid).get(pos));
+
+
+
 
                             adapter.notifyItemRemoved(pos);
                             GetAdapterCourse(db.lectureDao().getAllLecturesByCourseID(courseid));
                         })
                         .setNegativeButton("Cancle", (dialog, which) -> dialog.dismiss())
                         .show();
-            } else if (id == R.id.menu_edit) {
+            }
+
+
+            else if (id == R.id.menu_edit) {
                 // عرض النموذج المخصص
                 View coustem = LayoutInflater.from(getContext()).inflate(R.layout.add_lecture_item, null);
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -455,6 +472,7 @@
                     }
                 });
             }
+
             return super.onContextItemSelected(item);
         }
 

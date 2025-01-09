@@ -158,9 +158,11 @@ public class DashboardActivity extends AppCompatActivity {
                         long courseId = db.courseDao().getAllCourses().get(pos).getId();
 
                         if (db.lectureDao().getAllLecturesByCourseID(db.courseDao().getAllCourses().get(pos).getId()).isEmpty()) {
+                            db.notificationDao().deleteNotificationByCourseID(courseId);
+                            db.myCoursesDao().deleteMyCourseByCourseID(courseId);
+
                             db.courseDao().deleteCourse(db.courseDao().getAllCourses().get(pos));
                             GetAdapterCourse(db.courseDao().getAllCourses());
-                            db.myCoursesDao().deleteMyCourseByCourseID(courseId);
 
                         }
                         else {
@@ -170,6 +172,7 @@ public class DashboardActivity extends AppCompatActivity {
                                     .setPositiveButton("Sure", (dialog2, which2) -> {
                                         db.lectureDao().deleteLecturesByCourseID(courseId);
                                         db.courseDao().deleteCourse(db.courseDao().getAllCourses().get(pos));
+                                        db.notificationDao().deleteNotificationByCourseID(courseId);
                                         db.myCoursesDao().deleteMyCourseByCourseID(courseId);
 
                                         adapter.notifyItemRemoved(pos);

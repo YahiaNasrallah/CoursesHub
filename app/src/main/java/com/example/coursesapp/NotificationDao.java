@@ -14,7 +14,15 @@ public interface NotificationDao {
     void insertNotification(Notification notification);
 
     @Query("SELECT * FROM Notification where UserID=:userid")
-    List<Notification> getAllNotifications(long userid);
+    List<Notification> getAllNotificationsByUser(long userid);
+
+
+    @Query("SELECT * FROM Notification where courseID=:courseid")
+    List<Notification> getAllNotificationsByCOurse(long courseid);
+
+    @Query("DELETE FROM Notification WHERE courseID = :courseId")
+    void deleteNotificationByCourseID(long courseId);
+
 
     @Update
     void updateNotification(Notification notification);

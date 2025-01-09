@@ -3,20 +3,15 @@ package com.example.coursesapp;
 import static android.content.Context.MODE_PRIVATE;
 
 import android.annotation.SuppressLint;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.SearchView;
 import androidx.cardview.widget.CardView;
-import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -26,7 +21,6 @@ import androidx.viewpager.widget.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 
@@ -105,7 +99,7 @@ public class HomeFragment extends Fragment {
         dialog.setCancelable(true);
         RecyclerView recyclerView=coustem.findViewById(R.id.recycle_notification);
 
-        List<Notification> notifications = db.notificationDao().getAllNotifications(savedid);
+        List<Notification> notifications = db.notificationDao().getAllNotificationsByUser(savedid);
         Collections.reverse(notifications);
 
         btn_notification.setOnClickListener(new View.OnClickListener() {

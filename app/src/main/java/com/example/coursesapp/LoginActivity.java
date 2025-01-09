@@ -1,26 +1,21 @@
 package com.example.coursesapp;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
@@ -28,9 +23,7 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
-import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -187,9 +180,9 @@ public class LoginActivity extends AppCompatActivity {
                             editor.commit();
 
                             intent.putExtra("id", id);
-                            for (int i = 0; i <db.notificationDao().getAllNotifications(user.getId()).size() ; i++) {
-                                if (!db.notificationDao().getAllNotifications(user.getId()).get(i).isNotified()){
-                                    Notification notification=db.notificationDao().getAllNotifications(user.getId()).get(i);
+                            for (int i = 0; i <db.notificationDao().getAllNotificationsByUser(user.getId()).size() ; i++) {
+                                if (!db.notificationDao().getAllNotificationsByUser(user.getId()).get(i).isNotified()){
+                                    Notification notification=db.notificationDao().getAllNotificationsByUser(user.getId()).get(i);
                                     notification.setNotified(true);
                                     db.notificationDao().updateNotification(notification);
                                     showNotification(LoginActivity.this,notification);
@@ -259,7 +252,7 @@ public class LoginActivity extends AppCompatActivity {
         String channelId = "new_default_channel_id";
         String channelName = "NewDefaultChannel";
         Intent intent = new Intent(context, CourseDetailsActivity.class);
-        intent.putExtra("course_id",notification.getCoourseID());
+        intent.putExtra("course_id",notification.getCourseID());
         intent.putExtra("from", "mycourses"); // تمرير بيانات إضافية إذا لزم الأمر
         PendingIntent pendingIntent = PendingIntent.getActivity(
                 context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
