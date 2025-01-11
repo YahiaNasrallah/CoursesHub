@@ -179,6 +179,17 @@ public class SignUpActivity extends AppCompatActivity {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
     }
     public static String getFormattedDate() {
         // إنشاء كائن تاريخ يحتوي على الوقت الحالي

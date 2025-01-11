@@ -234,6 +234,8 @@ public class LecturesFragment extends Fragment {
 
                     if (myCourse.getCompletedLectures().size() == course.getLectureNumber()) {
                         myCourse.setCompleted(true);
+                        myCourse.setCompleteDate(getFormattedDate());
+
                     }
 
                     db.myCoursesDao().updateMyCourse(myCourse);

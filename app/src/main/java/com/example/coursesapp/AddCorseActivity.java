@@ -286,12 +286,6 @@ public class AddCorseActivity extends AppCompatActivity {
 
 
 
-
-
-
-
-
-
     }
 
 

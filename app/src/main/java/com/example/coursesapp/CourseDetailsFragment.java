@@ -1,5 +1,7 @@
 package com.example.coursesapp;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
@@ -104,28 +106,34 @@ public class CourseDetailsFragment extends Fragment {
                     public void onClick(View view) {
 
 
-                        new AlertDialog.Builder(getContext())
-                                .setTitle("Confirm the operation?")
-                                .setMessage("You Will Delete This Enrollment!")
-                                .setPositiveButton("Sure", (dialog2, which2) -> {
-                                    MyCourses myCourses=db.myCoursesDao().getMyCourseByCourseIDAndUserID(userid,courseid);
-                                    db.myCoursesDao().deleteMyCourseByCourseID(courseid);
-                                    Course course1=db.courseDao().getCoursesByID(courseid);
-                                    course1.setNumberOfStudents(course1.getNumberOfStudents()-1);
-                                    db.courseDao().updateCourse(course1);
-                                    Toast.makeText(requireContext(), "Enrollment Deleted!", Toast.LENGTH_SHORT).show();
-                                    requireActivity().finish();
+                        if (db.myCoursesDao().getMyCourseByCourseIDAndUserID(userid, courseid).isCompleted()) {
+                            Toast.makeText(getContext(), "You have already completed this course", Toast.LENGTH_SHORT).show();
+
+                        } else {
+
+                            new AlertDialog.Builder(requireContext())
+                                    .setTitle("Confirm the operation?")
+                                    .setMessage("You Will Delete This Enrollment!")
+                                    .setPositiveButton("Sure", (dialog2, which2) -> {
+                                        MyCourses myCourses = db.myCoursesDao().getMyCourseByCourseIDAndUserID(userid, courseid);
+                                        db.myCoursesDao().deleteMyCourseByCourseID(courseid);
+                                        Course course1 = db.courseDao().getCoursesByID(courseid);
+                                            course1.setNumberOfStudents(course1.getNumberOfStudents() - 1);
+                                        db.courseDao().updateCourse(course1);
+                                        Toast.makeText(requireContext(), "Enrollment Deleted!", Toast.LENGTH_SHORT).show();
+                                        requireActivity().finish();
 
 
-                                })
-                                .setNegativeButton("Cancle", (dialog2, which2) -> dialog2.dismiss())
-                                .show();
+                                    })
+                                    .setNegativeButton("Cancle", (dialog2, which2) -> dialog2.dismiss())
+                                    .show();
+                        }
                     }
 
 
-
                 });
-            }else {
+            }
+            else {
                 binding.btnDeleteProgrees.setVisibility(View.GONE);
                 binding.btnSignToCourse.setVisibility(View.VISIBLE);
                 binding.btnSignToCourse.setOnClickListener(new View.OnClickListener() {

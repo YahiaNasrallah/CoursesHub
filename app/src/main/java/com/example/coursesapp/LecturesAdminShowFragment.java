@@ -328,7 +328,7 @@
                                         userId,
                                         courseid,
                                         "Delete Alert!",
-                                        "Lecture (" + lectureToDelete.getLectureNumber() + ") Deleted from Course \"" + db.courseDao().getCoursesByID(courseid).getTitle() + "\"",
+                                        "Lecture (" + lectureToDelete.getLectureNumber() + ") Deleted from Course \"" + db.courseDao().getCoursesByID(courseid).getTitle() + "\""+"Your Progress was retreat Check it",
                                         false
                                 );
                                 db.notificationDao().insertNotification(notification);
@@ -493,13 +493,24 @@
                                     }
 
                                     for (int i = 0; i < db.myCoursesDao().getAllMyCourseByCourseID(courseid).size(); i++) {
-                                        Notification notification = new Notification(
-                                                db.myCoursesDao().getAllMyCourseByCourseID(courseid).get(i).getUserID(),
-                                                courseid,
-                                                "Update Alert!",
-                                                "Lecture Number (" + currentLecture.getLectureNumber() + ") Updated in Course \"" + db.courseDao().getCoursesByID(courseid).getTitle() + "\"",
-                                                false
-                                        );
+                                        Notification notification;
+                                        if (isLinkChanged){
+                                            notification = new Notification(
+                                                    db.myCoursesDao().getAllMyCourseByCourseID(courseid).get(i).getUserID(),
+                                                    courseid,
+                                                    "Update Progress Alert!",
+                                                    "Lecture Number (" + currentLecture.getLectureNumber() + ") Updated in Course \"" + db.courseDao().getCoursesByID(courseid).getTitle() + "\""+"You must re watch the lecture",
+                                                    false
+                                            );
+                                        }else {
+                                            notification = new Notification(
+                                                    db.myCoursesDao().getAllMyCourseByCourseID(courseid).get(i).getUserID(),
+                                                    courseid,
+                                                    "Update Alert!",
+                                                    "Lecture Number (" + currentLecture.getLectureNumber() + ") Updated in Course \"" + db.courseDao().getCoursesByID(courseid).getTitle() + "\"",
+                                                    false
+                                            );
+                                        }
                                         db.notificationDao().insertNotification(notification);
                                     }
                                     Toast.makeText(getContext(), "Lecture Updated", Toast.LENGTH_SHORT).show();

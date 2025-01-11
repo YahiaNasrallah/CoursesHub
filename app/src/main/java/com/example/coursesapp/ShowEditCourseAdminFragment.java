@@ -278,10 +278,14 @@ public class ShowEditCourseAdminFragment extends Fragment {
                     }
 
 
-                    db.courseDao().updateCourse(course);
-                    Toast.makeText(getContext(), "Course Updated", Toast.LENGTH_SHORT).show();
-                    requireActivity().finish();
+                    if (course.getLectureNumber()<db.lectureDao().getAllLecturesByCourseID(course.getId()).size()){
+                        Toast.makeText(getContext(), "Selected Lectures Number Less Than Lectures Added", Toast.LENGTH_SHORT).show();
+                    }else {
 
+                        db.courseDao().updateCourse(course);
+                        Toast.makeText(getContext(), "Course Updated", Toast.LENGTH_SHORT).show();
+                        requireActivity().finish();
+                    }
 
                 }
             }
