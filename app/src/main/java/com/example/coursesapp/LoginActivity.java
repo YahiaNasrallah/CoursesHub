@@ -46,8 +46,8 @@ public class LoginActivity extends AppCompatActivity {
     Appdatabase db;
     ActivityLoginBinding binding;
 
-    String AdminEmail="a";
-    String AdminPassword="a";
+    String AdminEmail="admin@gmail.com";
+    String AdminPassword="admin";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
