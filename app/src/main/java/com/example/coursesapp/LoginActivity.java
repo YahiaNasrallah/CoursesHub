@@ -74,48 +74,44 @@ public class LoginActivity extends AppCompatActivity {
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.setCancelable(false);
 
-        if (db.categoryDao().getAllCategory().isEmpty()){
+        if (db.categoryDao().getAllCategory().isEmpty()) {
             db.categoryDao().insertCategory(new Category("Education"));
             db.categoryDao().insertCategory(new Category("Engineering"));
             db.categoryDao().insertCategory(new Category("Business"));
             db.categoryDao().insertCategory(new Category("Other"));
 
-            File externalStorageDirectory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "coursesapp");
-            if (!externalStorageDirectory.exists()) {
-                externalStorageDirectory.mkdirs();
-                File noMediaFile = new File(externalStorageDirectory, ".nomedia");
-                try {
-                    noMediaFile.createNewFile();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+            File internalStorageDirectory = new File(getFilesDir(), "coursesapp");
+            if (!internalStorageDirectory.exists()) {
+                internalStorageDirectory.mkdirs();
             }
 
             String uniqueName = UUID.randomUUID().toString();
-
-            File file = new File(externalStorageDirectory, "course_" +uniqueName +"_"+getFormattedDateForFilename() + ".jpg");
+            File file = new File(internalStorageDirectory, "course_" + uniqueName + "_" + getFormattedDateForFilename() + ".jpg");
 
             try {
-                saveImageToStorage(intToBitmap(R.drawable.img,LoginActivity.this), file.getAbsolutePath());
+                // تقليل حجم الصورة
+                Bitmap originalBitmap = intToBitmap(R.drawable.img, LoginActivity.this);
+                Bitmap resizedBitmap = resizeBitmap(originalBitmap, 800, 450); // أبعاد أصغر
+
+                // حفظ الصورة بجودة مضغوطة
+                saveCompressedImage(resizedBitmap, file.getAbsolutePath(), 60); // جودة 70%
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
 
-            Course course=new Course("Android Devlopment","Android Studio","eng.yahia","90",0,"13","s simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting",3,db.categoryDao().getCategoryByTitle("Other").getId(),"Programming");
+
+            Course course = new Course("Android Development", "Android Studio", "eng.yahia", "90", 0, "13",
+                    "s simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting",
+                    3, db.categoryDao().getCategoryByTitle("Other").getId(), "Programming");
             course.setImagePath(file.getAbsolutePath());
             db.courseDao().insertCourse(course);
-            User user=new User("Yahia","yahianasrallah2004@gmail.com","a");
+
+            User user = new User("Yahia", "yahianasrallah2004@gmail.com", "a");
             user.setPhoneNumber(595282048);
             user.setLastName("Hassan");
             user.setJoinDate("1 Jan 2025");
-                    user.setUserImagePath(file.getAbsolutePath());
-                    db.userDao().insertUser(user);
-
-
-
-
-
-
+            user.setUserImagePath(file.getAbsolutePath());
+            db.userDao().insertUser(user);
         }
 
 
@@ -275,6 +271,14 @@ public class LoginActivity extends AppCompatActivity {
                 .setAutoCancel(true);
         int notificationId = (int) System.currentTimeMillis();
         notificationManager.notify(notificationId, builder.build());
+    }
+    public Bitmap resizeBitmap(Bitmap originalBitmap, int newWidth, int newHeight) {
+        return Bitmap.createScaledBitmap(originalBitmap, newWidth, newHeight, true);
+    }
+    public void saveCompressedImage(Bitmap bitmap, String filePath, int quality) throws IOException {
+        FileOutputStream outputStream = new FileOutputStream(filePath);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
+        outputStream.close();
     }
 
 }

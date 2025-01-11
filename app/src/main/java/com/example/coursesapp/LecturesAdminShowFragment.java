@@ -339,7 +339,7 @@
                             new Thread(() -> {
                                 List<MyCourses> myCoursesList = db.myCoursesDao().getAllMyCourseByCourseID(courseid);
                                 for (MyCourses myCourse : myCoursesList) {
-                                    if (myCourse.getCompletedLectures() != null && myCourse.getCompletedLectures().contains(lectureToDelete.getId())) {
+                                    if (!myCourse.isCompleted()&&myCourse.getCompletedLectures() != null && myCourse.getCompletedLectures().contains(lectureToDelete.getId())) {
                                         myCourse.getCompletedLectures().remove(lectureToDelete.getId()); // إزالة المحاضرة من قائمة المكتملة
 
                                         Course course = db.courseDao().getCoursesByID(courseid);
@@ -472,7 +472,7 @@
                                         new Thread(() -> {
                                             List<MyCourses> myCoursesList = db.myCoursesDao().getAllMyCourseByCourseID(courseid);
                                             for (MyCourses myCourse : myCoursesList) {
-                                                if (myCourse.getCompletedLectures() != null && myCourse.getCompletedLectures().contains(currentLecture.getId())) {
+                                                if (!myCourse.isCompleted()&&myCourse.getCompletedLectures() != null && myCourse.getCompletedLectures().contains(currentLecture.getId())) {
                                                     myCourse.getCompletedLectures().remove(currentLecture.getId());
 
                                                     // إعادة حساب التقدم

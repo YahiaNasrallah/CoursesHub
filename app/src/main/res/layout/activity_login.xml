@@ -52,6 +52,7 @@
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="10dp"
         android:paddingBottom="5dp"
+        app:endIconMode="password_toggle"
         app:boxCornerRadiusTopEnd="15dp"
         app:boxCornerRadiusTopStart="15dp"
         app:boxCornerRadiusBottomEnd="15dp"
@@ -62,13 +63,10 @@
             android:layout_width="match_parent"
             android:hint="Password"
             android:textStyle="bold"
-            android:inputType="textVisiblePassword"
+            android:inputType="textPassword"
             android:layout_gravity="center"
             android:layout_height="65dp"/>
     </com.google.android.material.textfield.TextInputLayout>
-
-
-
 
         <CheckBox
             android:id="@+id/checkbox"
