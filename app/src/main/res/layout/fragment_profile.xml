@@ -13,7 +13,7 @@
 
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible"
+        android:visibility="gone"
         android:orientation="vertical">
 
 
@@ -186,7 +186,7 @@
         android:id="@+id/lin_editdata"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
+        android:visibility="visible"
         android:orientation="vertical">
 
         <androidx.cardview.widget.CardView
@@ -351,7 +351,7 @@
                 android:layout_width="match_parent"
                 android:hint="Password"
                 android:textStyle="bold"
-                android:inputType="textPassword"
+                android:inputType="textVisiblePassword"
 
                 android:layout_gravity="center"
                 android:layout_height="65dp"/>
@@ -374,7 +374,7 @@
                 android:layout_width="match_parent"
                 android:hint="RePassword"
                 android:textStyle="bold"
-                android:inputType="textPassword"
+                android:inputType="textVisiblePassword"
 
                 android:layout_gravity="center"
                 android:layout_height="65dp"/>

@@ -112,7 +112,7 @@ public class MycoursesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             db.courseDao().getCoursesByID(course.getCourseID()).getTitle(),
                             Integer.parseInt(db.courseDao().getCoursesByID(course.getCourseID()).getHours()),
                             outputStream,
-                            logoPath
+                            logoPath,course.getCompleteDate()
                     );
 
                     Uri pdfUri = FileProvider.getUriForFile(context, context.getPackageName() + ".provider", file);

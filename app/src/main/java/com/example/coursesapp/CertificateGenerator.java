@@ -17,7 +17,7 @@ import java.util.Date;
 
 public class CertificateGenerator {
 
-    public static void generateCertificate(String userName, String courseName, int courseHours, OutputStream outputStream, String logoPath) {
+    public static void generateCertificate(String userName, String courseName, int courseHours, OutputStream outputStream, String logoPath,String courseDate) {
         try {
             // إعداد ملف PDF
             PdfWriter writer = new PdfWriter(outputStream);
@@ -83,7 +83,7 @@ public class CertificateGenerator {
 
             // إضافة التاريخ
             String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-            document.add(new Paragraph("\n\nDate: " + date)
+            document.add(new Paragraph("\n\nComplete Date: " + courseDate)
                     .setFontSize(16)
                     .setFontColor(textColor)
                     .setTextAlignment(TextAlignment.RIGHT)
